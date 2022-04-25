@@ -1,0 +1,7 @@
+export {NormalInput} from './typography/input'
+export {NormalButton} from './typography/button'
+export {NormaltextArea} from './typography/textarea'
+export {Normalselect} from './typography/select'
+export {NormalCheckbox} from './typography/checkbox'
+export {NormalRadioButtion} from './typography/radioButtion'
+export {NormalTable} from './typography/table'
