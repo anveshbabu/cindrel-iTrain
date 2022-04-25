@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {
-  HashRouter,
+  BrowserRouter,
   Routes,
   Route,
   unstable_HistoryRouter as HistoryRouter 
@@ -19,7 +19,7 @@ class AllRoutes extends Component {
   render() {
 
     return (
-      <HashRouter  history={history}>
+      <HistoryRouter  history={history}>
         <Routes>
 
           {
@@ -84,7 +84,7 @@ class AllRoutes extends Component {
 
         </Routes>
 
-      </HashRouter >
+      </HistoryRouter >
     );
   }
 }
