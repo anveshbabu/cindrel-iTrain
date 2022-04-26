@@ -18,7 +18,13 @@ export class ThemeModeProvider extends React.Component {
 
 
     componentDidMount() {
-        this.setDarkThemeMode()
+        let THEME_MODE = localStorage.getItem(EXIST_LOCAL_STORAGE.THEME_MODE);
+        if (!!THEME_MODE) {
+            this.setDarkThemeMode()
+        }else{
+            this.handleThemeMode(window.matchMedia('(prefers-color-scheme: dark)')?.matches)
+        }
+     
     }
     setDarkThemeMode = () => {
         let darkTheme = '';
