@@ -1,0 +1,27 @@
+@import url("./assets/scss/abstracts/abstracts-dir.scss");
+
+:root {
+  --background: white;
+  --primary-bg:white;
+  --secondary-bg: $secondary-bg;
+  --text-black: #2D2F4E;
+  --text-white: $white;
+  --text-gray: #5f697d;
+  --text-primary: #2D2F4E;
+  --text-secondary: royalblue;
+  --accent: purple;
+  --theme-text: #2D2F4E
+}
+
+[data-theme="dark"] {
+  --background: #0a1929;
+  --primary-bg: #0a1929;
+  --secondary-bg: $secondary-bg;
+  --text-black: #2D2F4E;
+  --text-white: $white;
+  --text-gray:#5f697d;
+  --text-primary: white;
+  --text-secondary: grey;
+  --accent: darkred;
+  --theme-text: #ffff;
+}
