@@ -5,35 +5,31 @@ import {
   NormalButton,
   // NormalCheckbox
 } from "../../../components/common";
-import { Link } from "react-router-dom";
-// import SimpleReactValidator from 'simple-react-validator';
+import SimpleReactValidator from 'simple-react-validator';
+import {Toast} from '../../../services/toast'
 // import { userSignin } from "../../../redux/actions/login";
 import { history } from "../../../helpers";
 // import { LOGIN_TYPE, EXIST_LOCAL_STORAGE } from "../../../service/constants";
+// import { testGet } from '../../../redux/actions/test'
+
 export class Login extends React.Component {
-  state = {
-    loginForm: {
-      username: "",
-      password: "",
-      // userType: LOGIN_TYPE.ADMIN
-    },
-    isFormLoder: false,
-    isKeepMe: false,
-    keepMeObj: {
-      username: "",
-      password: "",
-      // userType: LOGIN_TYPE.ADMIN
-    }
-  };
-
-
-
-
-  componentWillMount() {
-
+  constructor(props) {
+    super(props);
+    this.validator = new SimpleReactValidator();
+    this.state = {
+      loginForm: {
+        username: "",
+        password: "",
+      },
+      isFormLoder: false,
+    };
   }
 
 
+
+
+
+  
   //handle input change function call start
   handleInputChange = e => {
     let { value, name } = e.target;
@@ -48,14 +44,31 @@ export class Login extends React.Component {
 
   //login submit API call function  start
   handleSubmit = () => {
+    // testGet().then((data) => { 
+      
+    //   history.push('/dashboard')
+    
+    
+    // }).catch((error) => {
 
+    // })
+
+    if (this.validator.allValid()) {
+      this.setState({isFormLoder:true})
+      setTimeout(()=>    { 
+        Toast({ type: 'success', message: 'You have been sucessfully logged into iTrain', title: 'Success!' })
+        history.push('/dashboard')
+        this.setState({isFormLoder:true})
+      }, 3000);
+ 
+    } else {
+      this.validator.showMessages();
+      this.forceUpdate();
+    }
 
   }
 
-  // handlekeep me change start
-  handleisKeepMeChange = () => {
 
-  }
 
   render() {
     let { loginForm, isFormLoder, isResErr, isKeepMe } = this.state;
@@ -71,8 +84,18 @@ export class Login extends React.Component {
 
           <div className="row">
             <div className="col-md-12">
-              <NormalInput label='User name' />
-              <NormalInput label='password' />
+              <NormalInput label='User name'
+                onChange={this.handleInputChange}
+                value={loginForm.username}
+                name='username'
+                errorMessage={this.validator.message('User name', loginForm.username, 'required|email')} />
+              <NormalInput label='password'
+                onChange={this.handleInputChange}
+                value={loginForm.password}
+                name='password'
+                type="password"
+                errorMessage={this.validator.message('User name', loginForm.password, 'required')}
+              />
 
             </div>
           </div>
@@ -80,8 +103,7 @@ export class Login extends React.Component {
           <div className="row">
             <div className="col-md-12">
               <div className="d-grid gap-2">
-                <NormalButton label='Sign in' className=' btn-primary shadow'  onClick={()=> {
-               history.push('/dashboard')}}/>
+                <NormalButton isLoader={isFormLoder} label='Sign in' className=' btn-primary shadow' onClick={this.handleSubmit} />
               </div>
 
             </div>

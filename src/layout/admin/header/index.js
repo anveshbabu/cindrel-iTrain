@@ -1,10 +1,14 @@
-import React from "react";
+import React,{useContext} from "react";
 import './header.scss'
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
-import { EXIST_LOCAL_STORAGE } from '../../../services/constants'
+import { EXIST_LOCAL_STORAGE } from '../../../services/constants';
+import {ThemeMode} from '../../../components/common';
+
 export const Header = () => {
+  
+  const themeMode = useContext(ThemeMode);
 
   const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
@@ -58,7 +62,8 @@ export const Header = () => {
   const handleCreateThemeMode = (e) => {
     let target = e.target;
     let checked = target.checked;
-    localStorage.setItem(EXIST_LOCAL_STORAGE.THEME_MODE, checked === true ? 'dark' : 'light')
+    // localStorage.setItem(EXIST_LOCAL_STORAGE.THEME_MODE, checked === true ? 'dark' : 'light');
+    themeMode.modeChange(checked)
 
   }
   let THEME_MODE = localStorage.getItem(EXIST_LOCAL_STORAGE.THEME_MODE);
