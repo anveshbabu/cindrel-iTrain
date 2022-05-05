@@ -52,7 +52,7 @@ class AllRoutes extends Component {
                       let PageComponent = Pages[ChildrenComponent];
                       return (
                         <Route
-                          path={path}
+                        path={path + childrenPath}
                           key={path + childrenPath}
                           element={<PageComponent />}
                         />

@@ -10,7 +10,8 @@
   --text-primary: #2D2F4E;
   --text-secondary: royalblue;
   --accent: purple;
-  --theme-text: #2D2F4E
+  --theme-text: #2D2F4E;
+  --light-blue:"#F2F6FC";
 }
 
 [data-theme="dark"] {
@@ -24,4 +25,5 @@
   --text-secondary: grey;
   --accent: darkred;
   --theme-text: #ffff;
+  --light-blue:"rgb(0, 30, 60)";
 }

@@ -10,5 +10,9 @@ html {
 .page-titel {
   color: var(--theme-text) !important;
 }
-
+.sub-page-titel{
+  color: var(--text-gray) !important;
+  font-size: fontSize(16px);
+  font-weight: normal;
+}
 

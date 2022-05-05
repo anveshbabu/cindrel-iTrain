@@ -1,0 +1,130 @@
+@import "../../../../assets/scss/abstracts/abstracts-dir.scss";
+.modal-card {
+    text-align: center;
+    &:hover {
+        .modal-text {
+            font-weight: 500;
+        }
+    }
+
+    .modal-text {
+        font-size: fontSize(18px);
+        font-weight: 400;
+        color: var(--text-primary);
+    }
+    .card {
+        border-radius: 25px;
+        width: 80%;
+        margin: 0 auto;
+        border: 0;
+        cursor: pointer;
+        margin-bottom: fontSize(12px);
+
+        &:hover {
+            border: 1px solid var(--text-black) !important;
+        }
+    }
+
+    &:nth-child(odd) {
+        &:nth-child(8n + 1) {
+            .card {
+                background-color: #dbf3e8;
+                border: 1px solid #dbf3e8;
+            }
+        }
+        &:nth-child(8n + 2) {
+            .card {
+                background-color: #dbdef3;
+                border: 1px solid #dbdef3;
+            }
+        }
+        &:nth-child(8n + 3) {
+            .card {
+                background-color: #f3dbeb;
+                border: 1px solid #f3dbeb;
+            }
+        }
+        &:nth-child(8n + 4) {
+            .card {
+                background-color: #fff9a9;
+                border: 1px solid #fff9a9;
+            }
+        }
+        &:nth-child(8n + 5) {
+            .card {
+                background-color: #f3dbeb;
+                border: 1px solid #f3dbeb;
+            }
+        }
+        &:nth-child(8n + 6) {
+            .card {
+                background-color: #dbdef3;
+                border: 1px solid #dbdef3;
+            }
+        }
+        &:nth-child(8n + 7) {
+            .card {
+                background-color: #fff9a9;
+                border: 1px solid #fff9a9;
+            }
+        }
+        &:nth-child(8n + 8) {
+            .card {
+                background-color: #dbf3e8;
+                border: 1px solid #dbf3e8;
+            }
+        }
+    }
+
+    &:nth-child(even) {
+        &:nth-child(8n + 1) {
+            .card {
+                background-color: #f3dbeb;
+                border: 1px solid #f3dbeb;
+            }
+        }
+        &:nth-child(8n + 2) {
+            .card {
+                background-color: #fff9a9;
+                border: 1px solid #fff9a9;
+            }
+        }
+        &:nth-child(8n + 3) {
+            .card {
+                background-color: #dbdef3;
+                border: 1px solid #dbdef3;
+            }
+        }
+        &:nth-child(8n + 4) {
+            .card {
+                background-color: #dbf3e8;
+                border: 1px solid #dbf3e8;
+            }
+        }
+
+        &:nth-child(8n + 8) {
+            .card {
+                background-color: #dbf3e8;
+                border: 1px solid #dbf3e8;
+            }
+        }
+        &:nth-child(8n + 7) {
+            .card {
+                background-color: #dbdef3;
+                border: 1px solid #dbdef3;
+            }
+        }
+        &:nth-child(8n + 6) {
+            .card {
+                background-color: #f3dbeb;
+                border: 1px solid #f3dbeb;
+            }
+        }
+        &:nth-child(8n + 5) {
+            .card {
+                background-color: #fff9a9;
+                border: 1px solid #fff9a9;
+            }
+        }
+    }
+}

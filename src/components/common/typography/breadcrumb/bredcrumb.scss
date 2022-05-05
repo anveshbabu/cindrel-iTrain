@@ -1,0 +1,22 @@
+@import '../../../../assets/scss/abstracts/abstracts-dir.scss';
+
+.app-breadcrumb{
+    margin: fontSize(-23px) fontSize(-12px) 0;
+    margin-bottom: 1rem;
+    .breadcrumb{
+        background: var(--background);
+        height: 79px;
+        border-bottom: 1px solid var(--text-gray);
+        padding: fontSize(12px)  fontSize(18px);
+        margin-bottom: 0;
+        li{
+            font-size: 1.3rem;
+            line-height: 2.2;
+            color: var(--text-gray);
+            font-weight: 500;
+            &:first-letter {
+                text-transform: uppercase;
+            }
+        }
+    }
+}

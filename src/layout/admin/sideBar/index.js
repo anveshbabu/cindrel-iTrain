@@ -26,13 +26,13 @@ export const Sidebar = () => {
         {MENU.map(({ menuItems = [], title = '' }, m) =>
           <Fragment  key={m}>
             {title && <div className="sidebar-heading">{title}</div>}
-            {menuItems.map(({ icon, text, subMenu = [] }, i) =>
+            {menuItems.map(({ icon, text,url='/', subMenu = [] }, i) =>
               <li className="list-group-item list-group-item-action  border-0" key={i}>
-                {subMenu.length === 0 ? <Link to="/"> <i className={`${icon} me-2`} />  {text}</Link> : <a onClick={() => handleSubmenuToggle(`isSubMenu${i}`, `subMenuDropIcon${i}`)}> <i className={`${icon} me-2`}  /> {text}  <i id={`subMenuDropIcon${i}`} className={`fa-solid float-end fa-angle-down sub-menuDropIcon`}></i></a>}
+                {subMenu.length === 0 ? <Link to={url}> <i className={`${icon} me-2`} />  {text}</Link> :<Link to={url} onClick={() => handleSubmenuToggle(`isSubMenu${i}`, `subMenuDropIcon${i}`)}> <i className={`${icon} me-2`}  /> {text}  <i id={`subMenuDropIcon${i}`} className={`fa-solid float-end fa-angle-down sub-menuDropIcon`}></i></Link>}
                 {subMenu.length > 0 && <ul className="list-group list-group-flush my-3 ms-2 sub-menu" style={{ display: "none" }} id={`isSubMenu${i}`}>
                   {subMenu?.map(({ icon, text, subMenu = [] }, s) =>
                     <li href="#" className="list-group-item border-0 list-group-item-action bg-transparent" key={s}>
-                      <Link to="/"> {icon && <i className={icon} />} {text}</Link>
+                      <Link  to={url} > {icon && <i className={icon} />} {text}</Link>
                     </li>
                   )}
                 </ul>}

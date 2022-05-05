@@ -1,6 +1,6 @@
 import React from "react";
 import './auth.scss'
-import logo from '../../assets/images/logo.png'
+// import logo from '../../assets/images/logo.png'
 import {Outlet } from "react-router-dom";
 export class AuthLayout extends React.Component {
   render() {

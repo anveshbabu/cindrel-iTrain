@@ -28,14 +28,17 @@ export const MENU = [
             {
                 icon: 'fa-solid fa-box',
                 text: 'Production',
+                url:"/models/Production"
             },
             {
                 icon: 'fa-regular fa-square',
                 text: 'Staging',
+                url:"/models/staging"
             },
             {
                 icon:'fa-solid fa-boxes-stacked',
                 text: 'Sandbox',
+                url:"/models/sandbox"
             }
 
         ]

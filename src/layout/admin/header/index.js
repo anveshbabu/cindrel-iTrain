@@ -75,7 +75,7 @@ export const Header = () => {
 
         {/* <button className="btn btn-primary" id="menu-toggle">Toggle Menu</button> */}
         <a className="navbar-brand ms-2 mb-2" href="#">
-          <img src="https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" />
+          <img src={require('../../../assets/images/logo.png')} alt="" width="125"/>
         </a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
