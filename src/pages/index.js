@@ -1,6 +1,6 @@
 export {Dashboard} from './dashboard';
-export {Candidate} from './candidate';
 export {ProductionModels} from './production';
+export {ModuleClasses} from './classes';
 export {Login} from './Auth';
 
 

@@ -1,1 +1,1 @@
-export {ModelsList} from './models'
+export {ModelsList,ModelIformation,ModalAddForm} from './models'

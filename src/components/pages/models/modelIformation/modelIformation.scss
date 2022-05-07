@@ -1,0 +1,38 @@
+@import "../../../../assets/scss/abstracts/abstracts-dir.scss";
+
+.modelIformation-content {
+    margin-top: 1rem;
+    .title-page {
+        color: var(--text-black);
+        font-size: 1.3rem;
+    }
+    .progress-bar-label {
+        color: var(--text-gray);
+        font-size: 0.875rem;
+        margin-bottom: fontSize(10px);
+        span {
+            color: var(--text-secondary);
+        }
+    }
+    .model-progress {
+        border-radius: 20px;
+        .progress-bar{
+            border-radius: 20px;
+            background-color: #65C900;
+        }
+    }
+
+    .deatils-info {
+        tbody {
+            tr {
+                td {
+                    color: var(--text-gray);
+                    font-size: fontSize(14px);
+                    &:last-child {
+                        color: var(--text-secondary);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -48,7 +48,21 @@ const routers = [
     ]
   },
 
+  {
+    component: "Modulelayout",
+    path: "/models",
+    auth: false,
+    exact: false,
+    childrens: [
+      {
+        component: "ModuleClasses",
+        path: "/:fromType/classes",
+        auth: false,
+        exact: true
+      }
 
+    ]
+  },
 
 
 

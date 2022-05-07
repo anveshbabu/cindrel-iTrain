@@ -1,0 +1,30 @@
+.upload-modal-img{
+    .card{
+        background-color: #d2d2d2 !important;
+        border: 1px solid #d2d2d2 !important;
+    }
+    .card-img-overlay{
+        display: none;
+        z-index: 9;
+        background: rgba(0 ,0, 0 , .7);
+        top: unset;
+        height: 100%;
+        border-radius: 50%;
+        border-radius: 25px;
+        .upload-icon,label{
+                color: var(--text-white);
+                cursor: pointer;
+        }
+       
+   
+    }
+    &:hover{
+        .card-img-overlay{
+            cursor: pointer;
+            display: flex ;
+            justify-content: center;
+            align-items: center;
+        
+        }
+    }
+}
