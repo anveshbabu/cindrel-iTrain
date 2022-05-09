@@ -1,4 +1,4 @@
-@import './abstracts/abstracts-dir.scss';
+@import "./abstracts/abstracts-dir.scss";
 // @import "../fonts/San-Francisco-Pro-Fonts/index.css";
 //
 :button:input:check-box:search-box:cursor:container:sidebar:modal:alert //
@@ -10,9 +10,74 @@ html {
 .page-titel {
   color: var(--theme-text) !important;
 }
-.sub-page-titel{
+.sub-page-titel {
   color: var(--text-gray) !important;
   font-size: fontSize(16px);
   font-weight: normal;
 }
 
+.modal-dialog-bottom {
+  right: 10px;
+  bottom: 10px;
+  left: 10px;
+  position: absolute !important;
+  width: 100%;
+  margin: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0 !important;
+  .modal-body {
+    min-height: 64vh;
+  }
+}
+
+.modal-dialog-right {
+  top: 0px;
+  right: 10px;
+  position: absolute !important;
+  width: 37% !important;
+  right: 0;
+  bottom: 10px;
+  margin-top: 0 !important;
+  border-radius: 0;
+
+  .modal-body {
+    min-height: 100vh;
+  }
+}
+
+.image-text-over-lap {
+  position: relative;
+  text-align: center;
+  color: white;
+  .bottom-left {
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+  }
+
+  .top-left {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+  }
+
+  .top-right {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+  }
+
+  .bottom-right {
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+  }
+
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

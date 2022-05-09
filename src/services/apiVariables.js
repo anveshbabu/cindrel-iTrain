@@ -20,3 +20,11 @@ export const model = {
     baseURL: 'normal',
   },
 }
+
+export const classes = {
+  allClasssList: {
+    api: '/allClasssList.json',
+    method: 'get',
+    baseURL: 'normal',
+  },
+}

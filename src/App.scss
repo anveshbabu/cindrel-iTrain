@@ -15,7 +15,13 @@
   --green-bg:#65C900;
   --progress-bar:#E2E2E2;
   --side-bar-active:#5f697d;
-  --modal-content:var(--text-white)
+  --modal-content:var(--text-white);
+  --collapse-menu:#626263;
+  --collapse-menu-con:var(--text-white);
+  --card-header:#e9e9e9;
+  --card-border:rgba(0, 0, 0, 0.1);
+  --text-warnig:#CFA400;
+  --text-danger:#CF0000;
 }
 
 [data-theme="dark"] {
@@ -34,4 +40,10 @@
   --progress-bar:#5f697d;
   --side-bar-active:rgb(102, 178, 255);
   --modal-content:var(--light-blue);
+  --collapse-menu:var(--primary-bg);
+  --collapse-menu-con:var(--text-gray);
+  --card-header:var(--primary-bg);
+  --card-border:rgb(19, 47, 76);
+  --text-warnig:#CFA400;
+  --text-danger:#CF0000;
 }

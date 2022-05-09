@@ -1,0 +1,38 @@
+{
+    "success": true,
+    "status": "200",
+    "data": {
+        "count": "760",
+        "classsList": [
+            {
+                "image": "https://specials-images.forbesimg.com/imageserve/5d35eacaf1176b0008974b54/2020-Chevrolet-Corvette-Stingray/960x0.jpg?cropX1=790&cropX2=5350&cropY1=784&cropY2=3349",
+                "id": "123",
+                "count": "760"
+            },
+            {
+                "className": "Basic.Append ",
+                "classId": "124",
+                "count": "140"
+            },
+            {
+                "className": "Basic 2021",
+                "classId": "125",
+                "count": "136"
+            },
+            {
+                "className": "Car_Adv",
+                "classId": "126",
+                "count": "245"
+            },
+            {
+                "className": "Car_Top",
+                "classId": "127",
+                "count": "28"
+            },{
+                "className": "Drive_View",
+                "classId": "128",
+                "count": "12"
+            }
+        ]
+    }
+}

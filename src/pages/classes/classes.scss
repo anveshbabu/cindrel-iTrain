@@ -1,0 +1,13 @@
+@import '../../assets/scss/abstracts/abstracts-dir.scss';
+.classes-page{
+
+    .header-tab{
+        margin: fontSize(-23px) fontSize(-12px) 0;
+        height: fontSize(60px);
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--text-gray);
+        .icon-tab-header{
+            font-size: fontSize(30px);
+        }
+    }
+}

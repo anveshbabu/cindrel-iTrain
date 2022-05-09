@@ -16,7 +16,7 @@
         pointer-events: none;
         cursor: default;
     }
- 
+
     .list-group {
         &.main-menu {
             width: 15rem;
@@ -27,7 +27,7 @@
         .list-group-item {
             background-color: var(--primary-bg);
             a {
-                position: relative; 
+                position: relative;
                 display: block;
                 // padding: 12px 24px;
                 color: var(--text-gray);
@@ -35,10 +35,10 @@
                 font-weight: 400;
                 cursor: pointer;
                 text-decoration: unset;
-                .sub-menuDropIcon{
+                .sub-menuDropIcon {
                     transition: 0.3s ease-in-out;
                 }
-                &.active{
+                &.active {
                     color: var(--side-bar-active);
                     font-weight: 600;
                 }
@@ -46,20 +46,31 @@
         }
     }
 
-
-    &.showIconOnly{
+    &.showIconOnly {
+         background-color: var(--collapse-menu);
         .list-group {
             &.main-menu {
                 width: fontSize(87px);
-            }   
-            .list-group-item{
+            }
+            .list-group-item {
                 text-align: center;
                 padding: 20px 0;
+                background-color: var(--collapse-menu);
+                &.image-model {
+                    padding: 21px;
+                    img {
+                        width: 100%;
+                    }
+                }
                 a {
-                    font-size: 1.5rem;
+                    font-size: 1.8rem;
+                    color: var(--modal-content);
+                    &.active,&:hover {
+                        color: var(--text-secondary);
+                    }
                 }
             }
-        } 
+        }
     }
 }
 

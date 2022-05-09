@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
-import './sidebar.scss'
-import { MENU } from '../../../services/constants';
 import { NavLink } from 'react-router-dom'
+import './sidebar.scss'
+import { MENU, MODULE_MENU } from '../../../services/constants';
+import { useParams } from "react-router-dom";
 export const Sidebar = ({ isOnlyIcon = false }) => {
-
-
+  const params = useParams();
 
   const handleSubmenuToggle = (id, subMenuIconId) => {
     let isSubMenu = document.getElementById(id);
@@ -42,21 +42,25 @@ export const Sidebar = ({ isOnlyIcon = false }) => {
 
           </Fragment>
         )}
+        {isOnlyIcon && <li className="list-group-item list-group-item-action  border-0 image-model">
+          <img src={require('../../../assets/images/afpInsurance.png')} />
+        </li>}
 
-        {isOnlyIcon && MENU.map(({ menuItems = [], title = '' }, m) =>
+        {isOnlyIcon && MODULE_MENU.map(({ menuItems = [], title = '' }, m) =>
           <Fragment key={m}>
             {/* {title && <div className="sidebar-heading">{title}</div>} */}
+
             {menuItems.map(({ icon, text, url = '/', subMenu = [] }, i) =>
               <li className="list-group-item list-group-item-action  border-0" key={i}>
-                {subMenu.length === 0 ? <NavLink to={url}> <i className={`${icon} me-2`} title={text} />  </NavLink> : 
-                
-                <NavLink to={url} onClick={() => handleSubmenuToggle(`isSubMenu${i}`, `subMenuDropIcon${i}`)} title={text} > <i className={`${icon} me-2`} />  
-                {/* //<i id={`subMenuDropIcon${i}`} className={`fa-solid float-end fa-angle-down sub-menuDropIcon`}></i >  */}
-                </NavLink>}
+                {subMenu.length === 0 ? <NavLink to={`/models/${params?.fromType}${url}`}> <i className={`${icon} me-2`} title={text} />  </NavLink> :
+
+                  <NavLink  to={`/models/${params?.fromType}${url}`} onClick={() => handleSubmenuToggle(`isSubMenu${i}`, `subMenuDropIcon${i}`)} title={text} > <i className={`${icon} me-2`} />
+                    {/* //<i id={`subMenuDropIcon${i}`} className={`fa-solid float-end fa-angle-down sub-menuDropIcon`}></i >  */}
+                  </NavLink>}
                 {subMenu.length > 0 && <ul className="list-group list-group-flush my-3 ms-2 sub-menu" style={{ display: "none" }} id={`isSubMenu${i}`}>
                   {subMenu?.map(({ icon, text, subMenu = [] }, s) =>
                     <li href="#" className="list-group-item border-0 list-group-item-action bg-transparent" key={s}>
-                      <NavLink to={url} title={text} > {icon && <i className={icon} />} </NavLink>
+                      <NavLink  to={`/models/${params?.fromType}${url}`} title={text} > {icon && <i className={icon} />} </NavLink>
                     </li>
                   )}
                 </ul>}

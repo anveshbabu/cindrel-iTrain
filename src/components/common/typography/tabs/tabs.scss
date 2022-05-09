@@ -1,0 +1,19 @@
+@import "../../../../assets/scss/abstracts/abstracts-dir.scss";
+.custom-tab {
+    background-color: var(--primary-bg);
+    .nav-item {
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        .nav-link {
+            font-size: fontSize(18px);
+            font-weight: 600;
+            color: var(--text-gray);
+            padding: 0rem 1.5rem;
+            .active{
+                color: var(--text-gray);
+            }
+           
+        }
+    }
+}

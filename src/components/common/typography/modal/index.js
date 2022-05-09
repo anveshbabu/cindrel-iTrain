@@ -17,10 +17,10 @@ export const NormalModal = (props) => {
             className={`itrain-modal ${className}`}
         >
             <div className="modal-content">
-                <div className="modal-header">
+              {!!title && <div className="modal-header">
                     <h5 className="modal-title">{title}</h5>
                     <button type="button" className="btn-close" onClick={toggle}></button>
-                </div>
+                </div>}
                 <div className="modal-body">
                    {children}
                 </div>

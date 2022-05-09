@@ -1,0 +1,53 @@
+@import "../../../../../assets/scss/abstracts/abstracts-dir.scss";
+.inputMonitor-continer {
+    .card-header-title {
+        background-color: var(--light-blue);
+        .card-body {
+            .title {
+                color: var(--text-secondary);
+                font-size: 1rem;
+            }
+        }
+    }
+    .over-all-image-list {
+        border: 1px solid var(--card-border);
+        border: var(--card-border);
+        background-color: var(--primary-bg);
+        .card-header {
+            background-color: var(--card-header);
+            border: 1px solid var(--card-border);
+
+            .card-title {
+                font-size: fontSize(14px);
+                color: var(--text-gray);
+                margin-top: 1rem;
+            }
+            .refresh-icon{
+                font-size: 1rem;
+                color: var(--text-black);
+            }
+            .image-overView-component-pagination {
+                .MuiTablePagination-selectLabel,
+                .MuiInputBase-root {
+                    display: none;
+                }
+                .MuiTablePagination-displayedRows {
+                    margin-bottom: 0;
+                }
+            }
+        }
+        .card-body{
+            .class-uploded-images{
+                cursor: pointer;
+                background-color: var(--primary-bg);
+                border: 1px solid var(--card-border);
+            }
+        }
+    }
+}
+.class-uploded-images{
+    cursor: pointer;
+    background-color: var(--primary-bg);
+    border: 1px solid var(--card-border);
+    margin-bottom: 5px;
+}

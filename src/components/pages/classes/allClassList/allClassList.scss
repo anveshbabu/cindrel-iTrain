@@ -1,0 +1,48 @@
+@import '../../../../assets/scss/abstracts/abstracts-dir.scss';
+.allClasssList-card {
+    min-height: calc(100vh - 4rem);
+    background-color: var( --primary-bg);
+    .card-header{
+        background-color: transparent;
+        border: 0;
+        text-align: right;
+        a{
+            font-size: fontSize(12px);
+            color: var(--text-secondary);
+            text-decoration: underline;
+        }
+    }
+    .card-body{
+        background-color: var( --primary-bg);
+        padding: 0;
+    }
+    .list-group{
+        .list-group-item{
+            border: 0;
+            background-color: transparent;
+            color: var(--text-gray);
+            font-size: fontSize(16px);
+            cursor: pointer;
+            &.active{
+                background-color: var(--light-blue);
+            }
+            .badge-class{
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+            }
+            .sub-open-menu{
+                label{
+                    font-size: fontSize(13px); 
+                    color: var(--text-secondary);
+                }
+            }
+        }
+    }
+}
+.text-view{
+    color: var(--text-secondary);
+}
+.text-download{
+    color: var( --text-warnig);
+}
