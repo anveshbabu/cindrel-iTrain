@@ -6,6 +6,7 @@
             .title {
                 color: var(--text-secondary);
                 font-size: 1rem;
+                margin-top: fontSize(7px);
             }
         }
     }
@@ -22,7 +23,7 @@
                 color: var(--text-gray);
                 margin-top: 1rem;
             }
-            .refresh-icon{
+            .refresh-icon {
                 font-size: 1rem;
                 color: var(--text-black);
             }
@@ -36,8 +37,8 @@
                 }
             }
         }
-        .card-body{
-            .class-uploded-images{
+        .card-body {
+            .class-uploded-images {
                 cursor: pointer;
                 background-color: var(--primary-bg);
                 border: 1px solid var(--card-border);
@@ -45,9 +46,16 @@
         }
     }
 }
-.class-uploded-images{
+.class-uploded-images {
     cursor: pointer;
     background-color: var(--primary-bg);
     border: 1px solid var(--card-border);
     margin-bottom: 5px;
+}
+.filter-modal {
+    width: 25% !important;
+    .modal-body {
+        padding-right: 0;
+        padding-left: 0;
+    }
 }

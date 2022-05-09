@@ -12,8 +12,9 @@ export const NormalCheckbox = (props) => {
 
     return (
         materialUi ?
-            <FormControl error={!!errorMessage} className={`mb-3`}>
+            <FormControl error={!!errorMessage}>
                 <FormControlLabel
+                className={className}
                     control={
                         <Checkbox {...props} />
                     }

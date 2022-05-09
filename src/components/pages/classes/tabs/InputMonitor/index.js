@@ -4,19 +4,22 @@ import { useEffect, useState } from 'react'
 import TablePagination from '@mui/material/TablePagination';
 
 
-import { NormalButton, NormalModal } from '../../../../common'
+import { NormalButton, NormalModal, AppFilter } from '../../../../common'
 import { ImageDetails } from './imageDetails'
 
 import './inputMonitor.scss'
 
 export const InputMonitor = () => {
     const [isDetailModal, setIsDetailModal] = useState(false)
+    const [isFilterModal, setisFilterModal] = useState(false)
 
 
 
     const handleDetailModal = () => {
-        console.log('---')
         setIsDetailModal(!isDetailModal)
+    }
+    const handleFilterModal = () => {
+        setisFilterModal(!isFilterModal)
     }
 
 
@@ -55,7 +58,8 @@ export const InputMonitor = () => {
                                         rowsPerPage={10}
                                         onRowsPerPageChange={() => { }}
                                     />
-                                    <NormalButton materialUi={false} className='btn' variant='text' label={<i className="fa-solid fa-arrow-rotate-right refresh-icon"></i>} />
+                                    <NormalButton materialUi={false} className='btn' variant='text' label={<i className="fa-solid fa-arrow-rotate-right refresh-icon" title='Refresh'></i>} />
+                                    <NormalButton materialUi={false} className='btn' onClick={handleFilterModal} variant='text' label={<i className="fa-solid fa-filter refresh-icon" title='Filter'></i>} />
                                 </div>
                             </div>
                         </div>
@@ -108,7 +112,10 @@ export const InputMonitor = () => {
 
             </div>
             <NormalModal toggle={handleDetailModal} className='modal-dialog-right modal-xl' isShow={isDetailModal}>
-                <ImageDetails onClose={handleDetailModal}/>
+                <ImageDetails onClose={handleDetailModal} />
+            </NormalModal>
+            <NormalModal toggle={handleFilterModal} className='modal-dialog-right modal-xl filter-modal' isShow={isFilterModal}>
+                <AppFilter className='bg-transparent border-0'  toggle={handleFilterModal}/>
             </NormalModal>
         </div>
     );

@@ -1,0 +1,58 @@
+@import "../../../../assets/scss/abstracts/abstracts-dir.scss";
+.app-filter {
+    .card-header {
+        border: 0;
+        color: var(--text-gray);
+        font-size: fontSize(18px);
+        background-color: transparent;
+        border-bottom: 1px solid var(--text-gray);
+        span.clear-text {
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: fontSize(12px);
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+    }
+    .card-body{
+        padding: 0;
+        .list-group{
+            .list-item{
+                border-bottom: 1px solid var(--text-gray);
+                padding: 16px;
+            }
+            .list-group-item{
+                border: 0;
+                background-color: transparent;
+                color: var(--text-gray);
+                font-size: fontSize(16px);
+                cursor: pointer;
+                padding-top: 16px;
+                          
+                font-weight: 500;
+                text-transform: uppercase;
+                &.active{
+                    background-color: var(--light-blue);
+                }
+                .badge-class{
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                }
+                .sub-open-menu{
+                    label{
+                        font-size: fontSize(13px); 
+                        color: var(--text-secondary);
+                    }
+                }
+                // .filter-check-box{
+                  
+                   
+                // }
+            }
+            .MuiFormControlLabel-label{
+                font-size: 14px;
+            }
+        }
+    }
+}
