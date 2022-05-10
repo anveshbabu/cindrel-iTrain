@@ -1,6 +1,6 @@
 @import "../../../../assets/scss/abstracts/abstracts-dir.scss";
 .app-filter {
-    .card-header {
+    .card-header,.card-footer {
         border: 0;
         color: var(--text-gray);
         font-size: fontSize(18px);
@@ -14,45 +14,52 @@
             font-weight: 500;
         }
     }
-    .card-body{
+    .card-body {
         padding: 0;
-        .list-group{
-            .list-item{
+        .list-group {
+            .list-item {
                 border-bottom: 1px solid var(--text-gray);
                 padding: 16px;
+                .more-content {
+                    margin-top: 9px;
+                    span {
+                        font-size: 12px;
+                        font-weight: 500;
+                        text-transform: uppercase;
+                        color: var(--text-secondary);
+                        cursor: pointer;
+                    }
+                }
             }
-            .list-group-item{
+            .list-group-item {
                 border: 0;
                 background-color: transparent;
                 color: var(--text-gray);
                 font-size: fontSize(16px);
                 cursor: pointer;
                 padding-top: 16px;
-                          
+
                 font-weight: 500;
                 text-transform: uppercase;
-                &.active{
+                &.active {
                     background-color: var(--light-blue);
                 }
-                .badge-class{
+                .badge-class {
                     width: 10px;
                     height: 10px;
                     border-radius: 50%;
                 }
-                .sub-open-menu{
-                    label{
-                        font-size: fontSize(13px); 
-                        color: var(--text-secondary);
+                .sub-open-menu {
+                    label {
+                        font-size: fontSize(13px);
                     }
                 }
-                // .filter-check-box{
-                  
-                   
-                // }
             }
-            .MuiFormControlLabel-label{
+            .MuiFormControlLabel-label {
                 font-size: 14px;
+                color: var(--text-gray);
             }
         }
     }
+
 }

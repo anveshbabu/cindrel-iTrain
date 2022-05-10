@@ -7,14 +7,15 @@ export const NormalCheckbox = (props) => {
         label = '',
         errorMessage = '',
         materialUi = true,
-        checked = false
+        checked = false,
+        size = ""
     } = props;
 
     return (
         materialUi ?
             <FormControl error={!!errorMessage}>
                 <FormControlLabel
-                className={className}
+                    className={className}
                     control={
                         <Checkbox {...props} />
                     }

@@ -43,8 +43,8 @@ export const AllClasssList = () => {
                     <li className="list-group-item"><label className='badge-class'></label>  All Classes
                         <span className="float-end">{classsOverAllCount}</span>
                     </li>
-                    {classsList.map(({ className, count, classFlag = null, classId }) =>
-                        <li className={`list-group-item ${classId === activeClassId ? 'active' : ""}`} onClick={() => handleShowClassDetail(classId)}><label className='badge-class' style={{ backgroundColor: classFlag === 0 ? "#00CF46" : classFlag === 1 ? "#CFA400" : classFlag === 2 ? "#CF0000" : "" }}></label>  {className}
+                    {classsList.map(({ className, count, balanceLevel = null, classId }) =>
+                        <li className={`list-group-item ${classId === activeClassId ? 'active' : ""}`} onClick={() => handleShowClassDetail(classId)}><label className='badge-class' style={{ backgroundColor: balanceLevel !== 'Equal'? "#00CF46" :  "#CFA400" }}></label>  {className}
                             <span className="float-end">{count}</span>
                             {classId === activeClassId && <div className='row'>
                                 <div className='col-md-12'>
@@ -57,7 +57,7 @@ export const AllClasssList = () => {
                                     <div className='px-3 py-2 pe-0 sub-open-menu text-end'>
                                         <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i class="fa-solid fa-trash text-danger" title='Delete'></i>} />
                                         <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i class="fa-solid fa-arrow-down text-download" title='Download'></i>} />
-                                        <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i class="fa-solid fa-eye text-view" title='View'></i>} />
+                                        {/* <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i class="fa-solid fa-eye text-view" title='View'></i>} /> */}
                                       
                                     </div>
                                 </div>

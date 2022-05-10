@@ -3,6 +3,7 @@
 :root {
   --background: white;
   --primary-bg:white;
+  --light-primary-bg:var(--primary-bg);
   --secondary-bg: $secondary-bg;
   --text-black: #2D2F4E;
   --text-white: var(--background);
@@ -22,11 +23,13 @@
   --card-border:rgba(0, 0, 0, 0.1);
   --text-warnig:#CFA400;
   --text-danger:#CF0000;
+  --lighr-danger:#CF0000;
 }
 
 [data-theme="dark"] {
   --background: #0a1929;
   --primary-bg: #0a1929;
+  --light-primary-bg:#001e3c;
   --secondary-bg: $secondary-bg;
   --text-black: #5f697d;
   --text-white: white;

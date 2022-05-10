@@ -8,36 +8,36 @@
                 "className": "Basic Class",
                 "classId": "123",
                 "count": "760",
-                "classFlag":0
+                "balanceLevel":"Equal"
             },
             {
                 "className": "Basic.Append ",
                 "classId": "124",
                 "count": "140",
-                "classFlag":1
+                  "balanceLevel":"Equal"
             },
             {
                 "className": "Basic 2021",
                 "classId": "125",
                 "count": "136",
-                "classFlag":2
+                "balanceLevel":"Equal"
             },
             {
                 "className": "Car_Adv",
                 "classId": "126",
                 "count": "245",
-                "classFlag":0
+                    "balanceLevel":"Equal"
             },
             {
                 "className": "Car_Top",
                 "classId": "127",
                 "count": "28",
-                "classFlag":1
+                "balanceLevel":"Equal"
             },{
                 "className": "Drive_View",
                 "classId": "128",
                 "count": "12",
-                "classFlag":2
+                "balanceLevel":"Equal"
             }
         ]
     }

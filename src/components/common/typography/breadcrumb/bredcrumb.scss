@@ -4,8 +4,9 @@
     margin: fontSize(-23px) fontSize(-12px) 0;
     margin-bottom: 1rem;
     border-bottom: 1px solid var(--text-gray);
+    background: var(--light-primary-bg);
     .breadcrumb{
-        background: var(--background);
+     
         height: 79px;
      
         padding: fontSize(12px)  fontSize(18px);
