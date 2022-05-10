@@ -2,10 +2,9 @@ import { Fragment, useState } from 'react'
 import './moreFilter.scss';
 import { NormalButton, NormalCheckbox, NormalSearch } from '../../../index'
 import { alphabeticallyGrouping } from '../../../../../services/helperFunctions'
-import countriesData from '../../../../../assets/data/countries.json';
 
-export const MoreFilterCard = ({ onClose }) => {
-    const filterData = countriesData.map(({ name, code }) => ({ value: code, label: name }))
+export const MoreFilterCard = ({ onClose,data }) => {
+
 
     return (
         <div className="card more-filter-card">
@@ -15,7 +14,7 @@ export const MoreFilterCard = ({ onClose }) => {
             </div>
             <div className="card-body">
                 <div className='filter-check-box-continer'>
-                    {alphabeticallyGrouping(filterData, 'label')?.map(({ alphabet, record = [] }) =>
+                    {alphabeticallyGrouping(data, 'label')?.map(({ alphabet, record = [] }) =>
                         <>
                             <h4 className='first-letter-title value-text'>{alphabet}</h4>
                             {record.map((({ value, label }) =>

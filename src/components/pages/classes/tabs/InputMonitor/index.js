@@ -6,12 +6,28 @@ import TablePagination from '@mui/material/TablePagination';
 
 import { NormalButton, NormalModal, AppFilter } from '../../../../common'
 import { ImageDetails } from './imageDetails'
+import countriesData from '../../../../../assets/data/countries.json';
 
 import './inputMonitor.scss'
 
 export const InputMonitor = () => {
-    const [isDetailModal, setIsDetailModal] = useState(false)
-    const [isFilterModal, setisFilterModal] = useState(false)
+    const filterShowData = countriesData.map(({ name, code }) => ({ value: code, label: name }))
+
+    const [isDetailModal, setIsDetailModal] = useState(false);
+    const [isFilterModal, setisFilterModal] = useState(false);
+    const [filterData, setFilterDate] = useState([{
+        label: "User",
+        filterType: "checkBox",
+        data: filterShowData
+    }, {
+        label: "Tags",
+        filterType: "checkBox",
+        data: filterShowData
+    }, , {
+        label: "Date",
+        filterType: "date",
+        data: filterShowData
+    }])
 
 
 
@@ -115,7 +131,7 @@ export const InputMonitor = () => {
                 <ImageDetails onClose={handleDetailModal} />
             </NormalModal>
             <NormalModal toggle={handleFilterModal} className='modal-dialog-right modal-xl filter-modal' isShow={isFilterModal}>
-                <AppFilter className='bg-transparent border-0'  toggle={handleFilterModal}/>
+                <AppFilter className='bg-transparent border-0' filterData={filterData} toggle={handleFilterModal} />
             </NormalModal>
         </div>
     );
