@@ -1,7 +1,8 @@
 import { Fragment, useState } from 'react';
 import './appFilter.scss';
 import { NormalTagIt, NormalCheckbox } from '../../index'
-import { MoreFilterCard } from './more-filter'
+import { MoreFilterCard } from './more-filter';
+import { removeDuplicateArray } from '../../../../services/helperFunctions'
 export const AppFilter = (props) => {
     const [filterOpenIndex, setFilterOpenIndex] = useState(-1)
     const [isMoreFilter, setIsMoreFilter] = useState(false)
@@ -40,32 +41,45 @@ export const AppFilter = (props) => {
         let target = e.target;
         let checked = target.checked;
         let obj = {
-            moduleText:filterData[i]?.label,
+            moduleText: filterData[i]?.title,
             ...data
         }
         if (checked) {
             selectedFilter.push(obj)
         } else {
             let index = selectedFilter.findIndex(({ value }) => value === data?.value);
-            if(index !==-1){
+            if (index !== -1) {
                 selectedFilter.splice(index, 1);
             }
         }
-        setSelectedFilter([...selectedFilter])
-        console.log(e.target.checked)
+        setSelectedFilter([...selectedFilter]);
     }
 
 
-    const handleRenderCheckBoxUi = (i, label, data) => {
+    const handleMoreApplyFilter = (data) => {
+        let newSetDat = removeDuplicateArray([...data],'value');
+        setSelectedFilter([...newSetDat]);
+        setIsMoreFilter(!isMoreFilter)
+
+    };
+
+
+    const handleClearAllFilter=()=>{
+        setSelectedFilter([]); 
+        toggle()
+    }
+
+
+    const handleRenderCheckBoxUi = (i, title, data) => {
 
         return (
             <Fragment>
-                {i === filterOpenIndex && isMoreFilter && <MoreFilterCard data={data} onClose={handleOncloseMoreFilter} />}
-                <li className="list-group-item px-0" onClick={() => handleToggleFilter(i)}>{label}
+                {i === filterOpenIndex && isMoreFilter && <MoreFilterCard selectedFilterData={selectedFilter} filterData={data} title={title} onClose={handleOncloseMoreFilter} onApply={handleMoreApplyFilter} />}
+                <li className="list-group-item px-0" onClick={() => handleToggleFilter(i)}>{title}
                     <i id={`filterDropIcon${i}`} className={`fa-solid float-end fa-angle-down sub-menuDropIcon`}></i >
                 </li>
                 {i === filterOpenIndex && <div className='' id={`filterData${i}`}>
-                    {data.slice(0, 10).map(({ label, value }, j) => <div className='d-flex'><NormalCheckbox key={j} label={label} size="small" onChange={(e) => handleChangeCheckBox(e, i, data[j])} className='filter-check-box' /></div>)}
+                    {data.slice(0, 10).map(({ label, value }, j) => <div className='d-flex'><NormalCheckbox key={j} label={label} size="small" checked={!!selectedFilter.find((data) => data.value === value)} onChange={(e) => handleChangeCheckBox(e, i, data[j])} className='filter-check-box' /></div>)}
                     <div className='more-content'>
                         <span onClick={handleOncloseMoreFilter}>{data.length - 10} More</span>
                     </div>
@@ -78,12 +92,12 @@ export const AppFilter = (props) => {
     }
 
 
-    const handleRenderDateUi = (i, label, data) => {
+    const handleRenderDateUi = (i, title, data) => {
 
         return (
             <Fragment>
 
-                <li className="list-group-item px-0" onClick={() => handleToggleFilter(i)}>{label}
+                <li className="list-group-item px-0" onClick={() => handleToggleFilter(i)}>{title}
 
                 </li>
 
@@ -93,17 +107,24 @@ export const AppFilter = (props) => {
 
     }
 
+    const handleRemoveTagItDelete = (i) => {
+        let { moduleText, value } = selectedFilter[i];
+        if (i !== -1) {
+            selectedFilter.splice(i, 1);
+        }
+        setSelectedFilter([...selectedFilter])
+    };
     return (
         <div className={`card app-filter ${className}`}>
             <div className="card-header mb-3">
                 Filters
-                <span className='float-end clear-text' onClick={toggle}>CLEAR ALL</span>
+                <span className='float-end clear-text' onClick={handleClearAllFilter}>CLEAR ALL</span>
             </div>
             <div className='card-body'>
                 {/* <div className='row'> */}
-            {selectedFilter.length> 0 &&    <div className='list-group list-group-flush'>
+                {selectedFilter.length > 0 && <div className='list-group list-group-flush'>
                     <div className='list-item pt-0'>
-                        <NormalTagIt data={selectedFilter}/>
+                        <NormalTagIt data={selectedFilter} onDelete={handleRemoveTagItDelete} />
                     </div>
 
 
@@ -113,10 +134,10 @@ export const AppFilter = (props) => {
 
 
                 <ul className="list-group list-group-flush">
-                    {filterData.map(({ label, data = [], filterType = '' }, i) =>
+                    {filterData.map(({ title, data = [], filterType = '' }, i) =>
                         <div className='list-item pt-0' key={i}>
-                            {filterType === 'checkBox' && handleRenderCheckBoxUi(i, label, data)}
-                            {filterType === 'date' && handleRenderDateUi(i, label, data)}
+                            {filterType === 'checkBox' && handleRenderCheckBoxUi(i, title, data)}
+                            {filterType === 'date' && handleRenderDateUi(i, title, data)}
 
                         </div>
                     )}

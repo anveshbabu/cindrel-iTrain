@@ -16,15 +16,15 @@ export const InputMonitor = () => {
     const [isDetailModal, setIsDetailModal] = useState(false);
     const [isFilterModal, setisFilterModal] = useState(false);
     const [filterData, setFilterDate] = useState([{
-        label: "User",
+        title: "User",
         filterType: "checkBox",
         data: filterShowData
     }, {
-        label: "Tags",
+        title: "Tags",
         filterType: "checkBox",
         data: filterShowData
     }, , {
-        label: "Date",
+        title: "Date",
         filterType: "date",
         data: filterShowData
     }])
