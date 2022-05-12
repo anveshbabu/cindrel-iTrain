@@ -1,11 +1,11 @@
 import { Fragment, useState,useEffect } from 'react'
 import './moreFilter.scss';
 import { NormalButton, NormalCheckbox, NormalSearch } from '../../../index'
-import { alphabeticallyGrouping } from '../../../../../services/helperFunctions'
+import { alphabeticallyGrouping } from '../../../../../services/helperFunctions';
+
 
 export const MoreFilterCard = ({ onClose,filterData,title,onApply,selectedFilterData=[] }) => {
     const [selectedFilter, setSelectedFilter] = useState([]);
-
 
     useEffect(()=>{
         setSelectedFilter([...selectedFilterData])

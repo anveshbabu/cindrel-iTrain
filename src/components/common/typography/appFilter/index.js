@@ -1,12 +1,16 @@
 import { Fragment, useState } from 'react';
 import './appFilter.scss';
-import { NormalTagIt, NormalCheckbox } from '../../index'
+import { NormalTagIt, NormalCheckbox, NormalDateRangePicker } from '../../index'
 import { MoreFilterCard } from './more-filter';
-import { removeDuplicateArray } from '../../../../services/helperFunctions'
+import { removeDuplicateArray } from '../../../../services/helperFunctions';
+import moment from 'moment';
+
+
 export const AppFilter = (props) => {
     const [filterOpenIndex, setFilterOpenIndex] = useState(-1)
     const [isMoreFilter, setIsMoreFilter] = useState(false)
-    const [selectedFilter, setSelectedFilter] = useState([])
+    const [selectedFilter, setSelectedFilter] = useState([]);
+    const [imageDateRange ,setImageDateRange] = useState([]);
     let {
         label = '',
         className = '',
@@ -57,16 +61,21 @@ export const AppFilter = (props) => {
 
 
     const handleMoreApplyFilter = (data) => {
-        let newSetDat = removeDuplicateArray([...data],'value');
+        let newSetDat = removeDuplicateArray([...data], 'value');
         setSelectedFilter([...newSetDat]);
         setIsMoreFilter(!isMoreFilter)
 
     };
 
 
-    const handleClearAllFilter=()=>{
-        setSelectedFilter([]); 
+    const handleClearAllFilter = () => {
+        setSelectedFilter([]);
         toggle()
+    }
+
+    const handleChangeDateRange=(startDate, endDate)=>{
+        setImageDateRange({startDate,endDate})
+
     }
 
 
@@ -97,8 +106,16 @@ export const AppFilter = (props) => {
         return (
             <Fragment>
 
-                <li className="list-group-item px-0" onClick={() => handleToggleFilter(i)}>{title}
+                <li className="list-group-item px-0">{title}
 
+                <div className='d-flex mt-3'>
+                <NormalDateRangePicker startDate={imageDateRange?.startDate} endDate={imageDateRange?.startDate } 
+                 onApply={handleChangeDateRange} 
+                 className='w-100'  variant="filled" size="small"  label="Start and From"
+                 value={`${moment(imageDateRange?.startDate).format("DD/MM/YYYY")} to ${moment(imageDateRange?.startDate).format("DD/MM/YYYY")}`}
+                  />
+                </div>
+            
                 </li>
 
             </Fragment>
@@ -144,7 +161,7 @@ export const AppFilter = (props) => {
 
 
                 </ul>
-
+              
             </div>
         </div>
     )
