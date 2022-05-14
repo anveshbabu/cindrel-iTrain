@@ -15,8 +15,17 @@ export const testApi = {
 
 export const model = {
   get: {
-    api: '/model.json',
+    api: 'viewmodel',
     method: 'get',
+    baseURL: 'normal',
+  },
+  create: {
+    api: 'postmodel',
+    method: 'post',
+    baseURL: 'normal',
+  },update: {
+    api: 'putmodel',
+    method: 'put',
     baseURL: 'normal',
   },
 }

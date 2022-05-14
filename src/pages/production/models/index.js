@@ -7,32 +7,63 @@ import { useParams } from "react-router-dom";
 import { NormalBreadcrumb, NormalButton, NormalModal } from '../../../components/common';
 import { ModelsList, ModelIformation, ModalAddForm } from '../../../components/pages';
 import { getModelList } from '../../../redux/actions/model';
+import { isEmpty, removeDuplicateArray } from '../../../services/helperFunctions'
 import './models.scss'
 
 export const ProductionModels = () => {
   const params = useParams();
 
   const [modelsList, setModelsList] = useState([])
+  const [modellogoUrl, setModellogoUrl] = useState('')
   const [modelsCount, setModelsCount] = useState(0)
   const [isAddModal, setIsAddModal] = useState(false)
+  const [isModelLoader, setIsModelLoader] = useState(false)
+  const [modalDetailObj, setModalDetailObj] = useState('')
 
   useEffect(() => {
-    getModelList().then(({ success, data: { modelsList, count } }) => {
-      if (success) {
-        setModelsList(modelsList);
-        setModelsCount(count)
-      }
-    }).catch((error) => {
+    let reqObj = {
+      user_id: 2,
+      user_type: 1,
+    }
+    handleGetModuleDate(reqObj)
 
-    })
+
 
   }, []);
 
   const handleModalAdd = () => {
-    console.log('---')
+    setIsAddModal(!isAddModal)
+    setModalDetailObj('')
+ 
+  }
+
+  const handleModalEditOpen=()=>{
+    setIsAddModal(true)
+  }
+
+  const handleSaveModelSuccess = (data) => {
+    setModelsList(removeDuplicateArray([...modelsList, ...data], 'ModelId'));
     setIsAddModal(!isAddModal)
   }
 
+  const handleGetModuleDate = (reqObj) => {
+    setIsModelLoader(true)
+    getModelList(reqObj).then(({ results, count, logo_url }) => {
+      setIsModelLoader(false)
+      if (results.length > 0) {
+        setModelsList(results);
+        setModelsCount(count);
+        setModellogoUrl(logo_url)
+      }
+    }).catch((error) => {
+      setIsModelLoader(false)
+    })
+
+  }
+
+  const handleGetDetailView = (data) => {
+    setModalDetailObj(data)
+  }
 
 
   return (
@@ -46,9 +77,9 @@ export const ProductionModels = () => {
             <div className="col-md-6 col-sm-12">
               <h4 className="sub-page-titel mb-4">{modelsCount} Models</h4>
             </div>
-       
+
             <div className="col-md-12 col-sm-12 mb-5 px-5">
-              <ModelsList modelData={modelsList} fromType={params?.fromType} />
+              <ModelsList onDetailView={handleGetDetailView} isModelLoader={isModelLoader} modellogoUrl={modellogoUrl} modelData={modelsList} fromType={params?.fromType} />
             </div>
           </div>
 
@@ -59,14 +90,14 @@ export const ProductionModels = () => {
 
       </div>
 
-      <div className='row'>
+      {!isEmpty(modalDetailObj) && <div className='row'>
         <div className='col-md-12 col-sm-12'>
-          <ModelIformation />
+          <ModelIformation logoUrl={modellogoUrl} modelData={{...modalDetailObj}} onEditForm={handleModalEditOpen} />
         </div>
 
-      </div>
-      <NormalModal toggle={handleModalAdd} className='modal-dialog-centered modal-md' title="Add New Model" isShow={isAddModal}>
-        <ModalAddForm />
+      </div>}
+      <NormalModal backdrop={'static'} toggle={()=> setIsAddModal(!isAddModal)} className='modal-dialog-centered modal-md' title="Add New Model" isShow={isAddModal}>
+        {isAddModal && <ModalAddForm logoUrl={modellogoUrl} modelEditData={modalDetailObj} toggle={()=> setIsAddModal(!isAddModal)} onSaveSuccess={handleSaveModelSuccess} />}
       </NormalModal>
     </div>
   );

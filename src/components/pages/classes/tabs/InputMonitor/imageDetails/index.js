@@ -14,7 +14,7 @@ export const ImageDetails = ({ onClose = '' }) => {
             <div className='row'>
                 <div className='col-md-12 col-sm-12'>
                     <div className='image-text-over-lap'>
-                        <NormalButton materialUi={false} className='btn btn-sm top-right close-btn-icon' onClick={onClose} variant='text' label={<i class="fa-solid fa-xmark" title='Close'></i>} />
+                        <NormalButton materialUi={false} className='btn btn-sm top-right close-btn-icon' onClick={onClose} variant='text' label={<i className="fa-solid fa-xmark" title='Close'></i>} />
                         <img src="https://specials-images.forbesimg.com/imageserve/5d370543f1176b00089761ce/2020-Porsche-Taycan/960x0.jpg?cropX1=329&cropX2=2970&cropY1=337&cropY2=1822" className="img-thumbnail img-fluid class-uploded-images" />
                     </div>
                 </div>

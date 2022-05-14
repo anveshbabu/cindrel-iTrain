@@ -1,18 +1,37 @@
 import './modelIformation.scss';
-import { NormalProgressbar } from '../../../common'
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import IconButton from '@mui/material/IconButton';
+import { NormalProgressbar, NormalButton } from '../../../common'
 
-export const ModelIformation = ({ modelData = [] }) => {
+export const ModelIformation = ({ modelData = {},onEditForm='' }) => {
 
 
     return (
 
         <div className="row modelIformation-content">
             <div className='col-md-12 col-sm-12'>
-                <h4 className='title-page'>AFP Insurance</h4>
+                <div className='row mb-4'>
+                    <div className='col-md-6 col-xs-12'>
+                        <h4 className='title-page'>{modelData?.ModelName}</h4>
+                    </div>
+                    <div className='col-md-6 col-xs-12 text-end'>
+                        {/* <IconButton  label='Edit' size="small"  endIcon={<DeleteIcon />}/> */}
+                       
+                        <IconButton aria-label="delete" color="success" onClick={onEditForm}>
+                            <EditIcon />
+                        </IconButton>
+                        <IconButton aria-label="delete" color="error">
+                            <DeleteIcon />
+                        </IconButton>
+                    </div>
+                </div>
+
+
 
             </div>
             <div className='col-md-4 col-sm-12'>
-                <table class="table table-borderless deatils-info">
+                <table className="table table-borderless deatils-info">
                     <tbody>
                         <tr>
                             <td>Total Classes:</td>
@@ -32,7 +51,7 @@ export const ModelIformation = ({ modelData = [] }) => {
             </div>
 
             <div className='col-md-4 col-sm-12'>
-                <table class="table table-borderless deatils-info">
+                <table className="table table-borderless deatils-info">
                     <tbody>
                         <tr>
                             <td>Experiments Completed:</td>
@@ -51,7 +70,7 @@ export const ModelIformation = ({ modelData = [] }) => {
 
             </div>
             <div className='col-md-4 col-sm-12'>
-                <table class="table table-borderless deatils-info">
+                <table className="table table-borderless deatils-info">
                     <tbody>
                         <tr>
                             <td>First Created:</td>

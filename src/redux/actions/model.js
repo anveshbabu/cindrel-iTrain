@@ -1,25 +1,64 @@
-import { model} from "../../services/apiVariables";
+import { model } from "../../services/apiVariables";
 import { api } from "../../services/api"
 import { Toast } from "../../services/toast";
+import { objectToQueryString } from '../../services/helperFunctions'
 
 
 
-export const getModelList = (body) => {
+export const getModelList = (reqObj) => {
 
     return new Promise((resolve, reject) => {
-
-        api({ ...model.get }).then((data) => {
+        let prefixUrl=objectToQueryString(reqObj);
+        api({ ...model.get,prefixUrl }).then((data) => {
             // Toast({ type: 'success', message: 'You have been sucessfully logged into iTrain', title: 'Success!' })
             resolve(data)
-        }).catch(({erroe:{message=''}}) => {
+        }).catch(({ erroe: { message = '' } }) => {
             Toast({ type: 'danger', message: message, title: 'Error' })
             reject(message)
 
 
-        })
+        });
+    });
+}
+
+export const createModelList = (body) => {
+
+    return new Promise((resolve, reject) => {
+        api({ ...model.create,body }).then((data) => {
+            // Toast({ type: 'success', message: 'You have been sucessfully logged into iTrain', title: 'Success!' })
+            resolve(data)
+        }).catch(({ erroe: { message = '' } }) => {
+            if(!!message){
+                Toast({ type: 'danger', message: message, title: 'Error' })
+            }else{
+                Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
+            }
+           
+            reject(message)
+
+
+        });
+    });
+}
 
 
 
+export const updateModelList = (body) => {
 
-    })
+    return new Promise((resolve, reject) => {
+        api({ ...model.update,body }).then((data) => {
+            // Toast({ type: 'success', message: 'You have been sucessfully logged into iTrain', title: 'Success!' })
+            resolve(data)
+        }).catch(({ erroe: { message = '' } }) => {
+            if(!!message){
+                Toast({ type: 'danger', message: message, title: 'Error' })
+            }else{
+                Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
+            }
+           
+            reject(message)
+
+
+        });
+    });
 }

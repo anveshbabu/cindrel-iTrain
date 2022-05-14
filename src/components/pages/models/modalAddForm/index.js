@@ -1,29 +1,157 @@
 import './modalAddForm.scss';
-import { NormalInput, NormalDropDown,NormalButton } from '../../../common'
+import { useEffect, useRef, useState } from 'react'
+import { NormalInput, NormalDropDown, NormalButton, LazyLoadImage } from '../../../common'
+import defaultLogo from '../../../../assets/images/logo-placeholder.png';
+import SimpleReactValidator from 'simple-react-validator';
+import { createModelList, updateModelList } from '../../../../redux/actions/model';
+import { isEmpty, getBase64FromUrl } from '../../../.././services/helperFunctions';
 
-export const ModalAddForm = ({ className = '' }) => {
-    const modalUpload = ['Upload Photo', 'Remove Photo']
 
+export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditData, logoUrl }) => {
+    const [modalLogoOption, setModalLogoOption] = useState([])
+    const [isFormLoader, setIsFormLoader] = useState(false)
+    const logoInput = useRef();
+    const simpleValidator = useRef(new SimpleReactValidator({ className: "error-message", }));
+    const [, forceUpdate] = useState();
+    const [moduleObj, setModuleObj] = useState({
+        model_name: "",
+        user_id: 2,
+        logo: defaultLogo
+
+    });
+
+    useEffect(() => {
+        if (!isEmpty(modelEditData)) {
+            let { Logo = '', ModelId = '', ModelName = '', UserId = '' } = modelEditData
+            setModuleObj({
+                model_id: ModelId,
+                model_name: ModelName,
+                user_id: UserId,
+                logo: getBase64FromUrl(logoUrl + Logo)
+
+            });
+            handleLogoTxtHandle()
+        }
+
+        handleLogoTxtHandle();
+
+        return () => {
+            setModuleObj({
+                model_name: "",
+                user_id: 2,
+                logo: defaultLogo
+
+            })
+        }
+    }, []);
+
+
+    useEffect(() => {
+        handleLogoTxtHandle()
+    }, [moduleObj]);
+
+    const handleLogoTxtHandle = () => {
+        if (moduleObj.logo === defaultLogo) {
+            setModalLogoOption([])
+        } else {
+            setModalLogoOption(['Change Logo', 'Remove Logo'])
+        }
+    }
+
+
+    const readSingleFile = (e) => {
+        var file = e.target.files[0];
+        if (!file) {
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var logo = e.target.result;
+            setModuleObj({ ...moduleObj, logo })
+        };
+        reader.readAsDataURL(file);
+    }
+
+
+    const handleLogoSelectChange = (value) => {
+        if (!!value) {
+            if (value === 'Upload Photo') {
+                logoInput.current.click()
+            } else if (value === 'Remove Photo') {
+                setModuleObj({ ...moduleObj, logo: defaultLogo })
+            }
+        }
+
+
+    }
+
+
+    const handleFormSubmit = () => {
+        const formValid = simpleValidator.current.allValid();
+
+        if (formValid) {
+            setIsFormLoader(true)
+            let apiCall = !isEmpty(modelEditData) ? updateModelList(moduleObj) : createModelList(moduleObj);
+            apiCall.then(({ results, count, logo_url }) => {
+                setIsFormLoader(false)
+                if (results.length > 0) {
+                    onSaveSuccess(results);
+                    setModuleObj({
+                        model_name: "",
+                        user_id: 2,
+                        logo: defaultLogo
+
+                    })
+                }
+
+            }).catch((error) => {
+                setIsFormLoader(false)
+            })
+        } else {
+            simpleValidator.current.showMessages();
+            forceUpdate(1);
+        }
+    }
+
+    const handleFormChange = (event) => {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+        setModuleObj({ ...moduleObj, [name]: value })
+
+
+
+    }
+
+
+    const handleCloseModal=()=>{
+        setModuleObj({
+            model_name: "",
+            user_id: 2,
+            logo: defaultLogo
+        });
+        toggle()
+    }
     return (
 
         <div className="row">
             <div className='col-md-12 col-sm-12'>
                 <div className='row'>
                     <div className='col-md-12'>
-                        <NormalInput label="Model Name" />
-
+                        <NormalInput label="Model Name" value={moduleObj?.model_name} name={'model_name'} onChange={handleFormChange} errorMessage={simpleValidator.current.message("Model Name", moduleObj.model_name, "required")} />
                     </div>
                     {/* <div className='col-md-12'> */}
                     <div className="col-md-5  col-sm-3 p-0  modal-card upload-modal-img">
                         <div className="card add-new">
                             <div className="card-body ">
-                                <div class="card-img-overlay">
-                                    {/* <h5 class="upload-icon"><i class="fa-solid fa-arrow-up-from-bracket"></i></h5> */}
-                                    {/* */}
-                                    <NormalDropDown options={modalUpload} label={<label><i class="fa-solid fa-arrow-up-from-bracket"></i> Add Model Logo</label>} />
+                                <div className="card-img-overlay" onClick={() => modalLogoOption.length === 0 ? handleLogoSelectChange('Upload Photo') : ""}>
+                                    {modalLogoOption.length > 0 && <NormalDropDown options={modalLogoOption} onSelect={handleLogoSelectChange} label={<label><i className="fa-solid fa-arrow-up-from-bracket"></i> Change Model Logo</label>} />}
+                                    {modalLogoOption.length === 0 && <label><i className="fa-solid fa-arrow-up-from-bracket"></i> Add Model Logo</label>}
+
                                 </div>
                                 <div className='ratio ratio-1x1'>
-                                    <img className='card-img ' id="modal-card-img" src={require(`../../../../assets/images/logo-placeholder.png`)} />
+                                    {isEmpty(modelEditData) && <img className='card-img ' id="modal-card-img" src={moduleObj.logo} />}
+                                    {!isEmpty(modelEditData) && <LazyLoadImage defaultImage={defaultLogo} alt={moduleObj?.model_name} className='card-img ' id="modal-card-img" src={logoUrl + moduleObj.logo} />}
                                 </div>
 
 
@@ -33,13 +161,13 @@ export const ModalAddForm = ({ className = '' }) => {
 
                     </div>
                     <div className='col-md-12 text-end'>
-                        <NormalButton label="Cancel" color="secondary"  className="me-2 btn-secondary"/>
-                        <NormalButton label="Add Modal" />
+                        <NormalButton disabled={isFormLoader} label="Cancel" color="secondary" onClick={handleCloseModal} className="me-2 btn-secondary" />
+                        <NormalButton isLoader={isFormLoader} label={`${!isEmpty(modelEditData) ? 'Update' : "Add"} Modal`} onClick={handleFormSubmit} />
 
                     </div>
                 </div>
             </div>
-
+            <input type="file" ref={logoInput} onChange={readSingleFile} className='d-none' id="file-input" />
             {/* </div> */}
 
         </div>

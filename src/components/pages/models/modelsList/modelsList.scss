@@ -1,4 +1,18 @@
 @import "../../../../assets/scss/abstracts/abstracts-dir.scss";
+.modal-placeholder-card{
+    text-align: center;
+    .card {
+        border-radius: 25px;
+        width: 80%;
+        margin: 0 auto;
+        border: 0;
+        cursor: pointer;
+        margin-bottom: fontSize(12px);
+        .card-body{
+            border-radius: 25px;
+        }
+    }
+}
 .modal-card {
     text-align: center;
     &:hover {

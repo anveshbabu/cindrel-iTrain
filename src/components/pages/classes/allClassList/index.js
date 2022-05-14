@@ -55,9 +55,9 @@ export const AllClasssList = () => {
                                 </div>
                                 <div className='col-md-12'>
                                     <div className='px-3 py-2 pe-0 sub-open-menu text-end'>
-                                        <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i class="fa-solid fa-trash text-danger" title='Delete'></i>} />
-                                        <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i class="fa-solid fa-arrow-down text-download" title='Download'></i>} />
-                                        {/* <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i class="fa-solid fa-eye text-view" title='View'></i>} /> */}
+                                        <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i className="fa-solid fa-trash text-danger" title='Delete'></i>} />
+                                        <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i className="fa-solid fa-arrow-down text-download" title='Download'></i>} />
+                                        {/* <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i className="fa-solid fa-eye text-view" title='View'></i>} /> */}
                                       
                                     </div>
                                 </div>

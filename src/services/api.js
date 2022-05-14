@@ -3,7 +3,7 @@ import { setapiProgressBar, apiProgressBar } from './helperFunctions';
 import { EXIST_LOCAL_STORAGE, CONFIG } from './constants'
 
 
-export var api = async function ({ method = "get", api, id, body, status = false, token = '', baseURL = "normal", email = "" }) {
+export var api = async function ({ method = "get", api, prefixUrl, body, status = false, token = '', baseURL = "normal", email = "" }) {
 	let config = {
 		onUploadProgress: progressEvent => {
 			let percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
@@ -11,16 +11,14 @@ export var api = async function ({ method = "get", api, id, body, status = false
 		}
 	}
 
-	console.log(getMicroServiceURL(baseURL) + api + (!!id ? '/' + id : ""), (body ? body : ""))
+	console.log(getMicroServiceURL(baseURL) + api + (!!prefixUrl ? '/' + prefixUrl : ""), (body ? body : ""))
 
 	return await new Promise((resolve, reject) => {
-		console.log('Promise------------>',config)
 		// setting token
 		
 		axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN) === null ? '' : localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN)}`
 
-		axiosInstance[method](`${getMicroServiceURL(baseURL) + api + (!!id ? '/' + id : "")}`, (body ? body : ""), config).then((response) => {
-			console.log(JSON.stringify(statusHelper(status, response)))
+		axiosInstance[method](`${getMicroServiceURL(baseURL) + api + (!!prefixUrl ?  prefixUrl : "")}`, (body ? body : ""), config).then((response) => {
 			resolve(statusHelper(status, response))
 
 		}).catch((error) => {

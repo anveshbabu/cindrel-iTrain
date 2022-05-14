@@ -51,7 +51,7 @@ export const MoreFilterCard = ({ onClose,filterData,title,onApply,selectedFilter
                     )}
                 </div>
             </div>
-            <div class="card-footer text-end">
+            <div className="card-footer text-end">
                <NormalButton label="Close" variant="text" onClick={onClose} className='me-2'/>
                <NormalButton label="Apply" onClick={()=>onApply(selectedFilter)}/>
             </div>

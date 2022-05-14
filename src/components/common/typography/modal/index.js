@@ -7,13 +7,15 @@ export const NormalModal = (props) => {
         isShow = false,
         toggle = '',
         children = '',
-        title=''
+        title='',
+        backdrop=true
     } = props;
 
     return (
         <Modal
             isOpen={isShow}
             toggle={toggle}
+            backdrop={backdrop}
             className={`itrain-modal ${className}`}
         >
             <div className="modal-content">
