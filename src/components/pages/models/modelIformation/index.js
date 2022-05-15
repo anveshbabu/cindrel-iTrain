@@ -2,10 +2,39 @@ import './modelIformation.scss';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
-import { NormalProgressbar, NormalButton } from '../../../common'
+import { NormalProgressbar, NormalButton, NormalAlert } from '../../../common'
+import { deleteModelList } from '../../../../redux/actions/model'
+import { useState } from 'react';
 
-export const ModelIformation = ({ modelData = {},onEditForm='' }) => {
+export const ModelIformation = ({ modelData = {}, onEditForm = '',onDeleteSucess }) => {
+    const [isDeleteModal, setIsDeleteModal] = useState(false)
+    const [isFormLoader, setIsFormLoader] = useState(false)
 
+
+    const handleDeleteOpenModal = () => {
+        setIsDeleteModal(!isDeleteModal)
+    }
+
+    const handleDeleteModal = (value) => {
+        console.log(value)
+        if (value) {
+            let { ModelId } = modelData;
+            let reqObj = {
+                model_id: ModelId
+            };
+            setIsFormLoader(true)
+            deleteModelList(reqObj).then((data) => {
+                setIsFormLoader(false)
+                setIsDeleteModal(false)
+                onDeleteSucess(modelData)
+
+            }).catch((error) => {
+                setIsFormLoader(false)
+            })
+        }
+   
+
+    }
 
     return (
 
@@ -17,11 +46,11 @@ export const ModelIformation = ({ modelData = {},onEditForm='' }) => {
                     </div>
                     <div className='col-md-6 col-xs-12 text-end'>
                         {/* <IconButton  label='Edit' size="small"  endIcon={<DeleteIcon />}/> */}
-                       
+
                         <IconButton aria-label="delete" color="success" onClick={onEditForm}>
                             <EditIcon />
                         </IconButton>
-                        <IconButton aria-label="delete" color="error">
+                        <IconButton aria-label="delete" color="error" onClick={handleDeleteOpenModal}>
                             <DeleteIcon />
                         </IconButton>
                     </div>
@@ -107,6 +136,7 @@ export const ModelIformation = ({ modelData = {},onEditForm='' }) => {
 
 
             </div>
+            <NormalAlert isLoader={isFormLoader} isShow={isDeleteModal} toggle={handleDeleteOpenModal} onClick={handleDeleteModal} title="Are You Sure want Delete this Model?" />
         </div >
     )
 

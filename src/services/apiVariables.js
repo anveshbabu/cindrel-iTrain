@@ -27,6 +27,10 @@ export const model = {
     api: 'putmodel',
     method: 'put',
     baseURL: 'normal',
+  },default: {
+    api: 'deletemodel',
+    method: 'post',
+    baseURL: 'normal',
   },
 }
 

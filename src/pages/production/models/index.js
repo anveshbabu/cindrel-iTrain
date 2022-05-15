@@ -19,6 +19,7 @@ export const ProductionModels = () => {
   const [isAddModal, setIsAddModal] = useState(false)
   const [isModelLoader, setIsModelLoader] = useState(false)
   const [modalDetailObj, setModalDetailObj] = useState('')
+  const [modalAddFormOpenType, setModalAddFormOpenType] = useState('')
 
   useEffect(() => {
     let reqObj = {
@@ -33,12 +34,13 @@ export const ProductionModels = () => {
 
   const handleModalAdd = () => {
     setIsAddModal(!isAddModal)
-    setModalDetailObj('')
- 
+    setModalAddFormOpenType('Add')
+
   }
 
-  const handleModalEditOpen=()=>{
-    setIsAddModal(true)
+  const handleModalEditOpen = () => {
+    setIsAddModal(true);
+    setModalAddFormOpenType('')
   }
 
   const handleSaveModelSuccess = (data) => {
@@ -63,6 +65,17 @@ export const ProductionModels = () => {
 
   const handleGetDetailView = (data) => {
     setModalDetailObj(data)
+  }
+
+  const handleModalDelete = (data) => {
+    let index = modelsList.findIndex(({ model_id }) => model_id === data.model_id);
+    if(index !=-1){
+      modelsList.splice(index, 1);
+      setModelsList([...modelsList]);
+      setModelsCount(modelsCount-1);
+    }else {
+
+    }
   }
 
 
@@ -92,12 +105,12 @@ export const ProductionModels = () => {
 
       {!isEmpty(modalDetailObj) && <div className='row'>
         <div className='col-md-12 col-sm-12'>
-          <ModelIformation logoUrl={modellogoUrl} modelData={{...modalDetailObj}} onEditForm={handleModalEditOpen} />
+          <ModelIformation onDeleteSucess={handleModalDelete} logoUrl={modellogoUrl} modelData={{ ...modalDetailObj }} onEditForm={handleModalEditOpen} />
         </div>
 
       </div>}
-      <NormalModal backdrop={'static'} toggle={()=> setIsAddModal(!isAddModal)} className='modal-dialog-centered modal-md' title="Add New Model" isShow={isAddModal}>
-        {isAddModal && <ModalAddForm logoUrl={modellogoUrl} modelEditData={modalDetailObj} toggle={()=> setIsAddModal(!isAddModal)} onSaveSuccess={handleSaveModelSuccess} />}
+      <NormalModal backdrop={'static'} toggle={() => setIsAddModal(!isAddModal)} className='modal-dialog-centered modal-md' title="Add New Model" isShow={isAddModal}>
+        {isAddModal && <ModalAddForm modalAddFormOpenType={modalAddFormOpenType} logoUrl={modellogoUrl} modelEditData={modalDetailObj} toggle={() => setIsAddModal(!isAddModal)} onSaveSuccess={handleSaveModelSuccess} />}
       </NormalModal>
     </div>
   );

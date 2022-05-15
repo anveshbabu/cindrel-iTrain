@@ -7,7 +7,7 @@ import { createModelList, updateModelList } from '../../../../redux/actions/mode
 import { isEmpty, getBase64FromUrl } from '../../../.././services/helperFunctions';
 
 
-export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditData, logoUrl }) => {
+export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditData, logoUrl,modalAddFormOpenType }) => {
     const [modalLogoOption, setModalLogoOption] = useState([])
     const [isFormLoader, setIsFormLoader] = useState(false)
     const logoInput = useRef();
@@ -21,7 +21,7 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
     });
 
     useEffect(() => {
-        if (!isEmpty(modelEditData)) {
+        if (!isEmpty(modelEditData) && !modalAddFormOpenType ) {
             let { Logo = '', ModelId = '', ModelName = '', UserId = '' } = modelEditData
             setModuleObj({
                 model_id: ModelId,
@@ -31,6 +31,13 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
 
             });
             handleLogoTxtHandle()
+        }else{
+            setModuleObj({
+                model_name: "",
+                user_id: 2,
+                logo: defaultLogo
+        
+            })  
         }
 
         handleLogoTxtHandle();
