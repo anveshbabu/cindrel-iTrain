@@ -45,6 +45,11 @@ export const classes = {
     method: 'post',
     baseURL: 'normal',
   },
+  update: {
+    api: '/putclass',
+    method: 'put',
+    baseURL: 'normal',
+  },
   delete: {
     api: '/deleteclass',
     method: 'post',

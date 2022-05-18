@@ -5,9 +5,9 @@ import { useParams } from "react-router-dom";
 import { NormalButton, NormalInput, NormalAlert } from '../../../common'
 import './allClassList.scss';
 import SimpleReactValidator from 'simple-react-validator';
-import { createClasss, deleteclass } from '../../../../redux/actions/classes'
+import { createClass, deleteclass, updateClass } from '../../../../redux/actions/classes'
 
-export const AllClasssList = ({ onDeleteSucess, classsList = [], onlodeActiveclassId, classsOverAllCount = 0, onSaveSuccess = '', isClassLoader = false }) => {
+export const AllClasssList = ({ userDetail = {}, onDeleteSucess, classsList = [], onlodeActiveclassId, classsOverAllCount = 0, onSaveSuccess = '', isClassLoader = false }) => {
     const params = useParams();
     const [isFormLoader, setIsFormLoader] = useState(false)
     const simpleValidator = useRef(new SimpleReactValidator({ className: "error-message", }));
@@ -19,7 +19,7 @@ export const AllClasssList = ({ onDeleteSucess, classsList = [], onlodeActivecla
 
     const [classObject, setClassObject] = useState({
         class_name: "",
-        user_id: 2,
+        user_id: userDetail?.UserId,
         model_id: 1
     })
 
@@ -47,14 +47,15 @@ export const AllClasssList = ({ onDeleteSucess, classsList = [], onlodeActivecla
     const handleCreateClasss = () => {
         const formValid = simpleValidator.current.allValid();
         if (formValid) {
-            setIsFormLoader(true)
-            createClasss(classObject).then(({ results, count, logo_url }) => {
+            setIsFormLoader(true);
+            let apiCall = classObject.hasOwnProperty('class_id') ? updateClass(classObject) : createClass(classObject)
+            apiCall.then(({ results, count, logo_url }) => {
                 setIsFormLoader(false)
                 if (results.length > 0) {
                     // onSaveSuccess(results);
                     setClassObject({
                         class_name: "",
-                        user_id: 2,
+                        user_id: userDetail?.UserId,
                         model_id: 1
                     });
                     onSaveSuccess(results)
@@ -98,6 +99,17 @@ export const AllClasssList = ({ onDeleteSucess, classsList = [], onlodeActivecla
         setIsDeleteModal(!isDeleteModal)
     }
 
+    const handleEditClass = (i) => {
+        let { ClassName, ClassId } = classsList[i];
+        setClassObject({
+            class_id: ClassId,
+            class_name: ClassName,
+            model_id: 9,
+            user_id: userDetail?.UserId,
+        });
+        setIsAddClassInput(true)
+    }
+
 
 
 
@@ -113,7 +125,7 @@ export const AllClasssList = ({ onDeleteSucess, classsList = [], onlodeActivecla
                             errorMessage={simpleValidator.current.message("Class Name", classObject?.class_name, "required")} />
                     </div>
                     <div className='col-md-12'>
-                        <NormalButton size="small" isLoader={isFormLoader} label="Submit" onClick={handleCreateClasss} />
+                        <NormalButton size="small" isLoader={isFormLoader} label={classObject.hasOwnProperty('class_id') ? "Update" : "Submit"} onClick={handleCreateClasss} />
                     </div>
                 </div>}
             </div>
@@ -136,9 +148,10 @@ export const AllClasssList = ({ onDeleteSucess, classsList = [], onlodeActivecla
                                 </div>
                                 <div className='col-md-12'>
                                     <div className='px-3 py-2 pe-0 sub-open-menu text-end'>
+                                        <NormalButton materialUi={false} className='btn btn-sm' variant='text' onClick={() => handleEditClass(i)} label={<i class="fa-solid fa-pen  text-success" title='Edit'></i>} />
                                         <NormalButton materialUi={false} className='btn btn-sm' variant='text' onClick={() => handleDeleteOpenModal(i)} label={<i className="fa-solid fa-trash text-danger" title='Delete'></i>} />
                                         <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i className="fa-solid fa-arrow-down text-download" title='Download'></i>} />
-                                        {/* <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i className="fa-solid fa-eye text-view" title='View'></i>} /> */}
+
 
                                     </div>
                                 </div>

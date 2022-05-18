@@ -29,10 +29,28 @@ export const getAllClasssList = (reqObj) => {
 
 
 
-export const createClasss = (body) => {
+export const createClass = (body) => {
 
     return new Promise((resolve, reject) => {
         api({ ...classes.create,body }).then((data) => {
+            resolve(data)
+        }).catch(({ erroe: { message = '' } }) => {
+            if (!!message) {
+                Toast({ type: 'danger', message: message, title: 'Error' })
+            } else {
+                Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
+            }
+            reject(message)
+
+
+        })
+    })
+}
+
+export const updateClass = (body) => {
+
+    return new Promise((resolve, reject) => {
+        api({ ...classes.update,body }).then((data) => {
             resolve(data)
         }).catch(({ erroe: { message = '' } }) => {
             if (!!message) {
