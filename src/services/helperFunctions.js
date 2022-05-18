@@ -93,7 +93,7 @@ export const letterAvatar = (name, size, colour) => {
 
 
 
-export const isEmpty=(obj)=> {
+export const isEmpty = (obj) => {
   return Object.keys(obj).length === 0;
 }
 
@@ -102,10 +102,28 @@ export const getBase64FromUrl = async (url) => {
   const blob = await data.blob();
   return new Promise((resolve) => {
     const reader = new FileReader();
-    reader.readAsDataURL(blob); 
+    reader.readAsDataURL(blob);
     reader.onloadend = () => {
-      const base64data = reader.result;   
+      const base64data = reader.result;
       resolve(base64data);
     }
   });
+}
+
+
+export const setStorage = (name, data) => {
+
+  localStorage.setItem(name, data);
+}
+
+export const  getStorage = (name) => {
+  return localStorage.getItem(name);
+}
+
+export const removeStorage = (name) => {
+  if (!!name) {
+    localStorage.removeItem(name);
+  } else {
+    localStorage.clear();
+  }
 }

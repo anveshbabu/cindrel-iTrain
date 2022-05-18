@@ -6,11 +6,12 @@ import {
   // NormalCheckbox
 } from "../../../components/common";
 import SimpleReactValidator from 'simple-react-validator';
-import {Toast} from '../../../services/toast'
-// import { userSignin } from "../../../redux/actions/login";
+import { Toast } from '../../../services/toast'
+import { userSignin } from "../../../redux/actions/authentication";
 import { history } from "../../../helpers";
 // import { LOGIN_TYPE, EXIST_LOCAL_STORAGE } from "../../../service/constants";
 // import { testGet } from '../../../redux/actions/test'
+import { removeStorage } from '../../../services/helperFunctions'
 
 export class Login extends React.Component {
   constructor(props) {
@@ -26,10 +27,12 @@ export class Login extends React.Component {
   }
 
 
+componentDidMount(){
+  removeStorage()
+}
 
 
 
-  
   //handle input change function call start
   handleInputChange = e => {
     let { value, name } = e.target;
@@ -44,23 +47,19 @@ export class Login extends React.Component {
 
   //login submit API call function  start
   handleSubmit = () => {
-    // testGet().then((data) => { 
-      
-    //   history.push('/dashboard')
-    
-    
-    // }).catch((error) => {
-
-    // })
-
+    let { loginForm } = this.state;
     if (this.validator.allValid()) {
-      this.setState({isFormLoder:true})
-      setTimeout(()=>    { 
-        Toast({ type: 'success', message: 'You have been sucessfully logged into iTrain', title: 'Success!' })
-        history.push('/dashboard')
-        this.setState({isFormLoder:true})
-      }, 3000);
- 
+      this.setState({ isFormLoder: true })
+      userSignin(loginForm).then(({ status, results }) => {
+        this.setState({ isFormLoder: false })
+        if (status  ==='success' && results) {
+          Toast({ type: 'success', message: 'You have been sucessfully logged into iTrain', title: 'Success!' })
+          history.push('/models/Production')
+        }
+      }).catch((error) => {
+        this.setState({ isFormLoder: false })
+      })
+
     } else {
       this.validator.showMessages();
       this.forceUpdate();

@@ -23,11 +23,11 @@ export const model = {
     api: 'postmodel',
     method: 'post',
     baseURL: 'normal',
-  },update: {
+  }, update: {
     api: 'putmodel',
     method: 'put',
     baseURL: 'normal',
-  },default: {
+  }, default: {
     api: 'deletemodel',
     method: 'post',
     baseURL: 'normal',
@@ -47,6 +47,15 @@ export const classes = {
   },
   delete: {
     api: '/deleteclass',
+    method: 'post',
+    baseURL: 'normal',
+  },
+}
+
+
+export const authentication = {
+  userSignIn: {
+    api: '/login',
     method: 'post',
     baseURL: 'normal',
   },
