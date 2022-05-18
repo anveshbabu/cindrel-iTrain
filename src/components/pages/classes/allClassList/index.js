@@ -1,28 +1,31 @@
 
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams } from "react-router-dom";
-import { getAllClasssList } from '../../../../redux/actions/classes'
-import { NormalButton } from '../../../common'
-import './allClassList.scss'
+import { NormalButton, NormalInput, NormalAlert } from '../../../common'
+import './allClassList.scss';
+import SimpleReactValidator from 'simple-react-validator';
+import { createClasss, deleteclass } from '../../../../redux/actions/classes'
 
-export const AllClasssList = () => {
+export const AllClasssList = ({ onDeleteSucess, classsList = [], onlodeActiveclassId, classsOverAllCount = 0, onSaveSuccess = '', isClassLoader = false }) => {
     const params = useParams();
-    const [classsList, setclasssList] = useState([])
-    const [classsOverAllCount, setClasssOverAllCount] = useState(0)
-    const [activeClassId, setActiveClassId] = useState('124')
+    const [isFormLoader, setIsFormLoader] = useState(false)
+    const simpleValidator = useRef(new SimpleReactValidator({ className: "error-message", }));
+    const [, forceUpdate] = useState();
+    const [activeClassId, setActiveClassId] = useState()
+    const [isAddClassInput, setIsAddClassInput] = useState(false);
+    const [isDeleteModal, setIsDeleteModal] = useState(false)
+    const [classDelteIndex, setClassDelteIndex] = useState(-1)
+
+    const [classObject, setClassObject] = useState({
+        class_name: "",
+        user_id: 2,
+        model_id: 1
+    })
 
     useEffect(() => {
-        getAllClasssList().then(({ success, data: { classsList, count } }) => {
-            if (success) {
-                setclasssList(classsList);
-                setClasssOverAllCount(count)
-            }
-        }).catch((error) => {
-
-        })
-
-    }, []);
+        setActiveClassId(onlodeActiveclassId)
+    }, [onlodeActiveclassId])
 
 
     const handleShowClassDetail = (id) => {
@@ -30,23 +33,101 @@ export const AllClasssList = () => {
 
     }
 
+    const handleAddClassInput = () => {
+        setIsAddClassInput(!isAddClassInput)
+    }
+    const handleFormChange = (event) => {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+        setClassObject({ ...classObject, [name]: value })
+    }
+
+
+    const handleCreateClasss = () => {
+        const formValid = simpleValidator.current.allValid();
+        if (formValid) {
+            setIsFormLoader(true)
+            createClasss(classObject).then(({ results, count, logo_url }) => {
+                setIsFormLoader(false)
+                if (results.length > 0) {
+                    // onSaveSuccess(results);
+                    setClassObject({
+                        class_name: "",
+                        user_id: 2,
+                        model_id: 1
+                    });
+                    onSaveSuccess(results)
+                }
+
+            }).catch((error) => {
+                setIsFormLoader(false)
+            });
+
+        } else {
+            simpleValidator.current.showMessages();
+            forceUpdate(1);
+        }
+    }
+
+
+
+    const handleDeleteModal = (value) => {
+        if (value && classDelteIndex !== -1) {
+            let { ClassId } = classsList[classDelteIndex];
+            let reqObj = {
+                class_id: ClassId
+            };
+            setIsFormLoader(true)
+            deleteclass(reqObj).then((data) => {
+                setIsFormLoader(false)
+                setIsDeleteModal(false)
+                onDeleteSucess(classDelteIndex)
+
+            }).catch((error) => {
+                setIsFormLoader(false)
+            })
+        } else {
+            handleDeleteOpenModal()
+        }
+    }
+
+    const handleDeleteOpenModal = (index = -1) => {
+        console.log(index)
+        setClassDelteIndex(index)
+        setIsDeleteModal(!isDeleteModal)
+    }
+
+
+
+
     return (
         <div className="card allClasssList-card shadow border-0">
 
             <div className="card-header">
-                <a>Add New</a>
+                <a className='add-text' onClick={handleAddClassInput}>Add New</a>
+                {isAddClassInput && <div className='row mt-3'>
+                    <div className='col-md-12'>
+                        <NormalInput size="small" label="Class Name" variant="filled"
+                            value={classObject?.class_name} name={'class_name'} onChange={handleFormChange}
+                            errorMessage={simpleValidator.current.message("Class Name", classObject?.class_name, "required")} />
+                    </div>
+                    <div className='col-md-12'>
+                        <NormalButton size="small" isLoader={isFormLoader} label="Submit" onClick={handleCreateClasss} />
+                    </div>
+                </div>}
             </div>
             <div className="card-body">
 
-                <ul className="list-group list-group-flush">
+                {!isClassLoader && <ul className="list-group list-group-flush">
 
                     <li className="list-group-item"><label className='badge-class'></label>  All Classes
                         <span className="float-end">{classsOverAllCount}</span>
                     </li>
-                    {classsList.map(({ className, count, balanceLevel = null, classId }) =>
-                        <li className={`list-group-item ${classId === activeClassId ? 'active' : ""}`} onClick={() => handleShowClassDetail(classId)}><label className='badge-class' style={{ backgroundColor: balanceLevel !== 'Equal'? "#00CF46" :  "#CFA400" }}></label>  {className}
+                    {classsList.map(({ ClassName, count, balanceLevel = null, ClassId }, i) =>
+                        <li className={`list-group-item ${ClassId === activeClassId ? 'active' : ""}`} key={ClassId} onClick={() => handleShowClassDetail(ClassId)}><label className='badge-class' style={{ backgroundColor: balanceLevel !== 'Equal' ? "#00CF46" : "#CFA400" }}></label>  {ClassName}
                             <span className="float-end">{count}</span>
-                            {classId === activeClassId && <div className='row'>
+                            {ClassId === activeClassId && <div className='row'>
                                 <div className='col-md-12'>
                                     <div className='px-3 py-2 pe-0 sub-open-menu'>
                                         <label>Balance Level</label>
@@ -55,22 +136,32 @@ export const AllClasssList = () => {
                                 </div>
                                 <div className='col-md-12'>
                                     <div className='px-3 py-2 pe-0 sub-open-menu text-end'>
-                                        <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i className="fa-solid fa-trash text-danger" title='Delete'></i>} />
+                                        <NormalButton materialUi={false} className='btn btn-sm' variant='text' onClick={() => handleDeleteOpenModal(i)} label={<i className="fa-solid fa-trash text-danger" title='Delete'></i>} />
                                         <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i className="fa-solid fa-arrow-down text-download" title='Download'></i>} />
                                         {/* <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i className="fa-solid fa-eye text-view" title='View'></i>} /> */}
-                                      
+
                                     </div>
                                 </div>
                             </div>}
-
-
-
-
                         </li>
                     )}
+                </ul>}
 
-                </ul>
+
+                {isClassLoader && <ul className="list-group list-group-flush placeholder-glow" >
+                    <li className={`list-group-item`}>
+                        <span class="placeholder col-12 bg-primary"></span>
+                        <span class="placeholder col-12 bg-secondary"></span>
+                        <span class="placeholder col-12 bg-success"></span>
+                        <span class="placeholder col-12 bg-danger"></span>
+                        <span class="placeholder col-12 bg-warning"></span>
+                        <span class="placeholder col-12 bg-info"></span>
+                        <span class="placeholder col-12 bg-light"></span>
+                        <span class="placeholder col-12 bg-dark"></span>
+                    </li>
+                </ul>}
             </div>
+            <NormalAlert isLoader={isFormLoader} isShow={isDeleteModal} toggle={() => handleDeleteOpenModal(-1)} onClick={handleDeleteModal} title="Are You Sure want Delete this Model?" />
         </div>
     );
 

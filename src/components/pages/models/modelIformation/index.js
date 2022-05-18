@@ -6,7 +6,7 @@ import { NormalProgressbar, NormalButton, NormalAlert } from '../../../common'
 import { deleteModelList } from '../../../../redux/actions/model'
 import { useState } from 'react';
 
-export const ModelIformation = ({ modelData = {}, onEditForm = '',onDeleteSucess }) => {
+export const ModelIformation = ({ modelData = {}, onEditForm = '', onDeleteSucess }) => {
     const [isDeleteModal, setIsDeleteModal] = useState(false)
     const [isFormLoader, setIsFormLoader] = useState(false)
 
@@ -31,8 +31,10 @@ export const ModelIformation = ({ modelData = {}, onEditForm = '',onDeleteSucess
             }).catch((error) => {
                 setIsFormLoader(false)
             })
+        } else {
+            handleDeleteOpenModal()
         }
-   
+
 
     }
 

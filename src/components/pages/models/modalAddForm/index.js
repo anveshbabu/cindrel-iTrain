@@ -125,9 +125,6 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
         setModuleObj({ ...moduleObj, [name]: value })
-
-
-
     }
 
 

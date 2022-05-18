@@ -35,9 +35,19 @@ export const model = {
 }
 
 export const classes = {
-  allClasssList: {
-    api: '/allClasssList.json',
+  get: {
+    api: '/viewclass',
     method: 'get',
+    baseURL: 'normal',
+  },
+  create: {
+    api: '/postclass',
+    method: 'post',
+    baseURL: 'normal',
+  },
+  delete: {
+    api: '/deleteclass',
+    method: 'post',
     baseURL: 'normal',
   },
 }
