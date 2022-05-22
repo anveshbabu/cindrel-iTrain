@@ -1,0 +1,34 @@
+{
+    "success": true,
+    "status": "200",
+    "data": {
+        "count": "5",
+        "modelsList": [
+            {
+                "modelName": "AFP Insurance",
+                "modelId": "123",
+                "image": "afpInsurance.png"
+            },
+            {
+                "modelName": "AFP Demo",
+                "modelId": "124",
+                "image": "afpDemo.png"
+            },
+            {
+                "modelName": "152 Sports",
+                "modelId": "125",
+                "image": "sports.png"
+            },
+            {
+                "modelName": "YM Pharma",
+                "modelId": "126",
+                "image": "pharma.png"
+            },
+            {
+                "modelName": "Yoko Shoes",
+                "modelId": "127",
+                "image": "shoes.png"
+            }
+        ]
+    }
+}
