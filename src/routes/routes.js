@@ -59,10 +59,19 @@ const routers = [
         path: "/:fromType/classes",
         auth: false,
         exact: true
+      },
+      {
+        component: "ExperimentsListPage",
+        path: "/:fromType/experiments",
+        auth: false,
+        exact: true
       }
+
 
     ]
   },
+
+  
 
 
 

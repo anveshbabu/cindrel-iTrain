@@ -1,3 +1,11 @@
+@import url('../../../../assets/scss/abstracts/abstracts-dir.scss');
 .app-progress{
 background-color: var(--progress-bar);
+.progress-bar{
+    text-align: right;
+    padding-right: 9px;
+}
+.value-text{
+    font-size: fontSize(10px);
+}
 }

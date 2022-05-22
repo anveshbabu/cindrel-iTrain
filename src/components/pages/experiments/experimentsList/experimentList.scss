@@ -1,0 +1,35 @@
+.experiment-list-card {
+    .card-header {
+        background-color: var(--card-header);
+        border: 1px solid var(--card-border);
+        font-size: 0.875rem;
+        color: var(--text-gray);
+        // margin-top: 1rem;    
+    }
+
+    .card-body{
+        .list-group{
+            background-color: transparent;
+            .list-group-item{
+                background-color: transparent;
+                color: var(--text-gray);
+                border: 1px solid var(--card-border);
+                border-width: 0 0 1px;
+                padding: 1rem 0.5rem;
+            }
+        }
+        .experiment-code{
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+        .experiment-timeAndDate{
+            color: var(--text-gray);
+            font-size: .8rem;
+        }
+        .experiment-count{
+            color: var(--text-black);
+            font-size: 1.2rem;
+        }
+    }
+
+}

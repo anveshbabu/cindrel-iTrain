@@ -81,3 +81,22 @@ html {
     transform: translate(-50%, -50%);
   }
 }
+
+.title-icon{
+  font-size: fontSize(43px);
+
+}
+
+.card{
+  background-color: var( --light-primary-bg) !important;
+  .card-header{
+      background-color: var(--light-primary-bg);
+    
+      }
+  .card-body{
+      background-color: var(--light-primary-bg);
+
+  }
+
+}
+

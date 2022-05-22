@@ -86,7 +86,7 @@ export const MODULE_MENU = [
             {
                 icon: 'fa-solid fa-microchip',
                 text: 'Production',
-                url: "/models/Production"
+                url: "/experiments"
             }
 
         ]

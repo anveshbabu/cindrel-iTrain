@@ -21,7 +21,8 @@ export const AllClasssList = ({ userDetail = {}, onDeleteSucess, classsList = []
         class_name: "",
         user_id: userDetail?.UserId,
         model_id: 1
-    })
+    });
+    console.log('userDetail?.UserId------',userDetail?.UserId)
 
     useEffect(() => {
         setActiveClassId(onlodeActiveclassId)
@@ -47,8 +48,13 @@ export const AllClasssList = ({ userDetail = {}, onDeleteSucess, classsList = []
     const handleCreateClasss = () => {
         const formValid = simpleValidator.current.allValid();
         if (formValid) {
+            simpleValidator.current.hideMessages();
             setIsFormLoader(true);
-            let apiCall = classObject.hasOwnProperty('class_id') ? updateClass(classObject) : createClass(classObject)
+          let reqObj=  {
+                ...classObject,
+                user_id: userDetail?.UserId,
+            }
+            let apiCall = reqObj.hasOwnProperty('class_id') ? updateClass(reqObj) : createClass(reqObj)
             apiCall.then(({ results, count, logo_url }) => {
                 setIsFormLoader(false)
                 if (results.length > 0) {
