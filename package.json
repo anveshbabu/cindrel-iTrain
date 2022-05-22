@@ -2,7 +2,7 @@
   "name": "i-train",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://cindrel-iTrain.github.io",
+  "homepage": "https://anveshbabu.github.io/cindrel-iTrain",
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
