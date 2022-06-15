@@ -1,5 +1,5 @@
 import ReactApexChart from "react-apexcharts";
-import { NormalBreadcrumb, NormalButton, NormalModal } from '../../../components/common';
+import { NormalBreadcrumb} from '../../../components/common';
 import { ExperimentsList } from '../../../components/pages';
 import './experiments.scss'
 

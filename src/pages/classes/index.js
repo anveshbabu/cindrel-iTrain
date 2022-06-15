@@ -20,6 +20,7 @@ export const ModuleClasses = () => {
   const [isClassLoader, setIsClassLoader] = useState(false)
   const [activeclassId, setActiveclassId] = useState('')
   const [userDetail, setUserDetail] = useState(null)
+  const [selectedClassObj, setSelectedClassObj] = useState('')
 
 
   useEffect(() => {
@@ -27,13 +28,14 @@ export const ModuleClasses = () => {
     setUserDetail(JSON.parse(userDetail));
     console.log('userDetail------->',userDetail)
     let reqObj = {
-      model_id: 1
+      model_id:  params?.modelId,
     }
     setIsClassLoader(true)
     getAllClasssList(reqObj).then(({ count, results }) => {
       setIsClassLoader(false)
       if (results.length > 0) {
-        let { ClassId } = results[0]
+        let { ClassId } = results[0];
+        setSelectedClassObj(results[0])
         setActiveclassId(ClassId)
         setclasssList(results);
         setClasssOverAllCount(count)
@@ -60,15 +62,19 @@ export const ModuleClasses = () => {
     }
   }
 
+  const handleSlectedClass=(d)=>{
+    setSelectedClassObj(d)
+  }
+
   return (
     <div className='classes-page'>
       <NormalTabs className='header-tab mb-0' data={[<i className="fa-solid fa-atom me-2 icon-tab-header" title="Dashboard"></i>, 'Input Monitor', 'Train Monitor', 'Trend Analysis', 'Version Management']} />
       <div className='row'>
         <div className='col-md-2 ps-0'>
-          <AllClasssList userDetail={userDetail} onDeleteSucess={handleModalDelete} onlodeActiveclassId={activeclassId} isClassLoader={isClassLoader} classsList={classsList} onSaveSuccess={handleSaveClassSuccess} classsOverAllCount={classsOverAllCount} />
+          <AllClasssList userDetail={userDetail} sendSelectedClassData={handleSlectedClass} onDeleteSucess={handleModalDelete} onlodeActiveclassId={activeclassId} isClassLoader={isClassLoader} classsList={classsList} onSaveSuccess={handleSaveClassSuccess} classsOverAllCount={classsOverAllCount} />
         </div>
         <div className='col-md-10 ps-0'>
-          <InputMonitor />
+          <InputMonitor userDetail={userDetail}  selectedClassObj={selectedClassObj}/>
         </div>
       </div>
 

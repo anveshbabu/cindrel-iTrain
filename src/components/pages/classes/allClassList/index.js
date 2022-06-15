@@ -7,7 +7,7 @@ import './allClassList.scss';
 import SimpleReactValidator from 'simple-react-validator';
 import { createClass, deleteclass, updateClass } from '../../../../redux/actions/classes'
 
-export const AllClasssList = ({ userDetail = {}, onDeleteSucess, classsList = [], onlodeActiveclassId, classsOverAllCount = 0, onSaveSuccess = '', isClassLoader = false }) => {
+export const AllClasssList = ({ userDetail = {}, onDeleteSucess, classsList = [], sendSelectedClassData, onlodeActiveclassId, classsOverAllCount = 0, onSaveSuccess = '', isClassLoader = false }) => {
     const params = useParams();
     const [isFormLoader, setIsFormLoader] = useState(false)
     const simpleValidator = useRef(new SimpleReactValidator({ className: "error-message", }));
@@ -20,17 +20,18 @@ export const AllClasssList = ({ userDetail = {}, onDeleteSucess, classsList = []
     const [classObject, setClassObject] = useState({
         class_name: "",
         user_id: userDetail?.UserId,
-        model_id: 1
+        model_id: params?.modelId
     });
-    console.log('userDetail?.UserId------',userDetail?.UserId)
+
 
     useEffect(() => {
         setActiveClassId(onlodeActiveclassId)
     }, [onlodeActiveclassId])
 
 
-    const handleShowClassDetail = (id) => {
-        setActiveClassId(id)
+    const handleShowClassDetail = (id,i) => {
+        setActiveClassId(id);
+        sendSelectedClassData(classsList[i])
 
     }
 
@@ -50,7 +51,7 @@ export const AllClasssList = ({ userDetail = {}, onDeleteSucess, classsList = []
         if (formValid) {
             simpleValidator.current.hideMessages();
             setIsFormLoader(true);
-          let reqObj=  {
+            let reqObj = {
                 ...classObject,
                 user_id: userDetail?.UserId,
             }
@@ -62,7 +63,7 @@ export const AllClasssList = ({ userDetail = {}, onDeleteSucess, classsList = []
                     setClassObject({
                         class_name: "",
                         user_id: userDetail?.UserId,
-                        model_id: 1
+                        model_id: params?.modelId
                     });
                     onSaveSuccess(results)
                 }
@@ -110,7 +111,7 @@ export const AllClasssList = ({ userDetail = {}, onDeleteSucess, classsList = []
         setClassObject({
             class_id: ClassId,
             class_name: ClassName,
-            model_id: 9,
+            model_id: params?.modelId,
             user_id: userDetail?.UserId,
         });
         setIsAddClassInput(true)
@@ -142,9 +143,9 @@ export const AllClasssList = ({ userDetail = {}, onDeleteSucess, classsList = []
                     <li className="list-group-item"><label className='badge-class'></label>  All Classes
                         <span className="float-end">{classsOverAllCount}</span>
                     </li>
-                    {classsList.map(({ ClassName, count, balanceLevel = null, ClassId }, i) =>
-                        <li className={`list-group-item ${ClassId === activeClassId ? 'active' : ""}`} key={ClassId} onClick={() => handleShowClassDetail(ClassId)}><label className='badge-class' style={{ backgroundColor: balanceLevel !== 'Equal' ? "#00CF46" : "#CFA400" }}></label>  {ClassName}
-                            <span className="float-end">{count}</span>
+                    {classsList.map(({ ClassName, ImageCount, balanceLevel = null, ClassId }, i) =>
+                        <li className={`list-group-item ${ClassId === activeClassId ? 'active' : ""}`} key={ClassId} onClick={() => handleShowClassDetail(ClassId,i)}><label className='badge-class' style={{ backgroundColor: balanceLevel !== 'Equal' ? "#00CF46" : "#CFA400" }}></label>  {ClassName}
+                            <span className="float-end">{ImageCount}</span>
                             {ClassId === activeClassId && <div className='row'>
                                 <div className='col-md-12'>
                                     <div className='px-3 py-2 pe-0 sub-open-menu'>

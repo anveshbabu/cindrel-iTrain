@@ -3,7 +3,7 @@ import { setapiProgressBar, apiProgressBar } from './helperFunctions';
 import { EXIST_LOCAL_STORAGE, CONFIG } from './constants'
 
 
-export var api = async function ({ method = "get", api, prefixUrl, body, status = false, token = '', baseURL = "normal", email = "" }) {
+export var api = async function ({ method = "get", api, isFormData = false, prefixUrl, body, status = false, token = '', baseURL = "normal", email = "" }) {
 	let config = {
 		onUploadProgress: progressEvent => {
 			let percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
@@ -15,10 +15,15 @@ export var api = async function ({ method = "get", api, prefixUrl, body, status 
 
 	return await new Promise((resolve, reject) => {
 		// setting token
-		
-		axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN) === null ? '' : localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN)}`
 
-		axiosInstance[method](`${getMicroServiceURL(baseURL) + api + (!!prefixUrl ?  prefixUrl : "")}`, (body ? body : ""), config).then((response) => {
+		// axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN) === null ? '' : localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN)}`
+		if (isFormData) {
+			axiosInstance.defaults.headers["Content-Type"] = "multipart/form-data"
+		} else {
+			axiosInstance.defaults.headers["Content-Type"] = "application/json"
+		}
+
+		axiosInstance[method](`${getMicroServiceURL(baseURL) + api + (!!prefixUrl ? prefixUrl : "")}`, (body ? body : ""), config).then((response) => {
 			resolve(statusHelper(status, response))
 
 		}).catch((error) => {

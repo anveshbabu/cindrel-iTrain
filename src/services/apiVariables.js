@@ -65,3 +65,17 @@ export const authentication = {
     baseURL: 'normal',
   },
 }
+
+export const moduleOrClassImages = {
+  post: {
+    api: 'postimage',
+    method: 'post',
+    isFormData:true,
+    baseURL: 'normal',
+  },
+  get: {
+    api: 'viewimage',
+    method: 'post',
+    baseURL: 'normal',
+  },
+}

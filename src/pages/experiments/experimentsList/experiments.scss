@@ -1,7 +1,19 @@
 .experiments-list-page{
+  background-color: var(--light-blue) !important;
     .apexcharts-title-text{
         fill: var(--text-gray);
         font-size: 14px;
         font-weight: 600;
       }
+
+        .card{
+            &.light-blue{
+                background-color: var(--light-blue) !important;
+                >.card-body{
+                    background-color: var(--light-blue) !important;
+                }
+            }
+       
+        }
+    
 }

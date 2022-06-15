@@ -7,7 +7,7 @@ import { createModelList, updateModelList } from '../../../../redux/actions/mode
 import { isEmpty, getBase64FromUrl } from '../../../.././services/helperFunctions';
 
 
-export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditData, logoUrl,modalAddFormOpenType }) => {
+export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditData, logoUrl, modalAddFormOpenType }) => {
     const [modalLogoOption, setModalLogoOption] = useState([])
     const [isFormLoader, setIsFormLoader] = useState(false)
     const logoInput = useRef();
@@ -21,7 +21,8 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
     });
 
     useEffect(() => {
-        if (!isEmpty(modelEditData) && !modalAddFormOpenType ) {
+        console.log('modalAddFormOpenType--->',modalAddFormOpenType)
+        if (!isEmpty(modelEditData) && !modalAddFormOpenType) {
             let { Logo = '', ModelId = '', ModelName = '', UserId = '' } = modelEditData
             setModuleObj({
                 model_id: ModelId,
@@ -31,13 +32,13 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
 
             });
             handleLogoTxtHandle()
-        }else{
+        } else {
             setModuleObj({
                 model_name: "",
                 user_id: 2,
                 logo: defaultLogo
-        
-            })  
+
+            })
         }
 
         handleLogoTxtHandle();
@@ -81,10 +82,11 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
 
 
     const handleLogoSelectChange = (value) => {
+        console.log(value)
         if (!!value) {
-            if (value === 'Upload Photo') {
+            if (['Upload Photo','Change Logo'].includes(value)) {
                 logoInput.current.click()
-            } else if (value === 'Remove Photo') {
+            } else if (value === 'Remove Logo') {
                 setModuleObj({ ...moduleObj, logo: defaultLogo })
             }
         }
@@ -97,8 +99,16 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
         const formValid = simpleValidator.current.allValid();
 
         if (formValid) {
+            let reqObj = {...moduleObj}
             setIsFormLoader(true)
-            let apiCall = !isEmpty(modelEditData) ? updateModelList(moduleObj) : createModelList(moduleObj);
+            if (reqObj?.logo === defaultLogo) {
+                reqObj.logo = ''
+            }
+            if(reqObj?.logo?.includes('base64')){
+                reqObj.logo =reqObj.logo.split(';base64,')[1];
+            }
+           
+            let apiCall = !modalAddFormOpenType ? updateModelList(reqObj) : createModelList(reqObj);
             apiCall.then(({ results, count, logo_url }) => {
                 setIsFormLoader(false)
                 if (results.length > 0) {
@@ -128,7 +138,7 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
     }
 
 
-    const handleCloseModal=()=>{
+    const handleCloseModal = () => {
         setModuleObj({
             model_name: "",
             user_id: 2,
@@ -154,8 +164,8 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
 
                                 </div>
                                 <div className='ratio ratio-1x1'>
-                                    {isEmpty(modelEditData) && <img className='card-img ' id="modal-card-img" src={moduleObj.logo} />}
-                                    {!isEmpty(modelEditData) && <LazyLoadImage defaultImage={defaultLogo} alt={moduleObj?.model_name} className='card-img ' id="modal-card-img" src={logoUrl + moduleObj.logo} />}
+                                    {!!modalAddFormOpenType && <img className='card-img ' id="modal-card-img" src={moduleObj.logo} />}
+                                    {!modalAddFormOpenType && <LazyLoadImage defaultImage={defaultLogo} alt={moduleObj?.model_name} className='card-img ' id="modal-card-img" src={logoUrl + moduleObj.logo} />}
                                 </div>
 
 
@@ -166,7 +176,7 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
                     </div>
                     <div className='col-md-12 text-end'>
                         <NormalButton disabled={isFormLoader} label="Cancel" color="secondary" onClick={handleCloseModal} className="me-2 btn-secondary" />
-                        <NormalButton isLoader={isFormLoader} label={`${!isEmpty(modelEditData) ? 'Update' : "Add"} Modal`} onClick={handleFormSubmit} />
+                        <NormalButton isLoader={isFormLoader} label={`${!modalAddFormOpenType ? 'Update' : "Add"} Modal`} onClick={handleFormSubmit} />
 
                     </div>
                 </div>

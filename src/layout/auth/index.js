@@ -7,12 +7,12 @@ export class AuthLayout extends React.Component {
     return (
       <>
         <div className="row">
-          <div className="col-md-6 auth-layout d-flex align-items-center text-center">
+          <div className="col-md-6 auth-layout d-none d-md-flex align-items-center text-center">
             {/* <img src={logo} alt="Logo" /> */}
             <h4>iTrain</h4>
           </div>
           {/* <div className="col-md-6 d-flex align-items-center"> */}
-          <div className="col-md-6 align-self-center">
+          <div className="col-md-6  mx-auto align-self-center">
           <Outlet />
           </div>
         </div>

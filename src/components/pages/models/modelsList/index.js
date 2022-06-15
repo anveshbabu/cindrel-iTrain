@@ -8,9 +8,9 @@ export const ModelsList = ({ modelData = [], fromType = '', modellogoUrl = '', i
     return (
 
         <div className="row">
-            {!isModelLoader && modelData.map(({ Logo, ModelName }, i) =>
+            {!isModelLoader && modelData.map(({ Logo, ModelName ,ModelId}, i) =>
                 <div className="col-md-2  col-sm-3 p-0  modal-card" key={i}>
-                    <div className="card" onClick={()=>onDetailView(modelData[i])} onDoubleClick={() => history.push(`/models/${fromType}/classes`)}>
+                    <div className="card" onClick={()=>onDetailView(modelData[i])} onDoubleClick={() => history.push(`/models/${ModelId}/${fromType}/classes`)}>
                         <div className="card-body ">
                             <div className='ratio ratio-1x1'>
                                 <LazyLoadImage defaultImage={letterAvatar(ModelName, 500, false)} alt={ModelName} className='card-img ' id="modal-card-img" src={`${!!Logo ? modellogoUrl + Logo : ""}`} />

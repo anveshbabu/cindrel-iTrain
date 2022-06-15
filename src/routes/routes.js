@@ -56,13 +56,19 @@ const routers = [
     childrens: [
       {
         component: "ModuleClasses",
-        path: "/:fromType/classes",
+        path: "/:modelId/:fromType/classes",
         auth: false,
         exact: true
       },
       {
         component: "ExperimentsListPage",
-        path: "/:fromType/experiments",
+        path: "/:modelId/:fromType/experiments",
+        auth: false,
+        exact: true
+      },
+      {
+        component: "ExperimentsDetailPage",
+        path: "/:modelId/:fromType/experiments/detail",
         auth: false,
         exact: true
       }
