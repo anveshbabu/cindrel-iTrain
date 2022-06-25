@@ -24,7 +24,7 @@ export const ProductionModels = () => {
   useEffect(() => {
     let reqObj = {
       user_id: 2,
-      user_type: 1,
+      // user_type: 1,
     }
     handleGetModuleDate(reqObj)
 

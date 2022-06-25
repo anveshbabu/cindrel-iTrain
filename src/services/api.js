@@ -16,7 +16,7 @@ export var api = async function ({ method = "get", api, isFormData = false, pref
 	return await new Promise((resolve, reject) => {
 		// setting token
 
-		// axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN) === null ? '' : localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN)}`
+		axiosInstance.defaults.headers.common['Authorization'] = `${localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN) === null ? '' : localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN)}`
 		if (isFormData) {
 			axiosInstance.defaults.headers["Content-Type"] = "multipart/form-data"
 		} else {

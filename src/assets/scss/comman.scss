@@ -44,6 +44,20 @@ html {
   .modal-body {
     min-height: 100vh;
   }
+  
+}
+
+.modal-dialog-bottom-right {
+  right: 10px;
+  bottom: 10px;
+  position: absolute !important;
+  width: 37% !important;
+  bottom: 10px;
+  margin-top: 0 !important;
+  border-radius: 0;
+  .modal-body {
+    min-height: unset;
+  }
 }
 
 .image-text-over-lap {

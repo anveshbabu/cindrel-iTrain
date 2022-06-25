@@ -5,7 +5,7 @@ import TablePagination from '@mui/material/TablePagination';
 import FormData from 'form-data';
 
 import { useParams } from "react-router-dom";
-import { NormalButton, NormalModal, AppFilter, NoDataWrape } from '../../../../common'
+import { NormalButton, NormalModal, AppFilter, NoDataWrape, UploadFilesList } from '../../../../common'
 import { ImageDetails } from './imageDetails'
 import { CONFIG, ALL_BG_PLACEHOLDERS } from '../../../../../services/constants'
 import countriesData from '../../../../../assets/data/countries.json';
@@ -24,6 +24,7 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
     const [imageOverAllCount, setImageOverAllCount] = useState(0);
     const [argumentImagesList, setArgumentImagesList] = useState([]);
     const [isImageLoader, setIsImageLoader] = useState(false);
+    const [imageUploadList, setImageUploadList] = useState(false);
     const [filterData, setFilterDate] = useState([{
         title: "User",
         filterType: "checkBox",
@@ -87,56 +88,47 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
 
 
 
-    const handleChnage =   (event) => {
+    const handleChnage = async (event) => {
         // console.log('data----------->', event.target.files)
         const target = event.target;
         const files = target.files;
         let compressedImages = []
-        
-        Array.from(files).forEach( async file => {
-    
-            await   imageCompressor(file).then((data) => {
-                    compressedImages.push(data)
-    
-                }).catch((e) => {
-    
-                });
-             
-              
+
+        await imageCompressor(files).then((data) => {
+            console.log('data------------>',data)
+            compressedImages = data.map(({ compressed }) => ({ file: compressed?.file, name: compressed?.name, type: compressed?.type,upload:false }));
+            setImageUploadList(compressedImages);
+
+            compressedImages.map((data,i) => {
+                console.log('data------------>', data)
+                handleUploadImages(data?.file,i)
             })
-            // console.log('looping----------->', file)
-        
-    
 
-        console.log('compressedImages------------------>', compressedImages)
-
-        // imageCompressor(e).then((data) => {
-        //     console.log(data)
-        //     console.log(data?.compressed.file)
-        //     console.log('-------->', data?.compressed?.file[0])
-        //     photo.push(e.target.files[0])
-
-        //     handleUploadImages(e.target.files[0])
-        // }).catch((e) => {
-
-        // });
+        }).catch((e) => {
+            console.log('err----------->', e)
+        });
 
 
 
     }
 
 
-    const handleUploadImages = async (body) => {
+    const handleUploadImages = async (body,i) => {
+        console.log('params?.modelId------------->',body)
+        console.log('electedClassObj?.ClassId------------->',selectedClassObj?.ClassId)
+        console.log('userDetail?.UserId------------->',userDetail?.UserId)
         const form = new FormData();
         form.append("photo[]", body);
         form.append("model_id", params?.modelId);
         form.append("class_id", selectedClassObj?.ClassId);
         form.append("user_id", userDetail?.UserId);
         uploadImageModuleOrClass(form).then((data) => {
-
+            imageUploadList[i].upload=true;
+            console.log('sucess------------>', data)
 
         }).catch((e) => {
 
+            imageUploadList[i].upload=false;
         });
     }
     return (
@@ -240,6 +232,10 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
             <NormalModal toggle={handleFilterModal} className='modal-dialog-right modal-xl filter-modal' isShow={isFilterModal}>
                 <AppFilter className='bg-transparent border-0' filterData={filterData} toggle={handleFilterModal} />
             </NormalModal>
+
+            {/* <NormalModal backdrop={'static'} title={`Uploading ${imageUploadList?.length} files`} toggle={handleFilterModal} className='modal-dialog-bottom-right modal-xl filter-modal' isShow={imageUploadList.length > 0}>
+                <UploadFilesList fileList={imageUploadList} />
+            </NormalModal> */}
         </div>
     );
 

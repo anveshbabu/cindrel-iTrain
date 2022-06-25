@@ -16,7 +16,7 @@ export const testApi = {
 export const model = {
   get: {
     api: 'viewmodel',
-    method: 'get',
+    method: 'post',
     baseURL: 'normal',
   },
   create: {
