@@ -37,7 +37,8 @@ export var api = async function ({ method = "get", api, isFormData = false, pref
 
 				} else {
 
-					reject(error)
+					reject(statusHelper(status, error.response))
+
 
 				}
 
@@ -59,6 +60,29 @@ export var api = async function ({ method = "get", api, isFormData = false, pref
 
 
 
+
+export const formDataApi = async ({ method = "get", api, isFormData = false, prefixUrl, body, status = false, token = '', baseURL = "normal", email = "" }) => {
+	try {
+		return await new Promise((resolve, reject) => {
+
+			fetch(`${getMicroServiceURL(baseURL) + api + (!!prefixUrl ? prefixUrl : "")}`, {
+				method,
+				body
+			}).then(response => response.json()).then(async (response) => {
+				console.log('api call end')
+				resolve(statusHelper(status, response))
+
+
+			}).catch((error) => {
+				reject(statusHelper(status, error))
+
+			});
+		})
+
+	} catch (e) {
+
+	}
+}
 
 
 

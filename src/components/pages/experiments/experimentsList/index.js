@@ -10,7 +10,8 @@ export const ExperimentsList = () => {
 
     const handleDetailRoutingPage = () => {
         let modelName = params?.fromType;
-        history.push(`/models/Production/experiments/detail`)
+        let modelId = params?.modelId;
+        history.push(`/models/${modelId}/${modelName}/experiments/detail`)
     }
 
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import TablePagination from '@mui/material/TablePagination';
+import FormData from 'form-data';
 
 import { useParams } from "react-router-dom";
 import { NormalButton, NormalModal, AppFilter, NoDataWrape } from '../../../../common'
@@ -9,7 +10,8 @@ import { ImageDetails } from './imageDetails'
 import { CONFIG, ALL_BG_PLACEHOLDERS } from '../../../../../services/constants'
 import countriesData from '../../../../../assets/data/countries.json';
 import { imageCompressor } from '../../../../../services/imageCompressor';
-import { uploadImageModuleOrClass, getImageImageModuleOrClass } from '../../../../../redux/actions/images'
+import { uploadImageModuleOrClass, getImageImageModuleOrClass } from '../../../../../redux/actions/images';
+import axios from 'axios';
 import './inputMonitor.scss'
 
 export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
@@ -85,43 +87,57 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
 
 
 
-    const handleChnage = (e) => {
-
-        let photo = []
-        imageCompressor(e).then((data) => {
-
-            photo.push(data?.compressed?.file)
-            setUploadImageObject(
-                {
-                    user_id: userDetail?.UserId,
-                    model_id: params?.modelId,
-                    class_id: selectedClassObj?.ClassId,
-                    photo
-                }
-            );
-            handleUploadImages({
-                user_id: userDetail?.UserId,
-                model_id: params?.modelId,
-                class_id: selectedClassObj?.ClassId,
-                photo
+    const handleChnage =   (event) => {
+        // console.log('data----------->', event.target.files)
+        const target = event.target;
+        const files = target.files;
+        let compressedImages = []
+        
+        Array.from(files).forEach( async file => {
+    
+            await   imageCompressor(file).then((data) => {
+                    compressedImages.push(data)
+    
+                }).catch((e) => {
+    
+                });
+             
+              
             })
-        }).catch((e) => {
+            // console.log('looping----------->', file)
+        
+    
 
-        });
+        console.log('compressedImages------------------>', compressedImages)
+
+        // imageCompressor(e).then((data) => {
+        //     console.log(data)
+        //     console.log(data?.compressed.file)
+        //     console.log('-------->', data?.compressed?.file[0])
+        //     photo.push(e.target.files[0])
+
+        //     handleUploadImages(e.target.files[0])
+        // }).catch((e) => {
+
+        // });
 
 
 
     }
 
 
-    const handleUploadImages = (d) => {
-        uploadImageModuleOrClass(d).then((data) => {
+    const handleUploadImages = async (body) => {
+        const form = new FormData();
+        form.append("photo[]", body);
+        form.append("model_id", params?.modelId);
+        form.append("class_id", selectedClassObj?.ClassId);
+        form.append("user_id", userDetail?.UserId);
+        uploadImageModuleOrClass(form).then((data) => {
 
 
         }).catch((e) => {
 
-        })
-
+        });
     }
     return (
         <div className="inputMonitor-continer border-0">
@@ -141,12 +157,22 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
                                     quality={ 75 }
                                     onDone={handlegetFile} 
                                     /> */}
-                                    {/* <input
+
+                                    <input
                                         id={'12356'}
                                         // className={className ? className : null}
                                         type="file"
-                                        onChange={handleChnage} /> */}
+                                        multiple
+                                        name='photo[]'
+                                        onChange={handleChnage} />
                                     {/* <input on={_handleFileCompChange} /> */}
+                                    <form id="formElem">
+                                        <input type="hidden" name="model_id" value="9" />
+                                        <input type="hidden" name="class_id" value="1" />
+                                        <input type="hidden" name="user_id" value="2" />
+
+
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -197,9 +223,9 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
 
                                     </div>
                                 )}
-                              {!isImageLoader &&  imageOverAllList.length ===0 &&  <div className='col-12 nodataWrap-height d-flex justify-content-center align-items-center'>
+                                {!isImageLoader && imageOverAllList.length === 0 && <div className='col-12 nodataWrap-height d-flex justify-content-center align-items-center'>
 
-                                    <NoDataWrape msgText={<span>Currently no image has been added,<br/> Please add image to explore.</span> }  btnLabel={<span><i className="fa-solid fa-arrow-up-from-bracket"></i> Upload</span>}/> 
+                                    <NoDataWrape msgText={<span>Currently no image has been added,<br /> Please add image to explore.</span>} btnLabel={<span><i className="fa-solid fa-arrow-up-from-bracket"></i> Upload</span>} />
                                 </div>}
                             </div>
 
