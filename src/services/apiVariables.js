@@ -31,6 +31,10 @@ export const model = {
     api: 'deletemodel',
     method: 'post',
     baseURL: 'normal',
+  }, trainmodel: {
+    api: 'trainmodel',
+    method: 'get',
+    baseURL: 'normal',
   },
 }
 

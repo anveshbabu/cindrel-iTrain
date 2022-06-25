@@ -1,6 +1,6 @@
 
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import TablePagination from '@mui/material/TablePagination';
 import FormData from 'form-data';
 
@@ -11,7 +11,8 @@ import { CONFIG, ALL_BG_PLACEHOLDERS } from '../../../../../services/constants'
 import countriesData from '../../../../../assets/data/countries.json';
 import { imageCompressor } from '../../../../../services/imageCompressor';
 import { uploadImageModuleOrClass, getImageImageModuleOrClass } from '../../../../../redux/actions/images';
-import axios from 'axios';
+import { trainModelList } from '../../../../../redux/actions/model';
+
 import './inputMonitor.scss'
 
 export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
@@ -24,7 +25,11 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
     const [imageOverAllCount, setImageOverAllCount] = useState(0);
     const [argumentImagesList, setArgumentImagesList] = useState([]);
     const [isImageLoader, setIsImageLoader] = useState(false);
-    const [imageUploadList, setImageUploadList] = useState(false);
+    const [imageUploadList, setImageUploadList] = useState([]);
+    const [imageUploadListNew, setImageUploadListNew] = useState([]);
+    const [isUploadStatus, setIsUploadStatus] = useState(false);
+    const [isTrainLoader, setIsTrainLoader] = useState(false);
+    const imageInput = useRef();
     const [filterData, setFilterDate] = useState([{
         title: "User",
         filterType: "checkBox",
@@ -88,20 +93,19 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
 
 
 
-    const handleChnage = async (event) => {
+    const handleChnage = (event) => {
         // console.log('data----------->', event.target.files)
         const target = event.target;
         const files = target.files;
         let compressedImages = []
 
-        await imageCompressor(files).then((data) => {
-            console.log('data------------>',data)
-            compressedImages = data.map(({ compressed }) => ({ file: compressed?.file, name: compressed?.name, type: compressed?.type,upload:false }));
-            setImageUploadList(compressedImages);
-
-            compressedImages.map((data,i) => {
-                console.log('data------------>', data)
-                handleUploadImages(data?.file,i)
+        imageCompressor(files).then((data) => {
+            compressedImages = data.map(({ compressed }) => ({ file: compressed?.file, name: compressed?.name, type: compressed?.type, upload: "" }));
+            console.log('compressedImages----------------->', compressedImages)
+            setImageUploadList(searches => [...searches, ...compressedImages])
+            setIsUploadStatus(true)
+            compressedImages.map((data, i) => {
+                handleUploadImages(data?.file, i, compressedImages)
             })
 
         }).catch((e) => {
@@ -113,22 +117,45 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
     }
 
 
-    const handleUploadImages = async (body,i) => {
-        console.log('params?.modelId------------->',body)
-        console.log('electedClassObj?.ClassId------------->',selectedClassObj?.ClassId)
-        console.log('userDetail?.UserId------------->',userDetail?.UserId)
+
+    const handleUploadImages = (body, i, imageList) => {
         const form = new FormData();
         form.append("photo[]", body);
         form.append("model_id", params?.modelId);
         form.append("class_id", selectedClassObj?.ClassId);
         form.append("user_id", userDetail?.UserId);
-        uploadImageModuleOrClass(form).then((data) => {
-            imageUploadList[i].upload=true;
-            console.log('sucess------------>', data)
+        uploadImageModuleOrClass(form).then(({ count = 0, results = [] }) => {
+            console.log('results----------->', results)
+            if (results?.length > 0) {
+                setImageOverAllList(results);
+                setImageOverAllCount(count)
+                imageList[i].upload = 'done';
+                setImageUploadList([...imageList]);
+                handleGetImageList()
+            }
 
         }).catch((e) => {
+            imageList[i].upload = 'error';
+            setImageUploadList([...imageList])
+        });
+        // setImageUploadList([...imageUploadList])
+    }
 
-            imageUploadList[i].upload=false;
+
+    const handleCloseUploadeModal = () => {
+        setIsUploadStatus(false);
+        setImageUploadList([]);
+    }
+
+    const handleModalTrain = () => {
+        let body = {
+            model_id: params?.modelId
+        };
+        setIsTrainLoader(true);
+        trainModelList(body).then((data) => {
+            setIsTrainLoader(false)
+        }).catch((e) => {
+            setIsTrainLoader(false)
         });
     }
     return (
@@ -142,8 +169,8 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
                                     <h4 className='title'>{selectedClassObj?.ClassName} </h4>
                                 </div>
                                 <div className='col-md-6 col-sm-6 text-end'>
-                                    <NormalButton label={<span><i className="fa-solid fa-arrow-up-from-bracket"></i> Upload</span>} variant="text" className='me-3' />
-                                    <NormalButton label='Train' />
+                                    <NormalButton onClick={() => imageInput.current.click()} label={<span><i className="fa-solid fa-arrow-up-from-bracket"></i> Upload</span>} variant="text" className='me-3' />
+                                    <NormalButton label='Train' isLoader={isTrainLoader}  onClick={handleModalTrain}/>
                                     {/* <ImageCompressor
                                     scale={ 100 }
                                     quality={ 75 }
@@ -151,20 +178,13 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
                                     /> */}
 
                                     <input
-                                        id={'12356'}
-                                        // className={className ? className : null}
+                                        className='d-none'
                                         type="file"
                                         multiple
                                         name='photo[]'
+                                        ref={imageInput}
                                         onChange={handleChnage} />
-                                    {/* <input on={_handleFileCompChange} /> */}
-                                    <form id="formElem">
-                                        <input type="hidden" name="model_id" value="9" />
-                                        <input type="hidden" name="class_id" value="1" />
-                                        <input type="hidden" name="user_id" value="2" />
 
-
-                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -233,9 +253,9 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
                 <AppFilter className='bg-transparent border-0' filterData={filterData} toggle={handleFilterModal} />
             </NormalModal>
 
-            {/* <NormalModal backdrop={'static'} title={`Uploading ${imageUploadList?.length} files`} toggle={handleFilterModal} className='modal-dialog-bottom-right modal-xl filter-modal' isShow={imageUploadList.length > 0}>
-                <UploadFilesList fileList={imageUploadList} />
-            </NormalModal> */}
+            {/* <NormalModal  title={`Uploading ${imageUploadList?.length} files`} toggle={handleCloseUploadeModal} className='modal-dialog-bottom-right modal-xl filter-modal' isShow={isUploadStatus}> */}
+            {isUploadStatus && <UploadFilesList toggle={handleCloseUploadeModal} fileList={imageUploadList} />}
+            {/* </NormalModal> */}
         </div>
     );
 

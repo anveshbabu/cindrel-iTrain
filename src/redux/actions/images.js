@@ -5,7 +5,6 @@ import { objectToQueryString } from '../../services/helperFunctions'
 
 
 export const uploadImageModuleOrClass = (body) => {
-    console.log('body---------->',body)
    
 
     return new Promise((resolve, reject) => {

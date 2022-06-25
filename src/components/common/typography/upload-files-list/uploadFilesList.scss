@@ -1,6 +1,26 @@
+@import '../../../../assets/scss/abstracts/abstracts-dir.scss';
 .upload-files{
     li{
         background-color: transparent;
         color: var(--text-gray);
+        border-radius: 0 !important;
     }
+}
+.upload-files-container{
+.toast-header{
+    background-color: var(--modal-content);
+    .max-min-btn{
+        font-size: fontSize(21px);
+        opacity: 0.5;
+        &:focus{
+            box-shadow:unset;
+        }
+        &:hover{
+            opacity: 0.75;
+        }
+    }
+}
+.toast-body{
+    background-color: var(--modal-content);
+}
 }

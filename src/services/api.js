@@ -70,8 +70,7 @@ export const formDataApi = async ({ method = "get", api, isFormData = false, pre
 				body
 			}).then(response => response.json()).then(async (response) => {
 				console.log('api call end')
-				resolve(statusHelper(status, response))
-
+				resolve( response)
 
 			}).catch((error) => {
 				reject(statusHelper(status, error))

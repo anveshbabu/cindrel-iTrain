@@ -19,8 +19,7 @@ export const imageCompressor = async (image) => {
                     _fileOnLoad(file, reader).then((data) => {
                         compressedImages.push(data);
                         if (compressedImages.length === Array.from(image).length) {
-                            console.log('compressedImages----------->', compressedImages)
-                            resolve(compressedImages)
+                                                  resolve(compressedImages)
                         }
                         // 
                     }).catch((e) => {
