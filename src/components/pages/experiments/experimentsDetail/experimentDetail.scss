@@ -8,6 +8,35 @@
             font-size: 0.875rem;
             color: var(--text-gray);
             padding: 0;
+
+            .btn-clear{
+                color: var(--text-secondary);
+            }
         }
     }
+
+    .log-iamge{
+        .active-class{
+            color: var(--text-secondary);
+        }
+        .title-text{
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+        .col-form-label{
+            font-size: 1rem;
+            color: var(--text-gray);
+        }
+        .col-form-label-val{
+            font-size: 1rem;
+            color: var(--text-gray);
+            font-weight: normal;
+        }
+    }
+.MuiFormControlLabel-label{
+    color: var(--text-gray);
+}
+}
+.border-hr{
+    color: var(--text-gray);
 }

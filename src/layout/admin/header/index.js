@@ -74,7 +74,7 @@ export const Header = () => {
 
 
         {/* <button className="btn btn-primary" id="menu-toggle">Toggle Menu</button> */}
-        <a className="navbar-brand ms-2 mb-2" href="#">
+        <a className="navbar-brand ms-2 mb-2">
           <img src={require('../../../assets/images/logo.png')} alt="" width="125"/>
         </a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,10 +90,10 @@ export const Header = () => {
               />
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#"><i className="fa-solid fa-bell mt-2" /></a>
+              <a className="nav-link" ><i className="fa-solid fa-bell mt-2" /></a>
             </li>
             <li className="nav-item">
-              <a className="nav-link profile-icon" href="#">Anvesh Balaji <img className="ms-2" src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" /></a>
+              <a className="nav-link profile-icon">Anvesh Balaji <img className="ms-2" src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" /></a>
             </li>
 
           </ul>

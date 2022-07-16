@@ -1,27 +1,28 @@
 {
   "files": {
-    "main.css": "/cindrel-iTrain/static/css/main.608a76d1.css",
-    "main.js": "/cindrel-iTrain/static/js/main.babc5410.js",
-    "static/js/787.ff6e20e1.chunk.js": "/cindrel-iTrain/static/js/787.ff6e20e1.chunk.js",
-    "static/media/fa-solid-900.ttf": "/cindrel-iTrain/static/media/fa-solid-900.79da213423ac0def2058.ttf",
-    "static/media/signin-bg.jpg": "/cindrel-iTrain/static/media/signin-bg.60f51da55fe19935008a.jpg",
-    "static/media/fa-brands-400.ttf": "/cindrel-iTrain/static/media/fa-brands-400.0a1b701f5563c2288281.ttf",
-    "static/media/fa-solid-900.woff2": "/cindrel-iTrain/static/media/fa-solid-900.4896d4b04430cc3dfb06.woff2",
-    "static/media/fa-brands-400.woff2": "/cindrel-iTrain/static/media/fa-brands-400.f77bcc98bb7468c8b15a.woff2",
-    "static/media/fa-regular-400.ttf": "/cindrel-iTrain/static/media/fa-regular-400.15d98c18221c8bcb2334.ttf",
-    "static/media/fa-regular-400.woff2": "/cindrel-iTrain/static/media/fa-regular-400.d79c2ec96ab9ff1161a2.woff2",
-    "static/media/afpInsurance.png": "/cindrel-iTrain/static/media/afpInsurance.5853f0ba58e284ce34f9.png",
-    "static/media/fa-v4compatibility.ttf": "/cindrel-iTrain/static/media/fa-v4compatibility.52eba2c567c521b8d58a.ttf",
-    "static/media/fa-v4compatibility.woff2": "/cindrel-iTrain/static/media/fa-v4compatibility.3d503f89ccaf1b224aa5.woff2",
-    "static/media/delete.svg": "/cindrel-iTrain/static/media/delete.9e7de1c225e216a08d33c666a31c4713.svg",
-    "static/media/sucess.svg": "/cindrel-iTrain/static/media/sucess.2d597af7471ec5fe7d801a127501d669.svg",
-    "index.html": "/cindrel-iTrain/index.html",
-    "main.608a76d1.css.map": "/cindrel-iTrain/static/css/main.608a76d1.css.map",
-    "main.babc5410.js.map": "/cindrel-iTrain/static/js/main.babc5410.js.map",
-    "787.ff6e20e1.chunk.js.map": "/cindrel-iTrain/static/js/787.ff6e20e1.chunk.js.map"
+    "main.css": "/iTrain/static/css/main.355cecc1.css",
+    "main.js": "/iTrain/static/js/main.bbcfc81a.js",
+    "static/js/787.ff6e20e1.chunk.js": "/iTrain/static/js/787.ff6e20e1.chunk.js",
+    "static/media/fa-solid-900.ttf": "/iTrain/static/media/fa-solid-900.79da213423ac0def2058.ttf",
+    "static/media/signin-bg.jpg": "/iTrain/static/media/signin-bg.60f51da55fe19935008a.jpg",
+    "static/media/fa-brands-400.ttf": "/iTrain/static/media/fa-brands-400.0a1b701f5563c2288281.ttf",
+    "static/media/fa-solid-900.woff2": "/iTrain/static/media/fa-solid-900.4896d4b04430cc3dfb06.woff2",
+    "static/media/fa-brands-400.woff2": "/iTrain/static/media/fa-brands-400.f77bcc98bb7468c8b15a.woff2",
+    "static/media/fa-regular-400.ttf": "/iTrain/static/media/fa-regular-400.15d98c18221c8bcb2334.ttf",
+    "static/media/fa-regular-400.woff2": "/iTrain/static/media/fa-regular-400.d79c2ec96ab9ff1161a2.woff2",
+    "static/media/afpInsurance.png": "/iTrain/static/media/afpInsurance.5853f0ba58e284ce34f9.png",
+    "static/media/fa-v4compatibility.ttf": "/iTrain/static/media/fa-v4compatibility.52eba2c567c521b8d58a.ttf",
+    "static/media/fa-v4compatibility.woff2": "/iTrain/static/media/fa-v4compatibility.3d503f89ccaf1b224aa5.woff2",
+    "static/media/delete.svg": "/iTrain/static/media/delete.9e7de1c225e216a08d33c666a31c4713.svg",
+    "static/media/sucess.svg": "/iTrain/static/media/sucess.2d597af7471ec5fe7d801a127501d669.svg",
+    "static/media/noData.svg": "/iTrain/static/media/noData.fff5012ec618ab84ec179d09a3e80268.svg",
+    "index.html": "/iTrain/index.html",
+    "main.355cecc1.css.map": "/iTrain/static/css/main.355cecc1.css.map",
+    "main.bbcfc81a.js.map": "/iTrain/static/js/main.bbcfc81a.js.map",
+    "787.ff6e20e1.chunk.js.map": "/iTrain/static/js/787.ff6e20e1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.608a76d1.css",
-    "static/js/main.babc5410.js"
+    "static/css/main.355cecc1.css",
+    "static/js/main.bbcfc81a.js"
   ]
 }

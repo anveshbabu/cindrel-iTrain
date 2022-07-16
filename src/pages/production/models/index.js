@@ -85,7 +85,7 @@ export const ProductionModels = () => {
       <NormalBreadcrumb className="mb-0" label={params?.fromType} rightSideBtn={true} buttonLabel="Add new" onBtnClick={handleModalAdd} />
 
       <div className='card light-blue row rounded-0 border-0'>
-        <div className='card-body'>
+        <div className={`card-body  ${!isEmpty(modalDetailObj) && 'modal-body-scroll' } `}>
           <div className="row">
             <div className="col-md-6 col-sm-12">
               <h4 className="sub-page-titel mb-4">{modelsCount} Models</h4>

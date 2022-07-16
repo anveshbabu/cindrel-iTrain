@@ -83,3 +83,24 @@ export const moduleOrClassImages = {
     baseURL: 'normal',
   },
 }
+
+
+export const experiments = {
+  viewimages: {
+    api: 'viewtestimages',
+    method: 'post',
+    baseURL: 'normal',
+  },
+  updateTestResults: {
+    api: 'update_test_results',
+    method: 'post',
+    baseURL: 'normal',
+  },
+  updateTestImage: {
+    api: 'upload_test_image',
+    method: 'post',
+    baseURL: 'normal',
+    isFormData:true,
+  },
+}
+
