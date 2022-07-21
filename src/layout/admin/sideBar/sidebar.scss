@@ -1,4 +1,5 @@
 @import "../../../assets/scss/abstracts/abstracts-dir.scss";
+
 #sidebar-wrapper {
     min-height: 100vh;
     margin-left: -15rem;
@@ -8,6 +9,7 @@
     transition: margin 0.25s ease-out;
     background-color: var(--primary-bg);
     z-index: 9;
+
     .sidebar-heading {
         padding: 0.875rem 1.25rem;
         font-size: 1rem;
@@ -21,11 +23,14 @@
         &.main-menu {
             width: 15rem;
         }
+
         .sub-menu {
             border-left: 1px solid rgba(0, 0, 0, 0.125);
         }
+
         .list-group-item {
             background-color: var(--primary-bg);
+
             a {
                 position: relative;
                 display: block;
@@ -35,37 +40,53 @@
                 font-weight: 400;
                 cursor: pointer;
                 text-decoration: unset;
+
                 .sub-menuDropIcon {
                     transition: 0.3s ease-in-out;
                 }
+
                 &.active {
                     color: var(--side-bar-active);
                     font-weight: 600;
                 }
             }
+
+            &.menu-diseable {
+                pointer-events: none;
+            }
         }
     }
 
     &.showIconOnly {
-         background-color: var(--collapse-menu);
+        background-color: var(--collapse-menu);
+
         .list-group {
             &.main-menu {
                 width: fontSize(87px);
             }
+
             .list-group-item {
                 text-align: center;
                 padding: 20px 0;
                 background-color: var(--collapse-menu);
+
                 &.image-model {
                     padding: 21px;
+
                     img {
                         width: 100%;
+                        background-color: #fff9a9 !important;
+                        border: 1px solid #fff9a9 !important;
+                        border-radius: 6px
                     }
                 }
+
                 a {
                     font-size: 1.8rem;
                     color: var(--modal-content);
-                    &.active,&:hover {
+
+                    &.active,
+                    &:hover {
                         color: var(--text-secondary);
                     }
                 }

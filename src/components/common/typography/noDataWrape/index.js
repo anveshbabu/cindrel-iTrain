@@ -5,7 +5,8 @@ export const NoDataWrape = (props) => {
 
     let {
         msgText = '',
-        btnLabel=''
+        btnLabel='',
+        onClick=()=>{}
     } = props;
 
     return (
@@ -18,7 +19,7 @@ export const NoDataWrape = (props) => {
                     <span className='msg-text'>{msgText}</span>
                 </div>
                 <div className='col-12'>
-                <NormalButton label={btnLabel} />
+                <NormalButton label={btnLabel} onClick={onClick}/>
                 </div>
             </div>
 

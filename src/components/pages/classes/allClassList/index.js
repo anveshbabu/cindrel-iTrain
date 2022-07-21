@@ -58,6 +58,7 @@ export const AllClasssList = ({ userDetail = {}, onDeleteSucess, classsList = []
             let apiCall = reqObj.hasOwnProperty('class_id') ? updateClass(reqObj) : createClass(reqObj)
             apiCall.then(({ results, count, logo_url }) => {
                 setIsFormLoader(false)
+                setIsAddClassInput(false)
                 if (results.length > 0) {
                     // onSaveSuccess(results);
                     setClassObject({

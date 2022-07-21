@@ -1,16 +1,24 @@
 import './modelsList.scss'
 import { history } from '../../../../helpers';
 import { LazyLoadImage } from '../../../common';
-import { letterAvatar } from '../../../../services/helperFunctions'
+import { letterAvatar,setStorage } from '../../../../services/helperFunctions'
+import { EXIST_LOCAL_STORAGE } from '../../../../services/constants'
 export const ModelsList = ({ modelData = [], fromType = '', modellogoUrl = '', isModelLoader,onDetailView='' }) => {
 
+
+const handleModuleDbClick=(data)=>{
+    let {ModelId}=data;
+    setStorage(EXIST_LOCAL_STORAGE?.MODULE_DETAIL,JSON.stringify({...data,modellogoUrl}));
+    history.push(`/models/${ModelId}/${fromType}/classes`)
+
+}
 
     return (
 
         <div className="row">
             {!isModelLoader && modelData.map(({ Logo, ModelName ,ModelId}, i) =>
                 <div className="col-md-2  col-sm-3 p-0  modal-card" key={i}>
-                    <div className="card" onClick={()=>onDetailView(modelData[i])} onDoubleClick={() => history.push(`/models/${ModelId}/${fromType}/classes`)}>
+                    <div className="card" onClick={()=>onDetailView(modelData[i])} onDoubleClick={() => handleModuleDbClick(modelData[i]) }>
                         <div className="card-body ">
                             <div className='ratio ratio-1x1'>
                                 <LazyLoadImage defaultImage={letterAvatar(ModelName, 500, false)} alt={ModelName} className='card-img ' id="modal-card-img" src={`${!!Logo ? modellogoUrl + Logo : ""}`} />

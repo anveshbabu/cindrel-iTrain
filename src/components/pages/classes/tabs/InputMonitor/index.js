@@ -237,7 +237,7 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
                                 )}
                                 {!isImageLoader && imageOverAllList.length === 0 && <div className='col-12 nodataWrap-height d-flex justify-content-center align-items-center'>
 
-                                    <NoDataWrape msgText={<span>Currently no image has been added,<br /> Please add image to explore.</span>} btnLabel={<span><i className="fa-solid fa-arrow-up-from-bracket"></i> Upload</span>} />
+                                    <NoDataWrape onClick={() => imageInput.current.click()} msgText={<span>Currently no image has been added,<br /> Please add image to explore.</span>} btnLabel={<span><i className="fa-solid fa-arrow-up-from-bracket"></i> Upload</span>} />
                                 </div>}
                             </div>
 

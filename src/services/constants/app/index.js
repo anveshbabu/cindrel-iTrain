@@ -5,6 +5,7 @@ export const EXIST_LOCAL_STORAGE ={
     USER_ID:'userId',
     IS_KEEP_ME:'isKeepMe',
     THEME_MODE:'themeMode',
+    MODULE_DETAIL:'moduleDetail',
 
 }
 

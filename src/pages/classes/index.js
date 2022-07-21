@@ -65,10 +65,10 @@ export const ModuleClasses = () => {
   const handleSlectedClass=(d)=>{
     setSelectedClassObj(d)
   }
-
+  // [<i className="fa-solid fa-atom me-2 icon-tab-header" title="Dashboard"></i>, 'Input Monitor', 'Train Monitor', 'Trend Analysis', 'Version Management']
   return (
     <div className='classes-page'>
-      <NormalTabs className='header-tab mb-0' data={[<i className="fa-solid fa-atom me-2 icon-tab-header" title="Dashboard"></i>, 'Input Monitor', 'Train Monitor', 'Trend Analysis', 'Version Management']} />
+      <NormalTabs className='header-tab mb-0' data={[<i className="fa-solid fa-atom me-2 icon-tab-header" title="Dashboard"></i>, 'Input Monitor']} />
       <div className='row'>
         <div className='col-md-2 ps-0'>
           <AllClasssList userDetail={userDetail} sendSelectedClassData={handleSlectedClass} onDeleteSucess={handleModalDelete} onlodeActiveclassId={activeclassId} isClassLoader={isClassLoader} classsList={classsList} onSaveSuccess={handleSaveClassSuccess} classsOverAllCount={classsOverAllCount} />

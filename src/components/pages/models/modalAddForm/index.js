@@ -75,6 +75,7 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
         var reader = new FileReader();
         reader.onload = function (e) {
             var logo = e.target.result;
+            console.log('----------->',logo)
             setModuleObj({ ...moduleObj, logo })
         };
         reader.readAsDataURL(file);
@@ -165,7 +166,7 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
                                 </div>
                                 <div className='ratio ratio-1x1'>
                                     {!!modalAddFormOpenType && <img className='card-img ' id="modal-card-img" src={moduleObj.logo} />}
-                                    {!modalAddFormOpenType && <LazyLoadImage defaultImage={defaultLogo} alt={moduleObj?.model_name} className='card-img ' id="modal-card-img" src={logoUrl + moduleObj.logo} />}
+                                    {!modalAddFormOpenType && <LazyLoadImage defaultImage={defaultLogo} alt={moduleObj?.model_name} className='card-img ' id="modal-card-img" src={moduleObj.logo} />}
                                 </div>
 
 

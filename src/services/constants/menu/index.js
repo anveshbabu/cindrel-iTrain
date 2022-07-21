@@ -72,7 +72,7 @@ export const MODULE_MENU = [
         title: "",
         menuItems: [{
             icon: 'fa-solid fa-atom',
-            text: 'Dashboard',
+            text: 'classes',
             url: '/classes'
         }
 
@@ -85,7 +85,7 @@ export const MODULE_MENU = [
         menuItems: [
             {
                 icon: 'fa-solid fa-microchip',
-                text: 'Production',
+                text: 'experiments',
                 url: "/experiments"
             }
 
@@ -98,7 +98,7 @@ export const MODULE_MENU = [
             {
                 icon: 'fa-solid fa-chart-column',
                 text: 'Staging',
-                url: "/models/staging"
+                // url: ""
             }
         ]
 
@@ -110,7 +110,7 @@ export const MODULE_MENU = [
             {
                 icon: 'fa-solid fa-gear',
                 text: 'Sandbox',
-                url: "/models/sandbox"
+                // url: ""
             }
 
         ]
