@@ -9,6 +9,7 @@
 .upload-files-container{
 .toast-header{
     background-color: var(--modal-content);
+    max-height: fontSize(400px);
     .max-min-btn{
         font-size: fontSize(21px);
         opacity: 0.5;

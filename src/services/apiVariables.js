@@ -102,5 +102,10 @@ export const experiments = {
     baseURL: 'normal',
     isFormData:true,
   },
+  getModelExperiments:{
+    api: 'get_model_experiments',
+    method: 'post',
+    baseURL: 'normal',
+  }
 }
 

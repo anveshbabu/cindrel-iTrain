@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'react'
 import ReactApexChart from "react-apexcharts";
 import { useParams } from "react-router-dom";
-import { NormalBreadcrumb,UploadFilesList} from '../../../components/common';
+import { NormalBreadcrumb, UploadFilesList } from '../../../components/common';
 import { ExperimentsList } from '../../../components/pages';
-import { uploadImageModule } from '../../../redux/actions/experiments';
+import { uploadImageModule, getExperimentsList } from '../../../redux/actions/experiments';
 import { imageCompressor } from '../../../services/imageCompressor';
 import './experiments.scss'
 
@@ -11,6 +11,8 @@ export const ExperimentsListPage = () => {
     const params = useParams();
     const imageInput = useRef();
     const [imageUploadList, setImageUploadList] = useState([]);
+    const [experimentsList, setExperimentsList] = useState([]);
+    const [isExperimentLoader, setIsExperimentLoader] = useState(false);
     const [isUploadStatus, setIsUploadStatus] = useState(false);
 
     let series = [{
@@ -18,7 +20,7 @@ export const ExperimentsListPage = () => {
         data: [30, 40, 45, 50, 49, 60, 70, 91]
     }]
     let options = {
-        toolbar: { show:false },
+        toolbar: { show: false },
         chart: {
             type: 'area',
             height: 350,
@@ -61,20 +63,50 @@ export const ExperimentsListPage = () => {
     }
 
 
+    useEffect(()=>{
+        handleGetExpermentsList()
+    },[])
+
+
+
+
+
+
+    const handleGetExpermentsList = () => {
+        let reqObj = {
+            model_id: Number(params?.modelId)
+        }
+        setIsExperimentLoader(true)
+        getExperimentsList(reqObj).then(({ experiments = [], status = '' }) => {
+            setIsExperimentLoader(false)
+            if (experiments?.length > 0) {
+                setExperimentsList([...experiments])
+            }
+
+
+        }).catch((e) => {
+            setIsExperimentLoader(false)
+            console.error(e)
+        });
+    }
+
+
+
+
 
     const handleChnage = (event) => {
         // console.log('data----------->', event.target.files)
         const target = event.target;
         const files = target.files;
-        let compressedImages = []
+        let compressedImages = [];
+        let code =Math.floor(100000 + Math.random() * 900000);
 
         imageCompressor(files).then((data) => {
             compressedImages = data.map(({ compressed }) => ({ file: compressed?.file, name: compressed?.name, type: compressed?.type, upload: "" }));
-            console.log('compressedImages----------------->', compressedImages)
             setImageUploadList(searches => [...searches, ...compressedImages])
             setIsUploadStatus(true)
             compressedImages.map((data, i) => {
-                handleUploadImages(data?.file, i, compressedImages)
+                handleUploadImages(data?.file, i, compressedImages,code)
             })
 
         }).catch((e) => {
@@ -84,14 +116,14 @@ export const ExperimentsListPage = () => {
 
 
     }
-    const handleUploadImages = (body, i, imageList) => {
+    const handleUploadImages = (body, i, imageList,code) => {
         const form = new FormData();
         form.append("photo", body);
         form.append("model", Number(params?.modelId));
+        form.append("experiment_code", code);
         // form.append("class_id", selectedClassObj?.ClassId);
         // form.append("user_id", userDetail?.UserId);
         uploadImageModule(form).then(({ count = 0, results = [] }) => {
-            console.log('results----------->', results)
             imageList[i].upload = 'done';
             setImageUploadList([...imageList]);
 
@@ -111,39 +143,27 @@ export const ExperimentsListPage = () => {
 
     return (
         <div className='experiments-list-page'>
-
-
-
-
-
-            <NormalBreadcrumb className="mb-0" label={<div className='d-flex align-items-end'><i class="fa-solid fa-microchip  title-icon me-4" title="Production"></i> <span>Model Experiments</span>  </div>} rightSideBtn={true} buttonLabel="Add new" onBtnClick={() =>  imageInput.current.click()} />
+            <NormalBreadcrumb className="mb-0" label={<div className='d-flex align-items-end'><i class="fa-solid fa-microchip  title-icon me-4" title="Production"></i> <span>Model Experiments</span>  </div>} rightSideBtn={true} buttonLabel="Add new" onBtnClick={() => imageInput.current.click()} />
             <input
-                                        className='d-none'
-                                        type="file"
-                                        multiple
-                                        name='photo[]'
-                                        ref={imageInput}
-                                        onChange={handleChnage} />
+                className='d-none'
+                type="file"
+                multiple
+                name='photo[]'
+                ref={imageInput}
+                onChange={handleChnage} />
             <div className='card light-blue row rounded-0 border-0'>
                 <div className='card-body'>
                     <div className="row justify-content-end">
-
-
                         <div className="col-md-3 col-sm-12 ">
                             <ReactApexChart className='shadow' options={options} series={series} type="area" height={200} />
                         </div>
                     </div>
-
-
-
                 </div>
-
-
             </div>
 
-            <div className='row mt-3'>
+            <div className='row'>
                 <div className='col-md-12'>
-                    <ExperimentsList />
+                    <ExperimentsList experimentsList={experimentsList} isExperimentLoader={isExperimentLoader} />
 
                 </div>
 

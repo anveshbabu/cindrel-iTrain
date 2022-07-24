@@ -15,7 +15,7 @@ import { trainModelList } from '../../../../../redux/actions/model';
 
 import './inputMonitor.scss'
 
-export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
+export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' ,classsList}) => {
     const filterShowData = countriesData.map(({ name, code }) => ({ value: code, label: name }))
     const params = useParams();
     const [isDetailModal, setIsDetailModal] = useState(false);
@@ -29,6 +29,12 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
     const [imageUploadListNew, setImageUploadListNew] = useState([]);
     const [isUploadStatus, setIsUploadStatus] = useState(false);
     const [isTrainLoader, setIsTrainLoader] = useState(false);
+    const [imageApiReqObj, setImageApiReqObj] = useState({
+        limit:20,
+        offset:20,
+        date_from:"",
+        date_to:""
+    });
     const imageInput = useRef();
     const [filterData, setFilterDate] = useState([{
         title: "User",
@@ -61,9 +67,11 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
 
     const handleGetImageList = () => {
         let reqObj = {
-            user_id: userDetail?.UserId,
-            model_id: 0,
-            class_id: selectedClassObj?.ClassId
+            // user_id: userDetail?.UserId,
+            model_id: params?.modelId,
+            class_id: selectedClassObj?.ClassId,
+            ...imageApiReqObj
+
         }
         setIsImageLoader(true)
         getImageImageModuleOrClass(reqObj).then(({ count = 0, results = [] }) => {
@@ -94,15 +102,13 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
 
 
     const handleChnage = (event) => {
-        // console.log('data----------->', event.target.files)
         const target = event.target;
         const files = target.files;
         let compressedImages = []
 
         imageCompressor(files).then((data) => {
             compressedImages = data.map(({ compressed }) => ({ file: compressed?.file, name: compressed?.name, type: compressed?.type, upload: "" }));
-            console.log('compressedImages----------------->', compressedImages)
-            setImageUploadList(searches => [...searches, ...compressedImages])
+                     setImageUploadList(searches => [...searches, ...compressedImages])
             setIsUploadStatus(true)
             compressedImages.map((data, i) => {
                 handleUploadImages(data?.file, i, compressedImages)
@@ -125,7 +131,6 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
         form.append("class_id", selectedClassObj?.ClassId);
         form.append("user_id", userDetail?.UserId);
         uploadImageModuleOrClass(form).then(({ count = 0, results = [] }) => {
-            console.log('results----------->', results)
             if (results?.length > 0) {
                 setImageOverAllList(results);
                 setImageOverAllCount(count)
@@ -170,7 +175,7 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' }) => {
                                 </div>
                                 <div className='col-md-6 col-sm-6 text-end'>
                                     <NormalButton onClick={() => imageInput.current.click()} label={<span><i className="fa-solid fa-arrow-up-from-bracket"></i> Upload</span>} variant="text" className='me-3' />
-                                    <NormalButton label='Train' isLoader={isTrainLoader}  onClick={handleModalTrain}/>
+                                    <NormalButton label='Train' disabled={!(imageOverAllList?.length >=20 && classsList?.length >=3)} isLoader={isTrainLoader}  onClick={handleModalTrain}/>
                                     {/* <ImageCompressor
                                     scale={ 100 }
                                     quality={ 75 }

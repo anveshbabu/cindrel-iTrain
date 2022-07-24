@@ -54,7 +54,7 @@ componentDidMount(){
         this.setState({ isFormLoder: false })
         if (status  ==='success' && results) {
           Toast({ type: 'success', message: 'You have been sucessfully logged into iTrain', title: 'Success!' })
-          history.push('/models/Production')
+          history.push('/models/sandbox')
         }
       }).catch((error) => {
         this.setState({ isFormLoder: false })

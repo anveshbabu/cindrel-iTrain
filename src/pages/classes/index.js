@@ -74,7 +74,7 @@ export const ModuleClasses = () => {
           <AllClasssList userDetail={userDetail} sendSelectedClassData={handleSlectedClass} onDeleteSucess={handleModalDelete} onlodeActiveclassId={activeclassId} isClassLoader={isClassLoader} classsList={classsList} onSaveSuccess={handleSaveClassSuccess} classsOverAllCount={classsOverAllCount} />
         </div>
         <div className='col-md-10 ps-0'>
-          <InputMonitor userDetail={userDetail}  selectedClassObj={selectedClassObj}/>
+          <InputMonitor userDetail={userDetail} classsList={classsList}  selectedClassObj={selectedClassObj}/>
         </div>
       </div>
 

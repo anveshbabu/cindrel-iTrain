@@ -43,7 +43,7 @@ export const NormalAlert = (props) => {
                     <img className='mb-3' src={handleAlertImage()} />
                     {/* {children} */}
                     <h4 className='alert-title'>{title}</h4>
-                    <p>lorem impulse lorem impulse lorem impulse</p>
+                    {/* <p>lorem impulse lorem impulse lorem impulse</p> */}
                 </div>
                 <div className="modal-footer justify-content-center">
                     <NormalButton disabled={isLoader} onClick={()=>onClick(false)} color="error" label='CANCEL' className='me-3' />

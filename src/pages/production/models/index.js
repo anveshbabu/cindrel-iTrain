@@ -82,7 +82,7 @@ export const ProductionModels = () => {
   return (
     <div className='modal-page'>
 
-      <NormalBreadcrumb className="mb-0" label={params?.fromType} rightSideBtn={true} buttonLabel="Add new" onBtnClick={handleModalAdd} />
+      <NormalBreadcrumb className="mb-0" label={params?.fromType} rightSideBtn={params?.fromType === 'sandbox'} buttonLabel="Add new" onBtnClick={handleModalAdd} />
 
       <div className='card light-blue row rounded-0 border-0'>
         <div className={`card-body  ${!isEmpty(modalDetailObj) && 'modal-body-scroll' } `}>

@@ -2,6 +2,7 @@ import './modelIformation.scss';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
+import moment from 'moment';
 import { NormalProgressbar, NormalButton, NormalAlert } from '../../../common'
 import { deleteModelList } from '../../../../redux/actions/model'
 import { useState } from 'react';
@@ -66,15 +67,15 @@ export const ModelIformation = ({ modelData = {}, onEditForm = '', onDeleteSuces
                     <tbody>
                         <tr>
                             <td>Total Classes:</td>
-                            <td>13</td>
+                            <td>{modelData?.TotalClass}</td>
                         </tr>
                         <tr>
                             <td>No. of Images:</td>
-                            <td>2,200</td>
+                            <td>{modelData?.ImageCount}</td>
                         </tr>
                         <tr>
                             <td>Size on Disk:</td>
-                            <td>2.32 GB</td>
+                            <td>{modelData?.SizeOnDisk}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -86,16 +87,16 @@ export const ModelIformation = ({ modelData = {}, onEditForm = '', onDeleteSuces
                     <tbody>
                         <tr>
                             <td>Experiments Completed:</td>
-                            <td>13</td>
+                            <td>{modelData?.ExperimentsCompleted}</td>
                         </tr>
                         <tr>
                             <td>Images used for Experiment:</td>
-                            <td>2,200</td>
+                            <td>{modelData?.ExperimentsImageCount}</td>
                         </tr>
-                        <tr>
+                        {/* <tr>
                             <td>Avg. Execution Time:</td>
                             <td>2.32 GB</td>
-                        </tr>
+                        </tr> */}
                     </tbody>
                 </table>
 
@@ -105,19 +106,19 @@ export const ModelIformation = ({ modelData = {}, onEditForm = '', onDeleteSuces
                     <tbody>
                         <tr>
                             <td>First Created:</td>
-                            <td>12 Jan 2022</td>
+                            <td>{moment(modelData?.DateAdded).format('DD MMM YYYY')}</td>
                         </tr>
                         <tr>
                             <td>Last Active:</td>
-                            <td>20 Apr 2022</td>
+                            <td>{moment(modelData?.DateModified).format('DD MMM YYYY')}</td>
                         </tr>
                         <tr>
                             <td>Created By:</td>
-                            <td>Robin D</td>
+                            <td>{modelData?.UserName}</td>
                         </tr>
                         <tr>
                             <td>Last Modified By:</td>
-                            <td>Robin D</td>
+                            <td>{modelData?.ModifiedByUser}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -127,12 +128,12 @@ export const ModelIformation = ({ modelData = {}, onEditForm = '', onDeleteSuces
                 {/* <h4 className='title-page'>AFP Insurance</h4> */}
                 <div className='row '>
                     <div className='col-md-4'>
-                        <label className='progress-bar-label'>Last Experiment <span>83% Correct</span></label>
-                        <NormalProgressbar className='model-progress mb-3' />
+                        <label className='progress-bar-label'>Last Experiment <span>{modelData?.LastExperimentPercentage}% Correct</span></label>
+                        <NormalProgressbar value={modelData?.LastExperimentPercentage}  className='model-progress mb-3' />
                     </div>
                     <div className='col-md-4'>
-                        <label className='progress-bar-label'>Avg. Prediction <span>79% Correct</span></label>
-                        <NormalProgressbar className='model-progress mb-3' />
+                        <label className='progress-bar-label'>Avg. Prediction <span>{modelData?.AveragePredictionPercentage}% Correct</span></label>
+                        <NormalProgressbar value={modelData?.AveragePredictionPercentage} className='model-progress mb-3' />
                     </div>
                 </div>
 
