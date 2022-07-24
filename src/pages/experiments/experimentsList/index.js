@@ -151,7 +151,7 @@ export const ExperimentsListPage = () => {
                 name='photo[]'
                 ref={imageInput}
                 onChange={handleChnage} />
-            <div className='card light-blue row rounded-0 border-0'>
+            {/* <div className='card light-blue row rounded-0 border-0'>
                 <div className='card-body'>
                     <div className="row justify-content-end">
                         <div className="col-md-3 col-sm-12 ">
@@ -159,7 +159,7 @@ export const ExperimentsListPage = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <div className='row'>
                 <div className='col-md-12'>

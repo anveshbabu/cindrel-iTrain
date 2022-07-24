@@ -68,7 +68,7 @@ const routers = [
       },
       {
         component: "ExperimentsDetailPage",
-        path: "/:modelId/:fromType/experiments/detail",
+        path: "/:modelId/:fromType/experiments/:experimentId/detail",
         auth: false,
         exact: true
       }
@@ -76,6 +76,25 @@ const routers = [
 
     ]
   },
+
+
+
+  {
+    component: "Adminlayout",
+    path: "/users",
+    auth: false,
+    exact: false,
+    childrens: [
+      {
+        component: "Users",
+        path: "/",
+        auth: false,
+        exact: true
+      }
+
+    ]
+  },
+
 
   
 

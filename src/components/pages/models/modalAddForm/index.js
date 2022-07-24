@@ -176,7 +176,7 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
 
                     </div>
                     <div className='col-md-12 text-end'>
-                        <NormalButton disabled={isFormLoader} label="Cancel" color="secondary" onClick={handleCloseModal} className="me-2 btn-secondary" />
+                        <NormalButton disabled={isFormLoader} label="Cancel" color="error" onClick={handleCloseModal} className="me-2 btn-secondary" />
                         <NormalButton isLoader={isFormLoader} label={`${!modalAddFormOpenType ? 'Update' : "Add"} Modal`} onClick={handleFormSubmit} />
 
                     </div>

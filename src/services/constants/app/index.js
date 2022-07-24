@@ -6,8 +6,14 @@ export const EXIST_LOCAL_STORAGE ={
     IS_KEEP_ME:'isKeepMe',
     THEME_MODE:'themeMode',
     MODULE_DETAIL:'moduleDetail',
+    EXPERIMENT_DETAIL:'experimentDetail',
 
 }
+
+export const USER_TYPE=[
+    { value: 1, label: 'Admin' },
+    { value: 2 , label: 'User' },
+]
 
 
 export const CONFIG ={

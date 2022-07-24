@@ -16,6 +16,12 @@ export const MENU = [
                     text: 'Train',
                 }
             ]
+        },
+        {
+            icon: 'fa-solid fa-user',
+            text: 'Users',
+            url:'/users'
+   
         }
 
         ]

@@ -46,7 +46,7 @@ export const objectToQueryString = (params) => {
      */
 
 
-export const letterAvatar = (name, size, colour) => {
+export const letterAvatar = (name, size, colour=true) => {
 
   name = name || '';
   size = size || 60;

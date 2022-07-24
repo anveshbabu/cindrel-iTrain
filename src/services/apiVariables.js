@@ -70,6 +70,19 @@ export const authentication = {
   },
 }
 
+export const user = {
+  create: {
+    api: '/createuser',
+    method: 'post',
+    baseURL: 'normal',
+  },
+  getusers: {
+    api: '/getusers',
+    method: 'get',
+    baseURL: 'normal',
+  },
+}
+
 export const moduleOrClassImages = {
   post: {
     api: 'postimage',

@@ -49,7 +49,8 @@ export const ExperimentsDetail = () => {
         let { UserId } = JSON.parse(getStorage(EXIST_LOCAL_STORAGE.USER_DETAIL));
         let body = {
             user_id: UserId,
-            model_id: Number(params?.modelId)
+            model_id: Number(params?.modelId),
+            experiment_id: Number(params?.experimentId)
         }
         setImagesList([])
         setIsImageLoader(true)
@@ -164,7 +165,7 @@ export const ExperimentsDetail = () => {
                     <div className='row'>
                         {imagesList.map(({ image_path }, i) =>
 
-                            <div className='col-md-3 mb-3' key={i}>
+                            <div className={!isEmpty(classificationDetail) ? 'col-md-3 mb-3' : "col-md-2 mb-3"} key={i}>
                                 <div className="ratio ratio-1x1">
                                     <img className="img-fluid" onClick={() => handleDetailTestImage(imagesList[i])} src={CONFIG.API_URL + image_path} />
                                 </div>
