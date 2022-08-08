@@ -24,6 +24,7 @@ export const ExperimentsDetail = () => {
     const [isClassCorrect, setIsClassCorrect] = useState('Yes');
     const [correctedClassId, setCorrectedClassId] = useState('Yes');
     const [filterSelectedVal, setFilterSelectedVal] = useState('');
+    const [isClassFormLoader, setIsClassFormLoader] = useState(false);
 
 
     useEffect(() => {
@@ -60,7 +61,7 @@ export const ExperimentsDetail = () => {
                 if (!isEmpty(classificationDetail)) {
                     let res = tests.find(({ id }) => id === classificationDetail?.id)
                     setClassificationDetail(res)
-                   
+
                 }
                 setImagesList(tests)
                 setFilterImagesList(tests)
@@ -75,8 +76,15 @@ export const ExperimentsDetail = () => {
     }
 
     const handleDetailTestImage = (data) => {
-        setClassificationDetail(data)
-        setCorrectedClassId(data?.corrected_class_id)
+        setClassificationDetail(data);
+
+        setIsClassCorrect('Yes')
+        if(!!data?.corrected_class_id){
+            setCorrectedClassId(data?.corrected_class_id)
+        }else{
+            setCorrectedClassId(data?.class_id)
+        }
+       
     }
 
 
@@ -99,12 +107,12 @@ export const ExperimentsDetail = () => {
             ],
             model_id: params?.modelId,
         };
-        console.log('req------------->', req)
+        setIsClassFormLoader(true)
         changeClassForetestImage(req).then(({ count, results }) => {
-            // setIsClassLoader(false)
+            setIsClassFormLoader(false)
             handleGetExperimentImages();
         }).catch((error) => {
-            // setIsClassLoader(false)
+            setIsClassFormLoader(false)
         })
 
     }
@@ -125,7 +133,7 @@ export const ExperimentsDetail = () => {
             res = filterImagesList.filter(({ Reviewed, correct }) => Reviewed === false)
 
         }
-        console.log('res------------>',res,filterImagesList)
+        console.log('res------------>', res, filterImagesList)
         setImagesList(res)
 
     }
@@ -163,11 +171,19 @@ export const ExperimentsDetail = () => {
             <div className='row'>
                 <div className={!isEmpty(classificationDetail) ? 'col-md-7' : "col-md-12"}>
                     <div className='row'>
-                        {imagesList.map(({ image_path }, i) =>
+                        {imagesList.map(({ image_path,Reviewed }, i) =>
 
                             <div className={!isEmpty(classificationDetail) ? 'col-md-3 mb-3' : "col-md-2 mb-3"} key={i}>
-                                <div className="ratio ratio-1x1">
-                                    <img className="img-fluid" onClick={() => handleDetailTestImage(imagesList[i])} src={CONFIG.API_URL + image_path} />
+                                <div className="ratio ratio-1x1" onClick={() => handleDetailTestImage(imagesList[i])}>
+                                    <div class="card bg-transprant text-white">
+                                        <img className="img-fluid card-img h-100"   src={CONFIG.API_URL + image_path} />
+                                        <div class="card-img-overlay" title={`${Reviewed && 'Reviewed' }`}>
+                                       {Reviewed && <CheckCircle color="success"  /> } 
+                                            {/* <h5 class="card-title">Card title</h5> */}
+                                           
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         )}
@@ -200,10 +216,10 @@ export const ExperimentsDetail = () => {
                                         </div>
                                         <div className='col-md-6'>
 
-                                            <Normalselect label='Class' disabled={isClassCorrect === 'Yes'} value={correctedClassId } onChange={handleClassChangeTestImage} options={classsList} size="small" />
+                                            <Normalselect label='Class' disabled={isClassCorrect === 'Yes'} value={correctedClassId} onChange={handleClassChangeTestImage} options={classsList} size="small" />
                                         </div>
                                         <div className='col-md-12 text-end'>
-                                            <NormalButton label='Save' size="small" disabled={isClassCorrect === 'Yes'} onClick={updateTestCorectedClass} />
+                                            <NormalButton label='Save' size="small" isLoader={isClassFormLoader} onClick={updateTestCorectedClass} />
                                             <NormalButton className='ms-2 btn-danger' color='error' label='Clear' size="small" />
                                         </div>
                                     </div>
@@ -213,11 +229,11 @@ export const ExperimentsDetail = () => {
                                 <div className='col-md-12 log-iamge mb-3'>
                                     {classificationDetail?.correct ? <CheckCircle color="success" className='float-end' /> : <CloseOutlined color="error" className='float-end' />}
 
-                                    <h4 className='title-text'>Machine Detected </h4>
+                                    <h4 className='title-text'>Model Prediction</h4>
                                     <div className="form-group row">
                                         <label for="staticEmail" className="col-sm-3 col-form-label">Class</label>
                                         <div className="col-sm-9">
-                                            <label for="staticEmail" className="col-form-label col-form-label-val">{classificationDetail?.ClassificationName}</label>
+                                            <label for="staticEmail" className="col-form-label col-form-label-val">{classificationDetail?.ClassName}</label>
                                         </div>
                                     </div>
                                     <div className="form-group row">
@@ -232,17 +248,19 @@ export const ExperimentsDetail = () => {
 
 
                                 <div className='col-md-12 log-iamge'>
+                                    <hr className='border-hr' />
                                     <h4 className='title-text mb-0 float-left'>User Actions</h4>
                                     <CheckCircle color="success" className='float-end' />
                                 </div>
-                                {classificationDetail?.corrections?.map(({ firstname, lastname, ClassificationName, corected_class_name, date_modified }) =>
+                                {classificationDetail?.corrections?.map(({ firstname, lastname, ClassName, corected_class_name, date_modified }, i) =>
                                     <div className='col-md-12 log-iamge mb-3'>
                                         {/* <IconButton color="primary" aria-label="upload picture" component="span"> */}
                                         {/* <CheckCircle color="success" className='float-end' /> */}
                                         {/* </IconButton> */}
-                                        <hr className='border-hr' />
+                                        {i !== 0 && <hr className='border-hr' />}
+
                                         <div className="form-group row">
-                                            <label for="staticEmail" className="col-sm-12 col-form-label">{firstname} {lastname} modified the input from class <span className='active-class'>{ClassificationName}</span> to class <span className='active-class'>{corected_class_name}</span> on  {moment(date_modified).format('DD MM YYYY, h:mm:ss a')}</label>
+                                            <label for="staticEmail" className="col-sm-12 col-form-label">{firstname} {lastname} modified the input from class <span className='active-class'>{ClassName}</span> to class <span className='active-class'>{corected_class_name}</span> on  {moment(date_modified).format('DD MM YYYY, h:mm:ss a')}</label>
                                             {/* <label for="staticEmail" className="col-sm-3 col-form-label">User Name</label>
                                             <div className="col-sm-9">
                                                 <label for="staticEmail" className="col-form-label col-form-label-val">{firstname} {lastname}</label>

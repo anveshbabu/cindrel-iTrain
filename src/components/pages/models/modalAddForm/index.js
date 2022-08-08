@@ -28,7 +28,7 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
                 model_id: ModelId,
                 model_name: ModelName,
                 user_id: UserId,
-                logo: getBase64FromUrl(logoUrl + Logo)
+                logo: (logoUrl + Logo)
 
             });
             handleLogoTxtHandle()
@@ -101,14 +101,20 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
 
         if (formValid) {
             let reqObj = {...moduleObj}
-            setIsFormLoader(true)
+            setIsFormLoader(true);
+            console.log('--------------')
             if (reqObj?.logo === defaultLogo) {
                 reqObj.logo = ''
             }
             if(reqObj?.logo?.includes('base64')){
                 reqObj.logo =reqObj.logo.split(';base64,')[1];
+            }else{
+                reqObj.logo = getBase64FromUrl(reqObj?.logo);
+                console.log(reqObj.logo,'-========')
+
+                // reqObj.logo =reqObj?.logo.split(';base64,')[1];
             }
-           
+           console.log('!modalAddFormOpenType ------------>',!modalAddFormOpenType )
             let apiCall = !modalAddFormOpenType ? updateModelList(reqObj) : createModelList(reqObj);
             apiCall.then(({ results, count, logo_url }) => {
                 setIsFormLoader(false)
@@ -123,6 +129,7 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
                 }
 
             }).catch((error) => {
+                console.log('--------------')
                 setIsFormLoader(false)
             })
         } else {

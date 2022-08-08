@@ -18,9 +18,9 @@ export const NoDataWrape = (props) => {
                 <div className='col-12 mb-4'>
                     <span className='msg-text'>{msgText}</span>
                 </div>
-                <div className='col-12'>
+             {!!btnLabel  && <div className='col-12'>
                 <NormalButton label={btnLabel} onClick={onClick}/>
-                </div>
+                </div>}
             </div>
 
 

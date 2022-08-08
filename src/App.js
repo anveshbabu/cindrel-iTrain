@@ -1,3 +1,4 @@
+
 import './App.scss';
 import AllRoutes from "./routes";
 import 'bootstrap-daterangepicker/daterangepicker.css';
@@ -7,8 +8,11 @@ import { EXIST_LOCAL_STORAGE } from './services/constants'
 import { ReactNotifications } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import { ThemeModeProvider } from './components/common';
+import { getStorage } from './services/helperFunctions';
+import { history } from './helpers/';
 function App() {
 
+  
 
 
   return (

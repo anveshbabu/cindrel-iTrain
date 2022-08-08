@@ -41,6 +41,7 @@ export function NormalDropDown(props) {
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
                 variant={variant}
+                className={className}
             >
                 {label}
             </Button>

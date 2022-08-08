@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom";
 
 
-import { NormalBreadcrumb, NormalButton, NormalModal } from '../../../components/common';
+import { NormalBreadcrumb, NormalButton, NormalModal,NoDataWrape } from '../../../components/common';
 import { ModelsList, ModelIformation, ModalAddForm } from '../../../components/pages';
 import { getModelList } from '../../../redux/actions/model';
 import { isEmpty, removeDuplicateArray } from '../../../services/helperFunctions'
@@ -88,11 +88,13 @@ export const ProductionModels = () => {
         <div className={`card-body  ${!isEmpty(modalDetailObj) && 'modal-body-scroll' } `}>
           <div className="row">
             <div className="col-md-6 col-sm-12">
-              <h4 className="sub-page-titel mb-4">{modelsCount} Models</h4>
+              <h4 className="sub-page-titel mb-4">{params?.fromType === 'sandbox'?modelsCount:0} Models</h4>
             </div>
 
             <div className="col-md-12 col-sm-12 mb-5 px-5">
-              <ModelsList onDetailView={handleGetDetailView} isModelLoader={isModelLoader} modellogoUrl={modellogoUrl} modelData={modelsList} fromType={params?.fromType} />
+          {params?.fromType === 'sandbox' ? <ModelsList onDetailView={handleGetDetailView} isModelLoader={isModelLoader} modellogoUrl={modellogoUrl} modelData={modelsList} fromType={params?.fromType} />:<NoDataWrape msgText="No Module found"/>}
+           
+           
             </div>
           </div>
 
@@ -103,7 +105,7 @@ export const ProductionModels = () => {
 
       </div>
 
-      {!isEmpty(modalDetailObj) && <div className='row'>
+      {!isEmpty(modalDetailObj) && params?.fromType === 'sandbox'  && <div className='row'>
         <div className='col-md-12 col-sm-12'>
           <ModelIformation onDeleteSucess={handleModalDelete} logoUrl={modellogoUrl} modelData={{ ...modalDetailObj }} onEditForm={handleModalEditOpen} />
         </div>

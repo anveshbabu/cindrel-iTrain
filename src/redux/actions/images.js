@@ -50,4 +50,29 @@ export const getImageImageModuleOrClass = (reqObj) => {
     })
 }
 
+export const deleteImageImageModuleOrClass = (body) => {
+
+    return new Promise((resolve, reject) => {
+        api({ ...moduleOrClassImages.delete, body }).then((data) => {
+            Toast({ type: 'success', message: 'Image sucessfully Deleted', title: 'Success!' })
+            resolve(data)
+        }).catch(({ erroe: { message = '' } }) => {
+            if (!!message) {
+                Toast({ type: 'danger', message: message, title: 'Error' })
+            } else {
+                Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
+            }
+            reject(message)
+
+
+        })
+
+
+
+
+    })
+}
+
+
+
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NormalBreadcrumb, NormalButton, NormalProgressbar } from '../../../components/common';
 import { ExperimentsDetail } from '../../../components/pages';
-import { getStorage } from '../../../services/helperFunctions';
+import { getStorage ,setStorage} from '../../../services/helperFunctions';
 import { EXIST_LOCAL_STORAGE, CONFIG } from '../../../services/constants';
 import './experimentDetails.scss'
 
@@ -15,6 +15,11 @@ export const ExperimentsDetailPage = () => {
         let experimentsDetail = getStorage(EXIST_LOCAL_STORAGE.EXPERIMENT_DETAIL);
         ;
         setExperimentsDetail(JSON.parse(experimentsDetail));
+
+
+        return()=>{
+            setStorage(EXIST_LOCAL_STORAGE.EXPERIMENT_DETAIL,'')
+        }
 
     }, [])
     return (
@@ -32,8 +37,8 @@ export const ExperimentsDetailPage = () => {
 
                             <div className='row mb-2'>
                                 <div className='col-md-4 text-center'>
-                                    <h4 className='experiment-count mb-0'>{experimentsDetail?.count}</h4>
-                                    <span className='experiment-timeAndDate'>Tested Images</span>
+                                    <h4 className='experiment-count mb-0'>{experimentsDetail?.uploaded}</h4>
+                                    <span className='experiment-timeAndDate'>Upload Images</span>
                                 </div>
                                 <div className='col-md-4 text-center'>
                                     <h4 className='experiment-count mb-0'>{experimentsDetail?.correct}</h4>

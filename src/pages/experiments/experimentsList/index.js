@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import ReactApexChart from "react-apexcharts";
 import { useParams } from "react-router-dom";
-import { NormalBreadcrumb, UploadFilesList } from '../../../components/common';
+import { NormalBreadcrumb, UploadFilesList, NoDataWrape } from '../../../components/common';
 import { ExperimentsList } from '../../../components/pages';
 import { uploadImageModule, getExperimentsList } from '../../../redux/actions/experiments';
 import { imageCompressor } from '../../../services/imageCompressor';
@@ -63,9 +63,9 @@ export const ExperimentsListPage = () => {
     }
 
 
-    useEffect(()=>{
+    useEffect(() => {
         handleGetExpermentsList()
-    },[])
+    }, [])
 
 
 
@@ -95,18 +95,20 @@ export const ExperimentsListPage = () => {
 
 
     const handleChnage = (event) => {
-        // console.log('data----------->', event.target.files)
+
         const target = event.target;
         const files = target.files;
         let compressedImages = [];
-        let code =Math.floor(100000 + Math.random() * 900000);
-
+        let code = Math.floor(100000 + Math.random() * 900000);
+        console.log('data----------->', code)
         imageCompressor(files).then((data) => {
             compressedImages = data.map(({ compressed }) => ({ file: compressed?.file, name: compressed?.name, type: compressed?.type, upload: "" }));
-            setImageUploadList(searches => [...searches, ...compressedImages])
+            console.log('compressedImages------------>', compressedImages)
+            setImageUploadList(searches => [...searches, ...compressedImages]);
+
             setIsUploadStatus(true)
             compressedImages.map((data, i) => {
-                handleUploadImages(data?.file, i, compressedImages,code)
+                handleUploadImages(data?.file, i, compressedImages, code)
             })
 
         }).catch((e) => {
@@ -116,7 +118,7 @@ export const ExperimentsListPage = () => {
 
 
     }
-    const handleUploadImages = (body, i, imageList,code) => {
+    const handleUploadImages = (body, i, imageList, code) => {
         const form = new FormData();
         form.append("photo", body);
         form.append("model", Number(params?.modelId));
@@ -126,6 +128,9 @@ export const ExperimentsListPage = () => {
         uploadImageModule(form).then(({ count = 0, results = [] }) => {
             imageList[i].upload = 'done';
             setImageUploadList([...imageList]);
+            if (imageList?.length - 1 === i) {
+                handleGetExpermentsList()
+            }
 
         }).catch((e) => {
             imageList[i].upload = 'error';
@@ -162,10 +167,17 @@ export const ExperimentsListPage = () => {
             </div> */}
 
             <div className='row'>
-                <div className='col-md-12'>
-                    <ExperimentsList experimentsList={experimentsList} isExperimentLoader={isExperimentLoader} />
 
-                </div>
+                {!isExperimentLoader && experimentsList.length === 0 ? <div className='col-12 nodataWrap-height d-flex justify-content-center align-items-center'>
+
+                    <NoDataWrape onClick={() => imageInput.current.click()} msgText={<span>Currently no experiments has been added,<br /> Please add new to explore.</span>} btnLabel={<span>Add New</span>} />
+                </div> :
+
+                    <div className='col-md-12 mt-3'>
+                        <ExperimentsList experimentsList={experimentsList} isExperimentLoader={isExperimentLoader} />
+
+                    </div>
+                }
 
             </div>
             {isUploadStatus && <UploadFilesList toggle={handleCloseUploadeModal} fileList={imageUploadList} />}

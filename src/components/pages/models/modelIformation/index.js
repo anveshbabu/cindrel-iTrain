@@ -7,6 +7,13 @@ import { NormalProgressbar, NormalButton, NormalAlert } from '../../../common'
 import { deleteModelList } from '../../../../redux/actions/model'
 import { useState } from 'react';
 
+import FormLabel from '@mui/material/FormLabel';
+import FormControl from '@mui/material/FormControl';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormHelperText from '@mui/material/FormHelperText';
+import Switch from '@mui/material/Switch';
+
 export const ModelIformation = ({ modelData = {}, onEditForm = '', onDeleteSucess }) => {
     const [isDeleteModal, setIsDeleteModal] = useState(false)
     const [isFormLoader, setIsFormLoader] = useState(false)
@@ -48,8 +55,14 @@ export const ModelIformation = ({ modelData = {}, onEditForm = '', onDeleteSuces
                         <h4 className='title-page'>{modelData?.ModelName}</h4>
                     </div>
                     <div className='col-md-6 col-xs-12 text-end'>
-                        {/* <IconButton  label='Edit' size="small"  endIcon={<DeleteIcon />}/> */}
-
+                        <FormControlLabel
+                        className='module-type-change'
+                            control={
+                                <Switch onChange={() => { }} name="gilad" />
+                            }
+                            label="Move to Staging"
+                        />
+                       
                         <IconButton aria-label="delete" color="success" onClick={onEditForm}>
                             <EditIcon />
                         </IconButton>
@@ -67,7 +80,7 @@ export const ModelIformation = ({ modelData = {}, onEditForm = '', onDeleteSuces
                     <tbody>
                         <tr>
                             <td>Total Classes:</td>
-                            <td>{modelData?.TotalClass}</td>
+                            <td>{modelData?.TotalClassCount}</td>
                         </tr>
                         <tr>
                             <td>No. of Images:</td>
@@ -129,7 +142,7 @@ export const ModelIformation = ({ modelData = {}, onEditForm = '', onDeleteSuces
                 <div className='row '>
                     <div className='col-md-4'>
                         <label className='progress-bar-label'>Last Experiment <span>{modelData?.LastExperimentPercentage}% Correct</span></label>
-                        <NormalProgressbar value={modelData?.LastExperimentPercentage}  className='model-progress mb-3' />
+                        <NormalProgressbar value={modelData?.LastExperimentPercentage} className='model-progress mb-3' />
                     </div>
                     <div className='col-md-4'>
                         <label className='progress-bar-label'>Avg. Prediction <span>{modelData?.AveragePredictionPercentage}% Correct</span></label>

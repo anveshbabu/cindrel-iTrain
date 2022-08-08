@@ -29,6 +29,7 @@ export const changeClassForetestImage = (body) => {
 
     return new Promise((resolve, reject) => {
         api({ ...experiments.updateTestResults,body }).then((data) => {
+            Toast({ type: 'success', message: data?.message, title: 'success' })
             resolve(data)
         }).catch(({ erroe: { message = '' } }) => {
             if (!!message) {

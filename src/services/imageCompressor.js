@@ -1,7 +1,9 @@
 import base64toblob from 'base64toblob';
+import {Toast} from '../services/toast'
 
 
 export const imageCompressor = async (image) => {
+    console.log('image------------>',image)
     // file = '';  result = '';
     return await new Promise((resolve, reject) => {
 
@@ -10,13 +12,18 @@ export const imageCompressor = async (image) => {
             // If There's no file choosen
             Array.from(image).forEach(async file => {
                 if (!file) return false
-                let type = file.type
+                let type = file.type;
                 let valid = type.indexOf("image") !== -1
-                if (!valid) throw "File Type Is Not Supported. Upload an image instead";
+                if (!valid){
+                    Toast({ type: 'danger', message: `${file?.name} Sory, File Type Is Not Supported. Upload an image instead`, title: 'Error' })
+                    throw "File Type Is Not Supported. Upload an image instead";
+                  
+                } 
                 let reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onload = function (e) {
                     _fileOnLoad(file, reader).then((data) => {
+                        console.log('data------->',data)
                         compressedImages.push(data);
                         if (compressedImages.length === Array.from(image).length) {
                                                   resolve(compressedImages)
@@ -74,7 +81,7 @@ const _fileOnLoad = async (file, reader) => {
                 file: file
             }
             let result = fileinfo;
-            // console.log('result-------------->', result)
+            console.log('result-------------->', result)
             _drawImage(result).then((data) => {
                 resolve(data)
             }).catch((e) => {

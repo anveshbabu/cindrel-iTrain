@@ -56,7 +56,7 @@ export const Sidebar = ({ isOnlyIcon = false }) => {
         )}
         {isOnlyIcon && <li className="list-group-item list-group-item-action  border-0 image-model" title='Back to module'  >
           {/* <img src={require('../../../assets/images/afpInsurance.png')} /> */}
-          <Link to='/models/Production'>
+          <Link to='/models/sandbox'>
           <LazyLoadImage defaultImage={letterAvatar(moduleDetail?.ModelName, 500, false)} alt={moduleDetail?.ModelName} src={`${!!moduleDetail?.Logo ? moduleDetail?.modellogoUrl + moduleDetail?.Logo : ""}`} />
           </Link>
          

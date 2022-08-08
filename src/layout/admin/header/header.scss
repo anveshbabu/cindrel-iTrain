@@ -17,10 +17,15 @@
         font-weight: 400 !important;
         cursor: pointer;
         text-decoration: unset;
+        text-transform: none;
+    font-size: 1rem;
         img {
             width: 2rem;
             height: 2rem;
             border-radius: 50%;
         }
     }
+}
+.profile-dropDown{
+    padding: 0 !important;
 }

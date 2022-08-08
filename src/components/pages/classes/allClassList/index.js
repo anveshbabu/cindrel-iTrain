@@ -158,7 +158,7 @@ export const AllClasssList = ({ userDetail = {}, onDeleteSucess, classsList = []
                                     <div className='px-3 py-2 pe-0 sub-open-menu text-end'>
                                         <NormalButton materialUi={false} className='btn btn-sm' variant='text' onClick={() => handleEditClass(i)} label={<i class="fa-solid fa-pen  text-success" title='Edit'></i>} />
                                         <NormalButton materialUi={false} className='btn btn-sm' variant='text' onClick={() => handleDeleteOpenModal(i)} label={<i className="fa-solid fa-trash text-danger" title='Delete'></i>} />
-                                        <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i className="fa-solid fa-arrow-down text-download" title='Download'></i>} />
+                                        {/* <NormalButton materialUi={false} className='btn btn-sm' variant='text' label={<i className="fa-solid fa-arrow-down text-download" title='Download'></i>} /> */}
 
 
                                     </div>

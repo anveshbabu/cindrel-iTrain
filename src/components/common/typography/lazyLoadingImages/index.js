@@ -17,13 +17,21 @@ const LazyLoadImage = (props) => {
     } = props;
 
     useEffect(() => {
-        urlContentToDataUri(src).then(dataUri => {
+        console.log('-------------',src)
+        if(!src?.includes('base64')){
+            urlContentToDataUri(src).then(dataUri => {
+                setShowDefault(false);
+                setImageData(dataUri)
+            }).catch(error => {
+                setShowDefault(true)
+                setImageData('')
+            });
+        }else{
+            
             setShowDefault(false);
-            setImageData(dataUri)
-        }).catch(error => {
-            setShowDefault(true)
-            setImageData('')
-        });
+            setImageData(src)
+        }
+       
 
     }, []);
 

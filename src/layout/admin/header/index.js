@@ -5,11 +5,21 @@ import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
 import { EXIST_LOCAL_STORAGE } from '../../../services/constants';
 import { getStorage } from '../../../services/helperFunctions';
-import { ThemeMode } from '../../../components/common';
+import { ThemeMode ,NormalDropDown} from '../../../components/common';
+import {history} from '../../../helpers'
+
 
 export const Header = () => {
   const [userDetail, setUserDetail] = useState({})
   const themeMode = useContext(ThemeMode);
+
+
+  useEffect(()=>{
+   if(!getStorage(EXIST_LOCAL_STORAGE?.AUTHTOKEN)){
+      history.push('/')
+    }
+
+  })
 
   const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
@@ -72,6 +82,14 @@ export const Header = () => {
 
   }
   let THEME_MODE = getStorage(EXIST_LOCAL_STORAGE.THEME_MODE);
+
+  const handleLogout=(e)=>{
+    console.log(e)
+    if('LogOut' ===e){
+      history.push('/')
+    }
+    // 
+    }
   return (
 
     <nav className="navbar navbar-expand-lg navbar-light  shadow custom-header">
@@ -98,7 +116,9 @@ export const Header = () => {
               <a className="nav-link" ><i className="fa-solid fa-bell mt-2" /></a>
             </li>
             <li className="nav-item">
-              <a className="nav-link profile-icon">{userDetail?.firstname} {userDetail?.lastname} <img className="ms-2" src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" /></a>
+            {/* <a className="nav-link profile-icon">{userDetail?.firstname} {userDetail?.lastname} <img className="ms-2" src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" /></a> */}
+
+              <NormalDropDown className='profile-dropDown' options={['LogOut']} onSelect={handleLogout} label={  <a className="nav-link profile-icon">{userDetail?.firstname} {userDetail?.lastname} <img className="ms-2" src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" /></a>} />
             </li>
 
           </ul>

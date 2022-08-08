@@ -35,6 +35,10 @@ export const model = {
     api: 'trainmodel',
     method: 'get',
     baseURL: 'normal',
+  },getModuleUser: {
+    api: 'get_model_users',
+    method: 'post',
+    baseURL: 'normal',
   },
 }
 
@@ -92,6 +96,11 @@ export const moduleOrClassImages = {
   },
   get: {
     api: 'viewimage',
+    method: 'post',
+    baseURL: 'normal',
+  },
+  delete: {
+    api: 'deleteimage',
     method: 'post',
     baseURL: 'normal',
   },

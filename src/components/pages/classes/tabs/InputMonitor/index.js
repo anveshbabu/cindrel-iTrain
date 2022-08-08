@@ -11,12 +11,14 @@ import { CONFIG, ALL_BG_PLACEHOLDERS } from '../../../../../services/constants'
 import countriesData from '../../../../../assets/data/countries.json';
 import { imageCompressor } from '../../../../../services/imageCompressor';
 import { uploadImageModuleOrClass, getImageImageModuleOrClass } from '../../../../../redux/actions/images';
+import { getModelUserList } from '../../../../../redux/actions/model';
 import { trainModelList } from '../../../../../redux/actions/model';
 
 import './inputMonitor.scss'
 
-export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' ,classsList}) => {
-    const filterShowData = countriesData.map(({ name, code }) => ({ value: code, label: name }))
+export const InputMonitor = ({ userDetail = {}, selectedClassObj = '', classsList }) => {
+    const filterShowData = countriesData.map(({ name, code }) => ({ value: code, label: name }));
+    const [moduleUserList, setModuleUserList] = useState({})
     const params = useParams();
     const [isDetailModal, setIsDetailModal] = useState(false);
     const [isFilterModal, setisFilterModal] = useState(false);
@@ -29,22 +31,28 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' ,classsLis
     const [imageUploadListNew, setImageUploadListNew] = useState([]);
     const [isUploadStatus, setIsUploadStatus] = useState(false);
     const [isTrainLoader, setIsTrainLoader] = useState(false);
+    const [pageCount, setPageCount] = useState(0);
+    const [offset, setOffset] = useState(1);
+
     const [imageApiReqObj, setImageApiReqObj] = useState({
-        limit:20,
-        offset:20,
-        date_from:"",
-        date_to:""
+        limit: 20,
+        offset,
+        date_from: "",
+        date_to: ""
     });
     const imageInput = useRef();
     const [filterData, setFilterDate] = useState([{
         title: "User",
         filterType: "checkBox",
-        data: filterShowData
-    }, {
-        title: "Tags",
-        filterType: "checkBox",
-        data: filterShowData
-    }, , {
+        data: moduleUserList
+    },
+    // {
+    //     title: "Tags",
+    //     filterType: "checkBox",
+    //     data: filterShowData
+    // }, 
+
+    {
         title: "Date",
         filterType: "date",
         data: filterShowData
@@ -55,6 +63,7 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' ,classsLis
         if (!!selectedClassObj) {
             handleGetImageList()
         }
+        handleGetModuleUserList()
 
     }, []);
 
@@ -65,14 +74,56 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' ,classsLis
     }, [selectedClassObj]);
 
 
-    const handleGetImageList = () => {
-        let reqObj = {
-            // user_id: userDetail?.UserId,
-            model_id: params?.modelId,
-            class_id: selectedClassObj?.ClassId,
-            ...imageApiReqObj
+
+
+    const handleGetModuleUserList = () => {
+
+        try {
+            let reqObj = {
+                model_id: Number(params?.modelId,)
+            }
+            getModelUserList(reqObj).then(({ count = 0, users = [] }) => {
+                setIsImageLoader(false)
+                if (users?.length > 0) {
+                    setFilterDate([{
+                        title: "User",
+                        filterType: "checkBox",
+                        data: users.map(({ firstname, lastname, UserId }) => ({ value: UserId, label: `${firstname} ${lastname}` }))
+                    }, {
+                        title: "Date",
+                        filterType: "date",
+                        data: filterShowData
+                    }])
+                }
+            }).catch((e) => {
+
+            })
+        } catch (e) {
 
         }
+
+
+    }
+
+
+    const handleGetImageList = (imgApiReq) => {
+        let reqObj = {
+            model_id: params?.modelId,
+            class_id: selectedClassObj?.ClassId,
+        }
+        if (imgApiReq) {
+            reqObj = {
+                // user_id: userDetail?.UserId,
+                ...reqObj,
+                ...imgApiReq
+            }
+        } else {
+            reqObj = {
+                ...reqObj,
+                ...imageApiReqObj
+            }
+        }
+
         setIsImageLoader(true)
         getImageImageModuleOrClass(reqObj).then(({ count = 0, results = [] }) => {
             setIsImageLoader(false)
@@ -108,7 +159,7 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' ,classsLis
 
         imageCompressor(files).then((data) => {
             compressedImages = data.map(({ compressed }) => ({ file: compressed?.file, name: compressed?.name, type: compressed?.type, upload: "" }));
-                     setImageUploadList(searches => [...searches, ...compressedImages])
+            setImageUploadList(searches => [...searches, ...compressedImages])
             setIsUploadStatus(true)
             compressedImages.map((data, i) => {
                 handleUploadImages(data?.file, i, compressedImages)
@@ -134,9 +185,20 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' ,classsLis
             if (results?.length > 0) {
                 setImageOverAllList(results);
                 setImageOverAllCount(count)
+                setPageCount(0)
                 imageList[i].upload = 'done';
                 setImageUploadList([...imageList]);
-                handleGetImageList()
+                let imgApiReq = {
+                    limit: 20,
+                    offset: 1,
+                    date_from: '',
+                    date_to: '',
+                    user_id: ''
+                }
+
+                setImageApiReqObj(imgApiReq);
+                handleGetImageList(imgApiReq);
+
             }
 
         }).catch((e) => {
@@ -162,6 +224,59 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' ,classsLis
         }).catch((e) => {
             setIsTrainLoader(false)
         });
+    };
+
+
+    const handlePageChange = (e, count) => {
+        console.log(pageCount > count)
+
+        if (pageCount > count) {
+            console.log('addd')
+            let offsetNew = offset - 20;
+            setOffset(offsetNew);
+            let imgApiReq = {
+                limit: 20,
+                offset: offsetNew,
+                date_from: "",
+                date_to: ""
+            }
+            setImageApiReqObj(imgApiReq);
+
+            handleGetImageList(imgApiReq)
+
+
+        } else {
+            console.log('min')
+            let offsetNew = offset + 20;
+            setOffset(offsetNew);
+            let imgApiReq = {
+                limit: 20,
+                offset: offsetNew,
+                date_from: "",
+                date_to: ""
+            }
+            setImageApiReqObj(imgApiReq);
+
+            handleGetImageList(imgApiReq)
+
+        }
+        setPageCount(count)
+
+    }
+
+    const handleGetAplyFilter = (data) => {
+
+        let imgApiReq = {
+            limit: 20,
+            offset: 1,
+            date_from: data?.startDate,
+            date_to: data?.endDate,
+            user_id: data?.user_id
+        }
+        console.log('----------', imgApiReq)
+        setImageApiReqObj(imgApiReq);
+        handleGetImageList(imgApiReq)
+
     }
     return (
         <div className="inputMonitor-continer border-0">
@@ -175,7 +290,7 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' ,classsLis
                                 </div>
                                 <div className='col-md-6 col-sm-6 text-end'>
                                     <NormalButton onClick={() => imageInput.current.click()} label={<span><i className="fa-solid fa-arrow-up-from-bracket"></i> Upload</span>} variant="text" className='me-3' />
-                                    <NormalButton label='Train' disabled={!(imageOverAllList?.length >=20 && classsList?.length >=3)} isLoader={isTrainLoader}  onClick={handleModalTrain}/>
+                                    <NormalButton label='Train' disabled={!(imageOverAllList?.length >= 20 && classsList?.length >= 3)} isLoader={isTrainLoader} onClick={handleModalTrain} />
                                     {/* <ImageCompressor
                                     scale={ 100 }
                                     quality={ 75 }
@@ -209,10 +324,10 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' ,classsLis
                                         className='image-overView-component-pagination'
                                         component="div"
                                         count={imageOverAllCount}
-                                        page={0}
-                                        onPageChange={() => { }}
-                                        rowsPerPage={10}
-                                        onRowsPerPageChange={() => { }}
+                                        page={pageCount}
+                                        onPageChange={handlePageChange}
+                                        rowsPerPage={20}
+                                    // onRowsPerPageChange={console.l}
                                     />
                                     <NormalButton materialUi={false} className='btn' variant='text' label={<i className="fa-solid fa-arrow-rotate-right refresh-icon" title='Refresh'></i>} />
                                     <NormalButton materialUi={false} className='btn' onClick={handleFilterModal} variant='text' label={<i className="fa-solid fa-filter refresh-icon" title='Filter'></i>} />
@@ -223,7 +338,7 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' ,classsLis
                             <div className='row gx-2'>
                                 {imageOverAllList.map(({ ImageUrl, ImageName, IsMasterImage, ImageId }, i) =>
 
-                                    IsMasterImage && <div className='col-md-3 col-sm-6' key={i} onClick={() => handleDetailModal(ImageId, i)}>
+                                    IsMasterImage && <div className='col-md-3 col-sm-6 mb-3' key={i} onClick={() => handleDetailModal(ImageId, i)}>
                                         <div class="ratio ratio-1x1">
                                             <img src={`${CONFIG.API_URL}${ImageUrl}${ImageName}`} />
                                         </div>
@@ -255,7 +370,7 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '' ,classsLis
                 <ImageDetails argumentImagesList={argumentImagesList} onClose={handleDetailModal} />
             </NormalModal>
             <NormalModal toggle={handleFilterModal} className='modal-dialog-right modal-xl filter-modal' isShow={isFilterModal}>
-                <AppFilter className='bg-transparent border-0' filterData={filterData} toggle={handleFilterModal} />
+                <AppFilter className='bg-transparent border-0' filterData={filterData} toggle={handleFilterModal} onApply={handleGetAplyFilter} />
             </NormalModal>
 
             {/* <NormalModal  title={`Uploading ${imageUploadList?.length} files`} toggle={handleCloseUploadeModal} className='modal-dialog-bottom-right modal-xl filter-modal' isShow={isUploadStatus}> */}

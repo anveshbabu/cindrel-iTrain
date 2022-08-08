@@ -76,27 +76,7 @@ export const ExperimentsList = ({ experimentsList = [] ,isExperimentLoader=false
                                     <span class={`placeholder col-2 ${bg}`}></span>
                                 </div>
                                 <div className='col-md-4 col-xs-12'>
-                                    {/* <div className='row mb-2'>
-                                    <div className='col-md-4 text-center'>
-                                        <h4 className='experiment-count mb-0'>34</h4>
-                                        <span className='experiment-timeAndDate'>Tested Images</span>
-                                    </div>
-                                    <div className='col-md-4 text-center'>
-                                        <h4 className='experiment-count mb-0'>30</h4>
-                                        <span className='experiment-timeAndDate'>Correct Images</span>
-                                    </div>
-                                    <div className='col-md-4 text-center'>
-                                        <h4 className='experiment-count mb-0'>30</h4>
-                                        <span className='experiment-timeAndDate'> Incorrect Images</span>
-
-                                    </div>
-                                </div> */}
-                                    {/* <div className='row mb-3'>
-                                    <div className='col-md-12 '>
-                                        <NormalProgressbar value={85} className='progressbar-experiment rounded-pill' />
-
-                                    </div>
-                                </div> */}
+                                   
                                 </div>
                             </div>
 

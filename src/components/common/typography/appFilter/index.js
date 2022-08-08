@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 import './appFilter.scss';
-import { NormalTagIt, NormalCheckbox, NormalDateRangePicker } from '../../index'
+import { NormalTagIt, NormalCheckbox, NormalDateRangePicker, NormalButton } from '../../index'
 import { MoreFilterCard } from './more-filter';
 import { removeDuplicateArray } from '../../../../services/helperFunctions';
 import moment from 'moment';
@@ -10,14 +10,15 @@ export const AppFilter = (props) => {
     const [filterOpenIndex, setFilterOpenIndex] = useState(-1)
     const [isMoreFilter, setIsMoreFilter] = useState(false)
     const [selectedFilter, setSelectedFilter] = useState([]);
-    const [imageDateRange ,setImageDateRange] = useState([]);
+    const [imageDateRange, setImageDateRange] = useState({startDate:moment(),endDate:moment()});
     let {
         label = '',
         className = '',
         rightSideBtn = false,
         buttonLabel = '',
         toggle = '',
-        filterData = []
+        filterData = [],
+        onApply=()=>{}
     } = props;
 
 
@@ -73,13 +74,26 @@ export const AppFilter = (props) => {
         toggle()
     }
 
-    const handleChangeDateRange=(startDate, endDate)=>{
-        setImageDateRange({startDate,endDate})
+    const handleChangeDateRange = (startDate, endDate) => {
+        setImageDateRange({ startDate, endDate })
+
+    }
+
+    const handleApplyFilter=()=>{
+       let user_id= selectedFilter?.map(({moduleText,value})=>moduleText === "User"?value:"")
+        let filter={
+            user_id:user_id.toString(),
+            startDate:imageDateRange?.startDate?.format('YYYY-MM-DD'),
+            endDate:imageDateRange?.endDate?.format('YYYY-MM-DD')
+        };
+        console.log(filter)
+        onApply(filter)
 
     }
 
 
-    const handleRenderCheckBoxUi = (i, title, data) => {
+
+    const handleRenderCheckBoxUi = (i, title, data=[]) => {
 
         return (
             <Fragment>
@@ -88,9 +102,9 @@ export const AppFilter = (props) => {
                     <i id={`filterDropIcon${i}`} className={`fa-solid float-end fa-angle-down sub-menuDropIcon`}></i >
                 </li>
                 {i === filterOpenIndex && <div className='' id={`filterData${i}`}>
-                    {data.slice(0, 10).map(({ label, value }, j) => <div className='d-flex'><NormalCheckbox key={j} label={label} size="small" checked={!!selectedFilter.find((data) => data.value === value)} onChange={(e) => handleChangeCheckBox(e, i, data[j])} className='filter-check-box' /></div>)}
+                    { Array.isArray(data) && data?.slice(0, 10).map(({ label, value }, j) => <div className='d-flex'><NormalCheckbox key={j} label={label} size="small" checked={!!selectedFilter.find((data) => data.value === value)} onChange={(e) => handleChangeCheckBox(e, i, data[j])} className='filter-check-box' /></div>)}
                     <div className='more-content'>
-                        <span onClick={handleOncloseMoreFilter}>{data.length - 10} More</span>
+                        {data.length > 10 && <span onClick={handleOncloseMoreFilter}>{data?.length - 10} More</span>}
                     </div>
                 </div>
                 }
@@ -108,14 +122,14 @@ export const AppFilter = (props) => {
 
                 <li className="list-group-item px-0">{title}
 
-                <div className='d-flex mt-3'>
-                <NormalDateRangePicker startDate={imageDateRange?.startDate} endDate={imageDateRange?.startDate } 
-                 onApply={handleChangeDateRange} 
-                 className='w-100'  variant="filled" size="small"  label="Start and From"
-                 value={`${moment(imageDateRange?.startDate).format("DD/MM/YYYY")} to ${moment(imageDateRange?.startDate).format("DD/MM/YYYY")}`}
-                  />
-                </div>
-            
+                    <div className='d-flex mt-3'>
+                        <NormalDateRangePicker startDate={imageDateRange?.startDate} endDate={imageDateRange?.startDate}
+                            onApply={handleChangeDateRange}
+                            className='w-100' variant="filled" size="small" label="Start and From"
+                            value={`${moment(imageDateRange?.startDate).format("DD/MM/YYYY")} to ${moment(imageDateRange?.endDate).format("DD/MM/YYYY")}`}
+                        />
+                    </div>
+
                 </li>
 
             </Fragment>
@@ -135,7 +149,8 @@ export const AppFilter = (props) => {
         <div className={`card app-filter ${className}`}>
             <div className="card-header mb-3">
                 Filters
-                <span className='float-end clear-text' onClick={handleClearAllFilter}>CLEAR ALL</span>
+                {/* <span className='float-end clear-text' onClick={handleClearAllFilter}>CLEAR ALL</span> */}
+                <button type="button" class="btn-close float-end " aria-label="Close" onClick={handleClearAllFilter}></button>
             </div>
             <div className='card-body'>
                 {/* <div className='row'> */}
@@ -161,7 +176,15 @@ export const AppFilter = (props) => {
 
 
                 </ul>
-              
+                <div className='row'>
+                    <div className='col-12 px-4 text-end'>
+                    <NormalButton onClick={handleClearAllFilter} label='Close' color='error' className='me-3 mt-3' />
+                <NormalButton onClick={handleApplyFilter} label='Apply' className='me-3 mt-3' />
+                    </div>
+                </div>
+
+               
+
             </div>
         </div>
     )
