@@ -3,7 +3,7 @@ import ReactApexChart from "react-apexcharts";
 import { useParams } from "react-router-dom";
 import { NormalBreadcrumb, UploadFilesList, NoDataWrape } from '../../../components/common';
 import { ExperimentsList } from '../../../components/pages';
-import { uploadImageModule, getExperimentsList } from '../../../redux/actions/experiments';
+import { uploadImageModule, getExperimentsList,createTestSet } from '../../../redux/actions/experiments';
 import { imageCompressor } from '../../../services/imageCompressor';
 import './experiments.scss'
 
@@ -100,10 +100,8 @@ export const ExperimentsListPage = () => {
         const files = target.files;
         let compressedImages = [];
         let code = Math.floor(100000 + Math.random() * 900000);
-        console.log('data----------->', code)
         imageCompressor(files).then((data) => {
             compressedImages = data.map(({ compressed }) => ({ file: compressed?.file, name: compressed?.name, type: compressed?.type, upload: "" }));
-            console.log('compressedImages------------>', compressedImages)
             setImageUploadList(searches => [...searches, ...compressedImages]);
 
             setIsUploadStatus(true)
@@ -123,27 +121,48 @@ export const ExperimentsListPage = () => {
         form.append("photo", body);
         form.append("model", Number(params?.modelId));
         form.append("experiment_code", code);
-        // form.append("class_id", selectedClassObj?.ClassId);
-        // form.append("user_id", userDetail?.UserId);
         uploadImageModule(form).then(({ count = 0, results = [] }) => {
             imageList[i].upload = 'done';
             setImageUploadList([...imageList]);
             if (imageList?.length - 1 === i) {
-                handleGetExpermentsList()
+                handleGetExpermentsList();
+                handleCreateTestSet(code)
             }
 
         }).catch((e) => {
             imageList[i].upload = 'error';
-            setImageUploadList([...imageList])
+            setImageUploadList([...imageList]);
+            if (imageList?.length - 1 === i) {
+                handleGetExpermentsList();
+                handleCreateTestSet(code)
+            }
+           
         });
-        // setImageUploadList([...imageUploadList])
     }
 
 
     const handleCloseUploadeModal = () => {
         setIsUploadStatus(false);
         setImageUploadList([]);
+    };
+
+
+    const handleCreateTestSet=(experiment_code)=>{
+        let req={
+            model_id:Number(params?.modelId),
+            experiment_code
+        }
+        createTestSet(req).then((data) => {
+           
+
+        }).catch((e) => {
+           console.error(e)
+           
+        });
+
     }
+
+
 
 
     return (

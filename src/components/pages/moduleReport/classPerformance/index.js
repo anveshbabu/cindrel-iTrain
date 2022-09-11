@@ -4,7 +4,7 @@ import ReactApexChart from "react-apexcharts";
 import { useState } from 'react';
 import { Normalselect } from '../../../common'
 
-export const ClassPerformance = () => {
+export const ClassPerformance = ({data=[]}) => {
     const [selectedMonth, setSelectedMOnth] = useState('1m')
 
 
@@ -27,16 +27,16 @@ export const ClassPerformance = () => {
             </div>
             <div className="card-body">
                 <div className='row'>
-                    {[1,2,3,4,5,6,7].map((data)=>
+                    {data?.map(({ClassName='',corrected_percent=0,accuracy_percent,corrected=0,accuracy=0})=>
                         <div className='col-md-12 progress-bar-class mb-2'>
-                        <h4 className='title-progress'>Black Rot</h4>
+                        <h4 className='title-progress'>{ClassName}</h4>
                         <div class="progress mb-2">
-                            <div class="progress-bar" role="progressbar" style={{ width: '70%' }}></div>
-                            <div class="progress-bar" role="progressbar" style={{ width: '30%' }}></div>
+                            <div class="progress-bar" role="progressbar" style={{ width: corrected_percent+'%' }}></div>
+                            <div class="progress-bar" role="progressbar" style={{ width: accuracy_percent+'%' }}></div>
 
                         </div>
-                        <small className='text-prog mt-2'>293 (70%)</small>
-                        <small className='text-prog mt-2 float-end'>128 (30%)</small>
+                        <small className='text-prog mt-2'>{corrected} ({corrected_percent}%)</small>
+                        <small className='text-prog mt-2 float-end'>{accuracy} ({accuracy_percent}%)</small>
                     </div>
                     
                     )}

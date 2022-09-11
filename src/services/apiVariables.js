@@ -128,6 +128,21 @@ export const experiments = {
     api: 'get_model_experiments',
     method: 'post',
     baseURL: 'normal',
+  },
+  createTestSet:{
+    api: 'create_test_set',
+    method: 'post',
+    baseURL: 'normal',
   }
+};
+
+
+export const reporting = {
+  get: {
+    api: 'reporting',
+    method: 'post',
+    baseURL: 'normal',
+  },
+  
 }
 

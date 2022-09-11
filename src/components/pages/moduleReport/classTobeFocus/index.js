@@ -4,7 +4,7 @@ import ReactApexChart from "react-apexcharts";
 import { useState } from 'react';
 import { Normalselect } from '../../../common'
 
-export const ClassTobeFocus = () => {
+export const ClassTobeFocus = ({ data = [] }) => {
     const [selectedMonth, setSelectedMOnth] = useState('1m')
     const generateData = (baseval, count, yrange) => {
         var i = 0;
@@ -15,26 +15,23 @@ export const ClassTobeFocus = () => {
             var z = Math.floor(Math.random() * (75 - 15 + 1)) + 15;
 
             series.push([x, y, z]);
-            baseval += 86400000;
+            // baseval += 86400000;
             i++;
         }
-        console.log('series--------->',count, series)
+        console.log('series--------->', count, series)
         return series;
     }
     const series = [
         {
-            name: 'Select 1',
-            data: generateData(new Date('11 Feb 2017 GMT').getTime(), 20, {
-                min: 10,
-                max: 60
-            })
+            name: 'From Class',
+
+            // [toCount,fromCount,changeCount]
+            data: [[30, 20, 10], [50, 20, 8], [26, 20, 7], [42, 20, 7]]
         },
         {
-            name: 'Select 2',
-            data: generateData(new Date('11 Feb 2017 GMT').getTime(), 21, {
-                min: 10,
-                max: 60
-            })
+            // [fromCount,toCount,changeCount]
+            name: 'To Class',
+            data: [[20, 30, 12], [20, 15, 8], [20, 18, 7], [20, 36, 7]]
         }
     ]
     const options = {
@@ -48,11 +45,18 @@ export const ClassTobeFocus = () => {
                 show: false
             },
         },
+        colors: ['#00b2ff','#de000a'],
         dataLabels: {
             enabled: false
         },
         fill: {
             opacity: 0.8
+        },
+        yaxis: {
+            labels: {
+                show: true,
+                // formatter: (value) => { return `${value}` },
+            },
         },
 
 

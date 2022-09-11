@@ -84,4 +84,23 @@ export const getExperimentsList = (body) => {
 
         })
     })
+};
+
+
+export const createTestSet = (body) => {
+
+    return new Promise((resolve, reject) => {
+        api({ ...experiments.createTestSet,body }).then((data) => {
+            resolve(data)
+        }).catch(({ erroe: { message = '' } }) => {
+            if (!!message) {
+                Toast({ type: 'danger', message: message, title: 'Error' })
+            } else {
+                Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
+            }
+            reject(message)
+
+
+        })
+    })
 }

@@ -127,3 +127,9 @@ export const removeStorage = (name) => {
     localStorage.clear();
   }
 }
+
+
+export const handleNumberRound=(num)=>{
+  return Math.round(num?num:0)
+
+}

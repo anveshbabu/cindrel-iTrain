@@ -1,15 +1,25 @@
 
 import './monthlyModalPrediction.scss'
 import ReactApexChart from "react-apexcharts";
-import { useState } from 'react';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { isEmpty,handleNumberRound } from '../../../../services/helperFunctions';
 
-export const MonthlyModalPrediction = ({ title = '', OverAllCount = 0, icon = '', classNameName = 'primary' }) => {
-const [selectedMonth,setSelectedMOnth]=useState('1m')
+export const MonthlyModalPrediction = ({ data = [] }) => {
+    const [selectedMonth, setSelectedMOnth] = useState('1m')
+    const [series, setseries] = useState(
+        [
+            {
+                name: "Correct",
+                data: []
+            },
+            {
+                name: "In Correct",
+                data: []
+            }
+        ]
+    );
 
-    const series = [{
-        name: "Desktops",
-        data: [10, 41, 35, 51, 49, 62]
-    }];
     var options = {
         chart: {
             height: 350,
@@ -21,6 +31,7 @@ const [selectedMonth,setSelectedMOnth]=useState('1m')
                 show: false
             },
         },
+        colors: ['#00b2ff','#de000a'],
         dataLabels: {
             enabled: false
         },
@@ -36,7 +47,7 @@ const [selectedMonth,setSelectedMOnth]=useState('1m')
 
         },
         xaxis: {
-            categories: ["Nov '21", "Dec '21", "Jan '21", "Feb '21", "Mar '21", "Apr '21"],
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             text: 'undefined',
         },
         yaxis: {
@@ -74,9 +85,48 @@ const [selectedMonth,setSelectedMOnth]=useState('1m')
     }
 
 
-const handleMonthChange=(m)=>{
-    setSelectedMOnth(m)
-}
+
+
+    useEffect(() => {
+        let currentYear = moment().set({ 'month': 0 });
+        let lineDateCorrect = {
+            name: "Correct",
+            data: []
+        };
+        let lineDateInCorrect = {
+            name: "In Correct",
+            data: []
+        };
+        for (let i = 0; i < 12; i++) {
+            // console.log('data-------->',,currentYear?.format('MM-YYYY'))
+
+            const isAvilable = data.find(({ month }) => month === currentYear?.format('MM-YYYY'));
+
+            if (!!isAvilable && !isEmpty(isAvilable)) {
+                lineDateCorrect?.data?.push(handleNumberRound(isAvilable?.corrected_percent));
+                lineDateInCorrect?.data?.push(handleNumberRound(isAvilable?.accuracy_percent));
+
+            }else{
+                lineDateCorrect?.data?.push(0)
+                lineDateInCorrect?.data?.push(0)
+            }
+
+
+            setseries([...[lineDateCorrect,lineDateInCorrect]])
+
+
+
+            currentYear = moment().set({ 'month': i + 1 });
+        }
+
+
+
+    }, [data])
+
+
+    const handleMonthChange = (m) => {
+        setSelectedMOnth(m)
+    }
 
 
 
@@ -84,8 +134,8 @@ const handleMonthChange=(m)=>{
         <div className="card month-prediction-card dashboard-card mb-4" >
             <div className="card-header text-primary">
                 <div className='row'>
-                <div className='col-md-6'>
-                <h4 className='small fw-bold text-primary mb-1'>Monthly wise Module Prediction</h4>
+                    <div className='col-md-6'>
+                        <h4 className='small fw-bold text-primary mb-1'>Monthly wise Module Prediction</h4>
 
                     </div>
                     <div className='col-md-6 text-end'>
@@ -95,18 +145,18 @@ const handleMonthChange=(m)=>{
 
                             <input type="radio" className="btn-check rounded-0" checked={selectedMonth === '2m'} onClick={() => handleMonthChange('2m')} id="2m" autocomplete="off" />
                             <label className="btn btn-outline-primary btn-sm  rounded-0" for="2m">2M</label>
-                         
+
                             <input type="radio" className="btn-check  rounded-0" checked={selectedMonth === '3m'} onClick={() => handleMonthChange('3m')} id="3m" autocomplete="off" />
                             <label className="btn btn-outline-primary btn-sm  rounded-0" for="3m">3M</label>
                             <input type="radio" className="btn-check  rounded-0" checked={selectedMonth === '6m'} onClick={() => handleMonthChange('6m')} id="6m" autocomplete="off" />
                             <label className="btn btn-outline-primary btn-sm  rounded-0" for="6m">6M</label>
-                            
+
                         </div>
 
                     </div>
 
                 </div>
-              
+
 
             </div>
             <div className="card-body">

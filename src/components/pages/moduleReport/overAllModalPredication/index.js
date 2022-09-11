@@ -3,7 +3,7 @@ import './overAllModalPredication.scss'
 import ReactApexChart from "react-apexcharts";
 import { useState } from 'react';
 
-export const OverAllModalPredication = ({ title = '', OverAllCount = 0, icon = '', classNameName = 'primary' }) => {
+export const OverAllModalPredication = ({ data=[] }) => {
     const [selectedMonth, setSelectedMOnth] = useState('1m')
 
     const series = [20, 80]
@@ -13,7 +13,7 @@ export const OverAllModalPredication = ({ title = '', OverAllCount = 0, icon = '
 
         },
 
-        colors: ['#de000a', '#00b2ff'],
+        colors: ['#00b2ff','#de000a'],
         labels: ['Correct', 'InCorrect'],
         legend: {
             position: 'bottom',
@@ -38,6 +38,10 @@ export const OverAllModalPredication = ({ title = '', OverAllCount = 0, icon = '
     }
 
 
+    const handleRount=(num)=>{
+        return Math.round(num?num:0)
+
+    }
 
 
 
@@ -59,7 +63,7 @@ export const OverAllModalPredication = ({ title = '', OverAllCount = 0, icon = '
 
             </div>
             <div className="card-body">
-                <ReactApexChart options={options} series={series} height='300' type="donut" />
+                <ReactApexChart options={options} series={[handleRount(data[0]?.corrected_percent),handleRount(data[0]?.accuracy_percent)]} height='300' type="donut" />
             </div>
         </div>
     )
