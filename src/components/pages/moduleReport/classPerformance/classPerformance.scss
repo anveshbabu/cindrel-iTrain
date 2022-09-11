@@ -1,0 +1,25 @@
+
+.progress-bar-class{
+.title-progress{
+    font-size: 1rem;
+    font-weight: 600;
+    
+}
+.progress{
+    --bs-progress-bar-bg:#de000a;
+    background-color: #de000a;
+    border-radius: 25px;
+    .progress-bar {
+      
+        &:first-child{
+            border-bottom-right-radius: 25px;
+            border-top-right-radius: 25px;
+            background-color: #00b2ff;
+        }
+        
+    }
+}
+.text-prog{
+    color: var(--text-gray);
+}
+}

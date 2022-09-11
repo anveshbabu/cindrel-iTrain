@@ -114,3 +114,11 @@ html {
 
 }
 
+.text-dark{
+  color: var(--text-black) !important;
+}
+.dashboard-card{
+  .card-header{
+    min-height: 61px;
+  }
+}

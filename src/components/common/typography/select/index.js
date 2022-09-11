@@ -15,7 +15,7 @@ export const Normalselect = (props) => {
 
     return (
         materialUi ?
-            <FormControl className="mb-3" fullWidth error={!!errorMessage}>
+            <FormControl className={`mb-3 ${className}`} fullWidth error={!!errorMessage}>
                 <InputLabel>{label}</InputLabel>
                 <ReactMatSelect
                     label={label}

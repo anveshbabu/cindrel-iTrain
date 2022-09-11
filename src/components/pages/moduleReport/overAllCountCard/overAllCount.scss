@@ -1,0 +1,11 @@
+.over-all-count-card {
+    border: 0;
+    border-width: 3px !important;
+    .card-body{
+        padding: 1.35rem;
+    }
+
+    .text-count {
+        color: var(--text-black);
+    }
+}

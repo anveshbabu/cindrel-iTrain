@@ -104,7 +104,7 @@ export const MODULE_MENU = [
             {
                 icon: 'fa-solid fa-chart-column',
                 text: 'Staging',
-                // url: ""
+                url: "/report"
             }
         ]
 

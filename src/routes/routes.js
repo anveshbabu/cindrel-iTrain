@@ -71,6 +71,12 @@ const routers = [
         path: "/:modelId/:fromType/experiments/:experimentId/detail",
         auth: false,
         exact: true
+      },
+      {
+        component: "ModuleReport",
+        path: "/:modelId/:fromType/report",
+        auth: false,
+        exact: true
       }
 
 
