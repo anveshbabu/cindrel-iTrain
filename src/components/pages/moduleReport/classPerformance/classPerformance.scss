@@ -1,25 +1,40 @@
-
-.progress-bar-class{
-.title-progress{
-    font-size: 1rem;
-    font-weight: 600;
-    
+.min-auto {
+    min-height: auto !important;
 }
-.progress{
-    --bs-progress-bar-bg:#de000a;
-    background-color: #de000a;
-    border-radius: 25px;
-    .progress-bar {
-      
-        &:first-child{
-            border-bottom-right-radius: 25px;
-            border-top-right-radius: 25px;
-            background-color: #00b2ff;
+.progress-bar-class {
+    .title-progress {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-gray);
+    }
+
+    .progress {
+        --bs-progress-bar-bg: #3497fa;
+        background-color: #3497fa;
+        border-radius: 25px;
+        .progress-bar {
+            &:first-child {
+                border-bottom-right-radius: 25px;
+                border-top-right-radius: 25px;
+                background-color: #2eb85c;
+            }
         }
-        
+    }
+    .text-prog {
+        color: var(--text-gray);
     }
 }
-.text-prog{
-    color: var(--text-gray);
+
+.accuracyBadge {
+    background-color: #3497fa;
 }
+.perBadge{
+    background-color: #2eb85c;
+
+}
+.badge-acc {
+    width: 49px !important;
+    height: 16px !important;
+    border-radius: 20px;
+    display: inline-block;
 }

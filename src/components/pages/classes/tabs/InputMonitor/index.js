@@ -5,7 +5,7 @@ import TablePagination from '@mui/material/TablePagination';
 import FormData from 'form-data';
 
 import { useParams } from "react-router-dom";
-import { NormalButton, NormalModal, AppFilter, NoDataWrape, UploadFilesList } from '../../../../common'
+import { NormalButton, NormalModal, AppFilter, NoDataWrape, UploadFilesList, NormalCheckbox } from '../../../../common'
 import { ImageDetails } from './imageDetails'
 import { CONFIG, ALL_BG_PLACEHOLDERS } from '../../../../../services/constants'
 import countriesData from '../../../../../assets/data/countries.json';
@@ -33,6 +33,7 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '', classsLis
     const [isTrainLoader, setIsTrainLoader] = useState(false);
     const [pageCount, setPageCount] = useState(0);
     const [offset, setOffset] = useState(1);
+    const [verSelectImg, setVerSelectImg] = useState([]);
 
     const [imageApiReqObj, setImageApiReqObj] = useState({
         limit: 20,
@@ -278,6 +279,20 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '', classsLis
         handleGetImageList(imgApiReq)
 
     }
+
+    const handleAddVerList=(id)=>{
+        let index  = verSelectImg.findIndex((data)=> data === id)
+        if(index === -1){
+            setVerSelectImg([...verSelectImg , id])
+
+        }else {
+            let imgIs  = verSelectImg.filter((data)=> data !== id);
+            setVerSelectImg([...imgIs])
+        }
+        
+
+    }
+
     return (
         <div className="inputMonitor-continer border-0">
             <div className='row'>
@@ -331,6 +346,8 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '', classsLis
                                     />
                                     <NormalButton materialUi={false} className='btn' variant='text' label={<i className="fa-solid fa-arrow-rotate-right refresh-icon" title='Refresh'></i>} />
                                     <NormalButton materialUi={false} className='btn' onClick={handleFilterModal} variant='text' label={<i className="fa-solid fa-filter refresh-icon" title='Filter'></i>} />
+                             
+                                  {verSelectImg?.length > 0 &&  <NormalButton label='Verify'  onClick={handleModalTrain} />}
                                 </div>
                             </div>
                         </div>
@@ -338,17 +355,24 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '', classsLis
                             <div className='row gx-2'>
                                 {imageOverAllList.map(({ ImageUrl, ImageName, IsMasterImage, ImageId }, i) =>
 
-                                    IsMasterImage && <div className='col-md-3 col-sm-6 mb-3' key={i} onClick={() => handleDetailModal(ImageId, i)}>
-                                        <div class="ratio ratio-1x1">
-                                            <img src={`${CONFIG.API_URL}${ImageUrl}${ImageName}`} />
+                                    IsMasterImage && <div className='col-md-3 col-sm-6 mb-3' key={i} onDoubleClick={() => handleDetailModal(ImageId, i)}>
+                                        <div className="ratio ratio-1x1">
+                                            <div className={`card ${verSelectImg?.find((id)=> id  === ImageId)? 'bg-dark':""}  text-white img-hover`}>
+                                                <img className="card-img" src={`${CONFIG.API_URL}${ImageUrl}${ImageName}`} />
+                                                <div className="card-img-overlay">
+                                                    <NormalCheckbox onChange={()=>handleAddVerList(ImageId)} />
+
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                     </div>
                                 )}
                                 {isImageLoader && ALL_BG_PLACEHOLDERS.map((bg) =>
                                     <div className='col-md-3 col-sm-6'>
-                                        <div class="ratio ratio-1x1 placeholder-glow">
-                                            <div class={`card placeholder ${bg} disabled`} aria-hidden="true">
+                                        <div className="ratio ratio-1x1 placeholder-glow">
+                                            <div className={`card placeholder ${bg} disabled`} aria-hidden="true">
 
                                             </div>
                                         </div>

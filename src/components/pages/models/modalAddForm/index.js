@@ -5,8 +5,8 @@ import defaultLogo from '../../../../assets/images/logo-placeholder.png';
 import SimpleReactValidator from 'simple-react-validator';
 import { createModelList, updateModelList } from '../../../../redux/actions/model';
 import { isEmpty, getBase64FromUrl } from '../../../.././services/helperFunctions';
-
-
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditData, logoUrl, modalAddFormOpenType }) => {
     const [modalLogoOption, setModalLogoOption] = useState([])
     const [isFormLoader, setIsFormLoader] = useState(false)
@@ -16,12 +16,13 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
     const [moduleObj, setModuleObj] = useState({
         model_name: "",
         user_id: 2,
-        logo: defaultLogo
+        logo: defaultLogo,
+        IsAugumented :0
 
     });
 
     useEffect(() => {
-        console.log('modalAddFormOpenType--->',modalAddFormOpenType)
+        console.log('modalAddFormOpenType--->', modalAddFormOpenType)
         if (!isEmpty(modelEditData) && !modalAddFormOpenType) {
             let { Logo = '', ModelId = '', ModelName = '', UserId = '' } = modelEditData
             setModuleObj({
@@ -36,7 +37,8 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
             setModuleObj({
                 model_name: "",
                 user_id: 2,
-                logo: defaultLogo
+                logo: defaultLogo,
+                IsAugumented :0
 
             })
         }
@@ -47,7 +49,8 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
             setModuleObj({
                 model_name: "",
                 user_id: 2,
-                logo: defaultLogo
+                logo: defaultLogo,
+                IsAugumented :0
 
             })
         }
@@ -75,7 +78,7 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
         var reader = new FileReader();
         reader.onload = function (e) {
             var logo = e.target.result;
-            console.log('----------->',logo)
+            console.log('----------->', logo)
             setModuleObj({ ...moduleObj, logo })
         };
         reader.readAsDataURL(file);
@@ -85,7 +88,7 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
     const handleLogoSelectChange = (value) => {
         console.log(value)
         if (!!value) {
-            if (['Upload Photo','Change Logo'].includes(value)) {
+            if (['Upload Photo', 'Change Logo'].includes(value)) {
                 logoInput.current.click()
             } else if (value === 'Remove Logo') {
                 setModuleObj({ ...moduleObj, logo: defaultLogo })
@@ -100,21 +103,21 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
         const formValid = simpleValidator.current.allValid();
 
         if (formValid) {
-            let reqObj = {...moduleObj}
+            let reqObj = { ...moduleObj }
             setIsFormLoader(true);
             console.log('--------------')
             if (reqObj?.logo === defaultLogo) {
                 reqObj.logo = ''
             }
-            if(reqObj?.logo?.includes('base64')){
-                reqObj.logo =reqObj.logo.split(';base64,')[1];
-            }else{
+            if (reqObj?.logo?.includes('base64')) {
+                reqObj.logo = reqObj.logo.split(';base64,')[1];
+            } else {
                 reqObj.logo = getBase64FromUrl(reqObj?.logo);
-                console.log(reqObj.logo,'-========')
+                console.log(reqObj.logo, '-========')
 
                 // reqObj.logo =reqObj?.logo.split(';base64,')[1];
             }
-           console.log('!modalAddFormOpenType ------------>',!modalAddFormOpenType )
+            console.log('!modalAddFormOpenType ------------>', !modalAddFormOpenType)
             let apiCall = !modalAddFormOpenType ? updateModelList(reqObj) : createModelList(reqObj);
             apiCall.then(({ results, count, logo_url }) => {
                 setIsFormLoader(false)
@@ -123,7 +126,8 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
                     setModuleObj({
                         model_name: "",
                         user_id: 2,
-                        logo: defaultLogo
+                        logo: defaultLogo,
+                        IsAugumented :0
 
                     })
                 }
@@ -140,8 +144,12 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
 
     const handleFormChange = (event) => {
         const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
+        let value = target.type === 'checkbox' ? target.checked : target.value;
+       
         const name = target.name;
+        if(name ==='IsAugumented'){
+            value =value?1:0
+        }
         setModuleObj({ ...moduleObj, [name]: value })
     }
 
@@ -150,7 +158,8 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
         setModuleObj({
             model_name: "",
             user_id: 2,
-            logo: defaultLogo
+            logo: defaultLogo,
+            IsAugumented :0
         });
         toggle()
     }
@@ -179,8 +188,16 @@ export const ModalAddForm = ({ className = '', toggle, onSaveSuccess, modelEditD
 
                             </div>
                         </div>
-                        {/* <h4 className='modal-text'>{modelName}</h4> */}
 
+                    </div>
+                    <div className='col-md-12'>
+                        <FormControlLabel
+                            className='module-type-change'
+                            control={
+                                <Checkbox   checked={moduleObj?.IsAugumented} name="IsAugumented" onChange={handleFormChange} />
+                            }
+                            label="Augmentation"
+                        />
                     </div>
                     <div className='col-md-12 text-end'>
                         <NormalButton disabled={isFormLoader} label="Cancel" color="error" onClick={handleCloseModal} className="me-2 btn-secondary" />

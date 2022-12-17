@@ -13,7 +13,7 @@ export const OverAllModalPredication = ({ data=[] }) => {
 
         },
 
-        colors: ['#00b2ff','#de000a'],
+        colors: ['#2eb85c','#3497fa'],
         labels: ['Correct', 'InCorrect'],
         legend: {
             position: 'bottom',
@@ -63,7 +63,7 @@ export const OverAllModalPredication = ({ data=[] }) => {
 
             </div>
             <div className="card-body">
-                <ReactApexChart options={options} series={[handleRount(data[0]?.corrected_percent),handleRount(data[0]?.accuracy_percent)]} height='300' type="donut" />
+                <ReactApexChart options={options} series={[handleRount(data[0]?.accuracy_percent),handleRount(data[0]?.corrected_percent)]} height='350' type="donut" />
             </div>
         </div>
     )

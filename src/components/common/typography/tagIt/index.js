@@ -9,7 +9,7 @@ export function NormalTagIt({data,onDelete}) {
 
   return (
     <>
-     {data?.map(({ label,moduleText }, i) =>   <Chip className='mb-2 me-2' key={i} label={`${moduleText} : ${label}`} onDelete={()=>onDelete(i)} />)}
+     {data?.map(({ label,moduleText }, i) =>   <Chip className='mb-2 me-2' key={i} label={`${ moduleText ? moduleText :""}  ${ moduleText ? ":" :""} ${label}`} onDelete={()=>onDelete(i)} />)}
     
     </>
   );

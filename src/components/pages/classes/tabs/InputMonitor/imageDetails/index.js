@@ -61,7 +61,7 @@ export const ImageDetails = ({ onClose = '', argumentImagesList }) => {
                 <div className='col-md-12 col-sm-12'>
                     <div className='image-text-over-lap'>
                         {/* <NormalButton materialUi={false} className='btn btn-sm top-right close-btn-icon' onClick={onClose} variant='text' label={<i className="fa-solid fa-xmark" title='Close'></i>} /> */}
-                        <img src={`${CONFIG.API_URL}${orgImage?.ImageUrl}${orgImage?.ImageName}`} />
+                        <img className='img-fluid'  src={`${CONFIG.API_URL}${orgImage?.ImageUrl}${orgImage?.ImageName}`} />
                     </div>
                 </div>
                 <div className='col-md-12 col-sm-12'>

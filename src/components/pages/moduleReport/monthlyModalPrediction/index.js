@@ -31,7 +31,7 @@ export const MonthlyModalPrediction = ({ data = [] }) => {
                 show: false
             },
         },
-        colors: ['#00b2ff','#de000a'],
+        colors: ['#2eb85c','#3497fa'],
         dataLabels: {
             enabled: false
         },
@@ -103,8 +103,8 @@ export const MonthlyModalPrediction = ({ data = [] }) => {
             const isAvilable = data.find(({ month }) => month === currentYear?.format('MM-YYYY'));
 
             if (!!isAvilable && !isEmpty(isAvilable)) {
-                lineDateCorrect?.data?.push(handleNumberRound(isAvilable?.corrected_percent));
-                lineDateInCorrect?.data?.push(handleNumberRound(isAvilable?.accuracy_percent));
+                lineDateCorrect?.data?.push(handleNumberRound( isAvilable?.accuracy_percent));
+                lineDateInCorrect?.data?.push(handleNumberRound(isAvilable?.corrected_percent));
 
             }else{
                 lineDateCorrect?.data?.push(0)

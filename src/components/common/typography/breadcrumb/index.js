@@ -1,6 +1,7 @@
 
 import './bredcrumb.scss';
 import {NormalButton} from '../button'
+import AddIcon from '@mui/icons-material/Add';
 export const NormalBreadcrumb = (props) => {
 
   let {
@@ -20,7 +21,7 @@ export const NormalBreadcrumb = (props) => {
           </ol>
         </div>
         <div className='col-sm-12 col-md-6 text-end '>
-       {rightSideBtn &&  <NormalButton  onClick={onBtnClick} label={buttonLabel} className='add-new-btn' size="small"  variant="outlined"/> }
+       {rightSideBtn &&  <NormalButton  onClick={onBtnClick} label={<AddIcon/>} className='add-new-btn' size="small"  variant="outlined"/> }
         </div>
       </div>
 

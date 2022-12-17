@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/iTrain/static/css/main.4ff1f0b6.css",
-    "main.js": "/iTrain/static/js/main.397db1b2.js",
+    "main.css": "/iTrain/static/css/main.68831759.css",
+    "main.js": "/iTrain/static/js/main.0e2c7659.js",
     "static/js/787.ff6e20e1.chunk.js": "/iTrain/static/js/787.ff6e20e1.chunk.js",
     "static/media/fa-solid-900.ttf": "/iTrain/static/media/fa-solid-900.79da213423ac0def2058.ttf",
     "static/media/signin-bg.jpg": "/iTrain/static/media/signin-bg.60f51da55fe19935008a.jpg",
@@ -12,16 +12,16 @@
     "static/media/fa-regular-400.woff2": "/iTrain/static/media/fa-regular-400.d79c2ec96ab9ff1161a2.woff2",
     "static/media/fa-v4compatibility.ttf": "/iTrain/static/media/fa-v4compatibility.52eba2c567c521b8d58a.ttf",
     "static/media/fa-v4compatibility.woff2": "/iTrain/static/media/fa-v4compatibility.3d503f89ccaf1b224aa5.woff2",
-    "static/media/delete.svg": "/iTrain/static/media/delete.9e7de1c225e216a08d33c666a31c4713.svg",
-    "static/media/sucess.svg": "/iTrain/static/media/sucess.2d597af7471ec5fe7d801a127501d669.svg",
-    "static/media/noData.svg": "/iTrain/static/media/noData.fff5012ec618ab84ec179d09a3e80268.svg",
+    "static/media/delete.svg": "/iTrain/static/media/delete.776be2083984567e072348cf0598f52c.svg",
+    "static/media/sucess.svg": "/iTrain/static/media/sucess.f3a2adc4c232805f08384319f253886e.svg",
+    "static/media/noData.svg": "/iTrain/static/media/noData.607a9fd8cd4ea236bd27c5a017447676.svg",
     "index.html": "/iTrain/index.html",
-    "main.4ff1f0b6.css.map": "/iTrain/static/css/main.4ff1f0b6.css.map",
-    "main.397db1b2.js.map": "/iTrain/static/js/main.397db1b2.js.map",
+    "main.68831759.css.map": "/iTrain/static/css/main.68831759.css.map",
+    "main.0e2c7659.js.map": "/iTrain/static/js/main.0e2c7659.js.map",
     "787.ff6e20e1.chunk.js.map": "/iTrain/static/js/787.ff6e20e1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4ff1f0b6.css",
-    "static/js/main.397db1b2.js"
+    "static/css/main.68831759.css",
+    "static/js/main.0e2c7659.js"
   ]
 }

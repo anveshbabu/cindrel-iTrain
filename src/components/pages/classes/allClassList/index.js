@@ -144,8 +144,9 @@ export const AllClasssList = ({ userDetail = {}, onDeleteSucess, classsList = []
                     <li className="list-group-item"><label className='badge-class'></label>  All Classes
                         <span className="float-end">{classsOverAllCount}</span>
                     </li>
-                    {classsList.map(({ ClassName, ImageCount, balanceLevel = null, ClassId }, i) =>
-                        <li className={`list-group-item ${ClassId === activeClassId ? 'active' : ""}`} key={ClassId} onClick={() => handleShowClassDetail(ClassId,i)}><label className='badge-class' style={{ backgroundColor: balanceLevel !== 'Equal' ? "#00CF46" : "#CFA400" }}></label>  {ClassName}
+                    {classsList.map(({ ClassName, ImageCount, balanceLevel = null,ImageBalance, ClassId }, i) =>
+                        <li className={`list-group-item ${ClassId === activeClassId ? 'active' : ""}`} key={ClassId} onClick={() => handleShowClassDetail(ClassId,i)}>
+                            <label className='badge-class' style={{ backgroundColor: ImageBalance === 'High' ? "#00CF46" : ImageBalance === 'Low'? "#CFA400":  '#c82727'}}></label>  {ClassName}
                             <span className="float-end">{ImageCount}</span>
                             {ClassId === activeClassId && <div className='row'>
                                 <div className='col-md-12'>

@@ -1,40 +1,18 @@
 
-import './ClassTobeFocus.scss'
+import './ClassTobeFocus.scss';
+import { useParams } from "react-router-dom";
 import ReactApexChart from "react-apexcharts";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Normalselect } from '../../../common'
+import { getAllClasssList } from '../../../../redux/actions/classes'
+import moment from 'moment';
+
 
 export const ClassTobeFocus = ({ data = [] }) => {
+    const params = useParams();
     const [selectedMonth, setSelectedMOnth] = useState('1m')
-    const generateData = (baseval, count, yrange) => {
-        var i = 0;
-        var series = [];
-        while (i < count) {
-            var x = Math.floor(Math.random() * (750 - 1 + 1)) + 1;;
-            var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-            var z = Math.floor(Math.random() * (75 - 15 + 1)) + 15;
-
-            series.push([x, y, z]);
-            // baseval += 86400000;
-            i++;
-        }
-        console.log('series--------->', count, series)
-        return series;
-    }
-    const series = [
-        {
-            name: 'From Class',
-
-            // [toCount,fromCount,changeCount]
-            data: [[30, 20, 10], [50, 20, 8], [26, 20, 7], [42, 20, 7]]
-        },
-        {
-            // [fromCount,toCount,changeCount]
-            name: 'To Class',
-            data: [[20, 30, 12], [20, 15, 8], [20, 18, 7], [20, 36, 7]]
-        }
-    ]
-    const options = {
+    const [classsList, setclasssList] = useState([])
+    const [classsFocusOpp, SetclasssFocusOpp] = useState({
         chart: {
             height: 350,
             type: 'bubble',
@@ -45,22 +23,86 @@ export const ClassTobeFocus = ({ data = [] }) => {
                 show: false
             },
         },
-        colors: ['#00b2ff','#de000a'],
+        colors: ['#00b2ff', '#de000a'],
         dataLabels: {
             enabled: false
         },
         fill: {
             opacity: 0.8
         },
-        yaxis: {
-            labels: {
-                show: true,
-                // formatter: (value) => { return `${value}` },
-            },
+    })
+    const [series, setSeries] = useState([
+        {
+            name: 'From Class',
+
+            // [toCount,fromCount,changeCount]
+            data: [[7, 13, 1], [7, 14, 1]]
         },
 
+    ])
 
-    }
+
+    useEffect(() => {
+        let serData = data.map(({ monthNumber, classNumber = 0, count = 0 }) => ([Number(monthNumber), classNumber, count]))
+        setSeries([{ ...series[0], data: serData }])
+    }, [data])
+
+    useEffect(() => {
+
+
+        const options = {
+            ...classsFocusOpp,
+            tooltip: {
+                yaxis: {
+                    formatter: function (val) {
+                        return val + '$'
+                    },
+                    //   title: 'Discount'
+                }
+            },
+            xaxis: {
+                labels: {
+                    show: true,
+                    formatter: (ClassId) => {
+                        let month = moment().set({ 'month': ClassId });
+                        console.log(moment(month).format('MMM'))
+                        return moment(month).format('MMM');
+
+                    },
+                },
+            },
+        }
+        SetclasssFocusOpp(options)
+    },[series])
+    useEffect(() => {
+
+
+
+        let reqObj = {
+            model_id: params?.modelId,
+        }
+        getAllClasssList(reqObj).then(({ count, results }) => {
+            // setIsClassLoader(false)
+            if (results.length > 0) {
+                var classListOrg = results.map(({ ClassId, ClassName }) => ({ value: ClassId, label: ClassName }));
+                setclasssList(classListOrg);
+
+
+
+
+
+
+            }
+        }).catch((error) => {
+            // setIsClassLoader(false)
+        })
+
+    }, [])
+
+
+
+
+    // const 
 
 
 
@@ -76,7 +118,7 @@ export const ClassTobeFocus = ({ data = [] }) => {
                     </div>
                     <div className='col-md-6 text-end'>
 
-                        <Normalselect size="small" label='Class' className='mb-0' />
+                        <Normalselect options={classsList} size="small" label='Class' className='mb-0' />
                     </div>
 
                 </div>
@@ -84,7 +126,7 @@ export const ClassTobeFocus = ({ data = [] }) => {
 
             </div>
             <div className="card-body">
-                <ReactApexChart options={options} series={series} height='300' type="bubble" />
+                <ReactApexChart options={classsFocusOpp} series={series} height='300' type="bubble" />
             </div>
         </div>
     )

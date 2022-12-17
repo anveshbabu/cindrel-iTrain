@@ -3,7 +3,7 @@ import ReactApexChart from "react-apexcharts";
 import { useParams } from "react-router-dom";
 import { NormalBreadcrumb, UploadFilesList, NoDataWrape } from '../../../components/common';
 import { ExperimentsList } from '../../../components/pages';
-import { uploadImageModule, getExperimentsList,createTestSet } from '../../../redux/actions/experiments';
+import { uploadImageModule, getExperimentsList, createTestSet } from '../../../redux/actions/experiments';
 import { imageCompressor } from '../../../services/imageCompressor';
 import './experiments.scss'
 
@@ -105,8 +105,8 @@ export const ExperimentsListPage = () => {
             setImageUploadList(searches => [...searches, ...compressedImages]);
 
             setIsUploadStatus(true)
-            compressedImages.map((data, i) => {
-                handleUploadImages(data?.file, i, compressedImages, code)
+            compressedImages.map(async (data, i) => {
+                await handleUploadImages(data?.file, i, compressedImages, code)
             })
 
         }).catch((e) => {
@@ -117,27 +117,29 @@ export const ExperimentsListPage = () => {
 
     }
     const handleUploadImages = (body, i, imageList, code) => {
-        const form = new FormData();
-        form.append("photo", body);
-        form.append("model", Number(params?.modelId));
-        form.append("experiment_code", code);
-        uploadImageModule(form).then(({ count = 0, results = [] }) => {
-            imageList[i].upload = 'done';
-            setImageUploadList([...imageList]);
-            if (imageList?.length - 1 === i) {
-                handleGetExpermentsList();
-                handleCreateTestSet(code)
-            }
-
-        }).catch((e) => {
-            imageList[i].upload = 'error';
-            setImageUploadList([...imageList]);
-            if (imageList?.length - 1 === i) {
-                handleGetExpermentsList();
-                handleCreateTestSet(code)
-            }
-           
-        });
+        return new Promise((resolve, reject) => {
+            const form = new FormData();
+            form.append("photo", body);
+            form.append("model", Number(params?.modelId));
+            form.append("experiment_code", code);
+         return   uploadImageModule(form).then(({ count = 0, results = [] }) => {
+                imageList[i].upload = 'done';
+                setImageUploadList([...imageList]);
+                if (imageList?.length - 1 === i) {
+                    handleGetExpermentsList();
+                    handleCreateTestSet(code)
+                }
+                resolve(true)
+            }).catch((e) => {
+                imageList[i].upload = 'error';
+                setImageUploadList([...imageList]);
+                if (imageList?.length - 1 === i) {
+                    handleGetExpermentsList();
+                    handleCreateTestSet(code)
+                }
+                resolve(false)
+            });
+        })
     }
 
 
@@ -147,17 +149,17 @@ export const ExperimentsListPage = () => {
     };
 
 
-    const handleCreateTestSet=(experiment_code)=>{
-        let req={
-            model_id:Number(params?.modelId),
+    const handleCreateTestSet = (experiment_code) => {
+        let req = {
+            model_id: Number(params?.modelId),
             experiment_code
         }
         createTestSet(req).then((data) => {
-           
+
 
         }).catch((e) => {
-           console.error(e)
-           
+            console.error(e)
+
         });
 
     }
