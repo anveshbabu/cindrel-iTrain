@@ -1,22 +1,25 @@
-
-.user-activity-card{
-    .card-header{
-        h4{
+.user-activity-card {
+    .card-header {
+        h4 {
             font-size: 1rem;
-            margin-top: .7rem;
+            margin-top: 0.7rem;
         }
     }
-    .table{
-td{
-    font-weight: 500;
-}
-        .user-activity{
-            img{
+    .card-body{
+        height: 365px;
+    }
+    .table {
+        color: var(--text-gray);
+        td {
+            font-weight: 500;
+        }
+        .user-activity {
+            img {
                 width: 45px;
                 height: 45px;
                 border-radius: 50%;
             }
-            h4{
+            h4 {
                 font-size: 1rem;
             }
         }

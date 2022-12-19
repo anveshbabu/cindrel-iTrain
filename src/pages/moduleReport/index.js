@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { NormalBreadcrumb } from '../../components/common'
-import { OverAllCountCard, MonthlyModalPrediction, OverAllModalPredication, ClassTobeFocus, ClassPerformance, UserActivity } from '../../components/pages'
+import { OverAllCountCard, MonthlyModalPrediction, Seasonality, OverAllModalPredication, ClassTobeFocus, ClassPerformance, UserActivity } from '../../components/pages'
 import { getReportDetails } from '../../redux/actions/report'
 
 export function ModuleReport() {
@@ -94,7 +94,7 @@ export function ModuleReport() {
 
 
             <div className="row mt-0">
-                <div className="col-md-8 col-sm-12">
+                <div className="col-md-6 col-sm-12">
 
 
                     <UserActivity data={reportData?.monthwise} />
@@ -103,7 +103,13 @@ export function ModuleReport() {
                 </div>
 
 
+                <div className="col-md-6 col-sm-12">
 
+
+                    <Seasonality data={reportData?.monthwise} />
+
+
+                </div>
 
             </div>
 

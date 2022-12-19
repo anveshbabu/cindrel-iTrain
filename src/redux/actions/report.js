@@ -21,3 +21,23 @@ export const getReportDetails = (body) => {
         })
     })
 }
+
+
+
+export const getUserReport = () => {
+
+    return new Promise((resolve, reject) => {
+        api({ ...reporting.userGet }).then((data) => {
+            resolve(data)
+        }).catch(({ erroe: { message = '' } }) => {
+            if (!!message) {
+                Toast({ type: 'danger', message: message, title: 'Error' })
+            } else {
+                Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
+            }
+            reject(message)
+
+
+        })
+    })
+}

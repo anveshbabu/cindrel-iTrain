@@ -143,6 +143,11 @@ export const reporting = {
     method: 'post',
     baseURL: 'normal',
   },
+  userGet: {
+    api: 'getuserreport',
+    method: 'get',
+    baseURL: 'normal',
+  },
   
 }
 

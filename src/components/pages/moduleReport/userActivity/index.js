@@ -1,6 +1,25 @@
+import { useEffect, useState } from 'react';
 import './userActivity.scss'
+import { getUserReport } from '../../../../redux/actions/report'
 
 export const UserActivity = () => {
+    const [userReportList, setUserReportList] = useState([])
+
+    useEffect(() => {
+
+
+        getUserReport().then(({results} ) => {
+            setUserReportList(results)
+
+
+        }).catch((e) => {
+            console.error(e)
+
+        });
+
+
+    }, [])
+
 
     return (
         <div className="card user-activity-card  dashboard-card mb-4">
@@ -31,57 +50,27 @@ export const UserActivity = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        {userReportList.map(() =>
+                            <tr>
 
-                            <td>
-                                <div class="d-flex user-activity">
-                                    <div class="flex-shrink-0">
-                                        <img src="https://sb-admin-pro-angular.startbootstrap.com/assets/img/illustrations/profiles/profile-1.png" alt="..." />
+                                <td>
+                                    <div class="d-flex user-activity">
+                                        <div class="flex-shrink-0">
+                                            <img src="https://sb-admin-pro-angular.startbootstrap.com/assets/img/illustrations/profiles/profile-1.png" alt="..." />
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h4 className='mb-0'>Anvesh Balaji</h4>
+                                            <span className='text-muted'>position</span>
+                                        </div>
                                     </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h4 className='mb-0'>Anvesh Balaji</h4>
-                                        <span className='text-muted'>position</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>1024</td>
-                            <td>988</td>
-                            <td>113</td>
-                        </tr>
-                        <tr>
+                                </td>
+                                <td>1024</td>
+                                <td>988</td>
+                                <td>113</td>
+                            </tr>
+                        )}
 
-                            <td>
-                                <div class="d-flex user-activity">
-                                    <div class="flex-shrink-0">
-                                        <img src="https://sb-admin-pro-angular.startbootstrap.com/assets/img/illustrations/profiles/profile-1.png" alt="..." />
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h4 className='mb-0'>Prabu</h4>
-                                        <span className='text-muted'>position</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>1024</td>
-                            <td>988</td>
-                            <td>113</td>
-                        </tr>
-                        <tr>
 
-                            <td>
-                                <div class="d-flex user-activity">
-                                    <div class="flex-shrink-0">
-                                        <img src="https://sb-admin-pro-angular.startbootstrap.com/assets/img/illustrations/profiles/profile-1.png" alt="..." />
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h4 className='mb-0'>Robin</h4>
-                                        <span className='text-muted'>position</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>1024</td>
-                            <td>988</td>
-                            <td>113</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>

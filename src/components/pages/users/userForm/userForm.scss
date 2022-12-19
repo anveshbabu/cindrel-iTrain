@@ -1,0 +1,36 @@
+
+
+.profile-container{
+    position: relative;
+    text-align: center;
+    color: white;
+    width: 200px;
+        max-height: 200px;
+        display: inline-block;
+        margin: 0 auto;
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    .bottom-right {
+        position: absolute;
+        bottom: 36px;
+        right: 26px;
+        color: #666666;
+        transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+      }
+      .p-image:hover {
+        transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+      }
+      .upload-button {
+        font-size: 1.2em;
+      }
+       
+    .file-upload {
+        display: none;
+    }
+      .upload-button:hover {
+        transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+        color: #999;
+      }
+}

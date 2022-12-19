@@ -43,9 +43,16 @@
                 background-color: var(--primary-bg);
                 border: 1px solid var(--card-border);
             }
+            .hide-img{
+                display: none;
+            }
             .img-hover{
               
-              
+              &:hover{
+                .hide-img{
+                    display: unset;
+                }
+              }
             }
         }
     }

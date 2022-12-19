@@ -5,7 +5,7 @@ import TablePagination from '@mui/material/TablePagination';
 import FormData from 'form-data';
 
 import { useParams } from "react-router-dom";
-import { NormalButton, NormalModal, AppFilter, NoDataWrape, UploadFilesList, NormalCheckbox } from '../../../../common'
+import { NormalButton,NormalDropDown, NormalModal, AppFilter, NoDataWrape, UploadFilesList, NormalCheckbox } from '../../../../common'
 import { ImageDetails } from './imageDetails'
 import { CONFIG, ALL_BG_PLACEHOLDERS } from '../../../../../services/constants'
 import countriesData from '../../../../../assets/data/countries.json';
@@ -34,6 +34,12 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '', classsLis
     const [pageCount, setPageCount] = useState(0);
     const [offset, setOffset] = useState(1);
     const [verSelectImg, setVerSelectImg] = useState([]);
+
+    const opctionsMore=[
+        <span className='text-success'><i class="fa-regular fa-circle-check me-2"></i> Verify </span>,
+        <span className='text-danger'><i class="fa-solid fa-trash  me-2"></i> Delete </span>,
+        <span className='text-primary'><i class="fa-solid fa-list  me-2"></i> Select All Images</span>
+    ]
 
     const [imageApiReqObj, setImageApiReqObj] = useState({
         limit: 20,
@@ -346,8 +352,8 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '', classsLis
                                     />
                                     <NormalButton materialUi={false} className='btn' variant='text' label={<i className="fa-solid fa-arrow-rotate-right refresh-icon" title='Refresh'></i>} />
                                     <NormalButton materialUi={false} className='btn' onClick={handleFilterModal} variant='text' label={<i className="fa-solid fa-filter refresh-icon" title='Filter'></i>} />
-                             
-                                  {verSelectImg?.length > 0 &&  <NormalButton label='Verify'  onClick={handleModalTrain} />}
+                                    <NormalDropDown materialUi={false} className='btn' options={opctionsMore} onSelect={()=>{}} label={<i class="fa-solid fa-ellipsis-vertical refresh-icon"></i>} />
+                                  {/* {verSelectImg?.length > 0 &&  <NormalButton label='Verify'  onClick={handleModalTrain} />} */}
                                 </div>
                             </div>
                         </div>
@@ -359,7 +365,7 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '', classsLis
                                         <div className="ratio ratio-1x1">
                                             <div className={`card ${verSelectImg?.find((id)=> id  === ImageId)? 'bg-dark':""}  text-white img-hover`}>
                                                 <img className="card-img" src={`${CONFIG.API_URL}${ImageUrl}${ImageName}`} />
-                                                <div className="card-img-overlay">
+                                                <div className={`card-img-overlay  hide-img ${verSelectImg.length>0? 'd-block':""}`}>
                                                     <NormalCheckbox onChange={()=>handleAddVerList(ImageId)} />
 
                                                 </div>
