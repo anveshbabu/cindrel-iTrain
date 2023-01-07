@@ -25,9 +25,10 @@ export function NormalDropDown(props) {
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
-    const handleClose = (e) => {
+    const handleClose = (e,i) => {
         if(!!onSelect){
-            onSelect(e)
+            console.log('---------',e)
+            onSelect(e,i)
         }
         setAnchorEl(null);
     };
@@ -56,7 +57,7 @@ export function NormalDropDown(props) {
                 TransitionComponent={Fade}
             >
                 {options.map((item, i) =>
-                    <MenuItem onClick={() => handleClose(item)} key={i}>{item}</MenuItem>
+                    <MenuItem onClick={() => handleClose(item,i)} key={i}>{item}</MenuItem>
                 )}
                 {/*               
                 <MenuItem onClick={handleClose}>My account</MenuItem>

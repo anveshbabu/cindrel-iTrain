@@ -41,3 +41,22 @@ export const getUserReport = () => {
         })
     })
 }
+
+
+export const getseasonalityreport = (body) => {
+
+    return new Promise((resolve, reject) => {
+        api({ ...reporting.getseasonalityreport,body }).then((data) => {
+            resolve(data)
+        }).catch(({ erroe: { message = '' } }) => {
+            if (!!message) {
+                Toast({ type: 'danger', message: message, title: 'Error' })
+            } else {
+                Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
+            }
+            reject(message)
+
+
+        })
+    })
+}

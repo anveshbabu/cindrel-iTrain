@@ -5,12 +5,12 @@ import TablePagination from '@mui/material/TablePagination';
 import FormData from 'form-data';
 
 import { useParams } from "react-router-dom";
-import { NormalButton,NormalDropDown, NormalModal, AppFilter, NoDataWrape, UploadFilesList, NormalCheckbox } from '../../../../common'
+import { NormalButton, NormalDropDown, NormalModal, AppFilter, NoDataWrape, UploadFilesList, NormalCheckbox } from '../../../../common'
 import { ImageDetails } from './imageDetails'
 import { CONFIG, ALL_BG_PLACEHOLDERS } from '../../../../../services/constants'
 import countriesData from '../../../../../assets/data/countries.json';
 import { imageCompressor } from '../../../../../services/imageCompressor';
-import { uploadImageModuleOrClass, getImageImageModuleOrClass } from '../../../../../redux/actions/images';
+import { uploadImageModuleOrClass, getImageImageModuleOrClass, verifyModuleImage ,deleteMultyModuleImage} from '../../../../../redux/actions/images';
 import { getModelUserList } from '../../../../../redux/actions/model';
 import { trainModelList } from '../../../../../redux/actions/model';
 
@@ -35,10 +35,10 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '', classsLis
     const [offset, setOffset] = useState(1);
     const [verSelectImg, setVerSelectImg] = useState([]);
 
-    const opctionsMore=[
-        <span className='text-success'><i class="fa-regular fa-circle-check me-2"></i> Verify </span>,
-        <span className='text-danger'><i class="fa-solid fa-trash  me-2"></i> Delete </span>,
-        <span className='text-primary'><i class="fa-solid fa-list  me-2"></i> Select All Images</span>
+    const opctionsMore = [
+        <span className='text-success'><i class="fa-regular fa-circle-check me-2"></i>  Verify Selected ({verSelectImg.length}) Images </span>,
+        <span className='text-danger'><i class="fa-solid fa-trash  me-2"></i> Delete Selected ({verSelectImg.length}) Images</span>,
+        // <span className='text-primary'><i class="fa-solid fa-list  me-2"></i> Select All Images & Verify  </span>
     ]
 
     const [imageApiReqObj, setImageApiReqObj] = useState({
@@ -286,18 +286,70 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '', classsLis
 
     }
 
-    const handleAddVerList=(id)=>{
-        let index  = verSelectImg.findIndex((data)=> data === id)
-        if(index === -1){
-            setVerSelectImg([...verSelectImg , id])
+    const handleAddVerList = (id) => {
+        let index = verSelectImg.findIndex((data) => data === id)
+        if (index === -1) {
+            setVerSelectImg([...verSelectImg, id])
 
-        }else {
-            let imgIs  = verSelectImg.filter((data)=> data !== id);
+        } else {
+            let imgIs = verSelectImg.filter((data) => data !== id);
             setVerSelectImg([...imgIs])
         }
-        
+
 
     }
+
+    const handleMoreOppClick = (index) => {
+        if (index === 0) {
+            handleVerifyImg(verSelectImg);
+        } else if (index === 1) {
+            handleDeleteImg(verSelectImg)
+        }
+    };
+
+
+    const handleVerifyImg = (imageIds) => {
+        let body = {
+            image_ids: imageIds,
+            user_id: userDetail?.UserId,
+        }
+        verifyModuleImage(body).then((data) => {
+            setVerSelectImg([]) 
+
+        }).catch((e) => {
+            console.log('err----------->', e)
+        });
+    };
+
+    const handleDeleteImg = (imageIds) => {
+        let body = {
+            image_ids: imageIds,
+
+        }
+        deleteMultyModuleImage(body).then((data) => {
+            setVerSelectImg([]);
+            if (!!selectedClassObj) {
+                handleGetImageList()
+            }
+
+        }).catch((e) => {
+            console.log('err----------->', e)
+        });
+    };
+
+    const handleSelectAllVerImage=()=>{
+        let imageIds=  imageOverAllList.map(({ImageId})=>ImageId);
+        if(verSelectImg.length !== imageOverAllList.length ){
+            setVerSelectImg([...imageIds]) 
+        }else{
+            setVerSelectImg([]) 
+        }
+          
+    }
+
+
+
+
 
     return (
         <div className="inputMonitor-continer border-0">
@@ -341,7 +393,7 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '', classsLis
                                     <h4 className='card-title'><i className="fa-solid fa-circle-info"></i> Overall {imageOverAllCount} Images </h4>
                                 </div>
                                 <div className='col-md-6 col-sm-6 text-end d-flex justify-content-end align-items-center'>
-                                    <TablePagination
+                                {verSelectImg?.length == 0 &&      <TablePagination
                                         className='image-overView-component-pagination'
                                         component="div"
                                         count={imageOverAllCount}
@@ -349,24 +401,24 @@ export const InputMonitor = ({ userDetail = {}, selectedClassObj = '', classsLis
                                         onPageChange={handlePageChange}
                                         rowsPerPage={20}
                                     // onRowsPerPageChange={console.l}
-                                    />
-                                    <NormalButton materialUi={false} className='btn' variant='text' label={<i className="fa-solid fa-arrow-rotate-right refresh-icon" title='Refresh'></i>} />
-                                    <NormalButton materialUi={false} className='btn' onClick={handleFilterModal} variant='text' label={<i className="fa-solid fa-filter refresh-icon" title='Filter'></i>} />
-                                    <NormalDropDown materialUi={false} className='btn' options={opctionsMore} onSelect={()=>{}} label={<i class="fa-solid fa-ellipsis-vertical refresh-icon"></i>} />
-                                  {/* {verSelectImg?.length > 0 &&  <NormalButton label='Verify'  onClick={handleModalTrain} />} */}
+                                    />}
+                                   {verSelectImg?.length == 0 &&  <NormalButton materialUi={false} className='btn' variant='text' label={<i className="fa-solid fa-arrow-rotate-right refresh-icon" title='Refresh'></i>} />}
+                                    {verSelectImg?.length > 0 &&  <NormalCheckbox onChange={handleSelectAllVerImage} label='Select All Images' className='text-gray' />}
+                                    {verSelectImg?.length == 0 &&  <NormalButton materialUi={false} className='btn' onClick={handleFilterModal} variant='text' label={<i className="fa-solid fa-filter refresh-icon" title='Filter'></i>} />}
+                                    {verSelectImg?.length > 0 && <NormalDropDown materialUi={false} className='btn' options={opctionsMore} onSelect={(e, index) => handleMoreOppClick(index)} label={<i class="fa-solid fa-ellipsis-vertical refresh-icon"></i>} />}
+                                    {/* {verSelectImg?.length > 0 &&  <NormalButton label='Verify'  onClick={handleModalTrain} />} */}
                                 </div>
                             </div>
                         </div>
                         <div className="card-body p-0">
                             <div className='row gx-2'>
                                 {imageOverAllList.map(({ ImageUrl, ImageName, IsMasterImage, ImageId }, i) =>
-
                                     IsMasterImage && <div className='col-md-3 col-sm-6 mb-3' key={i} onDoubleClick={() => handleDetailModal(ImageId, i)}>
                                         <div className="ratio ratio-1x1">
-                                            <div className={`card ${verSelectImg?.find((id)=> id  === ImageId)? 'bg-dark':""}  text-white img-hover`}>
+                                            <div className={`card ${verSelectImg?.find((id) => id === ImageId) ? 'bg-dark' : ""}  text-white img-hover`}>
                                                 <img className="card-img" src={`${CONFIG.API_URL}${ImageUrl}${ImageName}`} />
-                                                <div className={`card-img-overlay  hide-img ${verSelectImg.length>0? 'd-block':""}`}>
-                                                    <NormalCheckbox onChange={()=>handleAddVerList(ImageId)} />
+                                                <div className={`card-img-overlay  hide-img ${verSelectImg.length > 0 ? 'd-block' : ""}`}>
+                                                    <NormalCheckbox checked={!!verSelectImg.find((id)=>id == ImageId)} onChange={() => handleAddVerList(ImageId)} />
 
                                                 </div>
                                             </div>

@@ -104,6 +104,16 @@ export const moduleOrClassImages = {
     method: 'post',
     baseURL: 'normal',
   },
+  verifyimage: {
+    api: 'verifyimage',
+    method: 'post',
+    baseURL: 'normal',
+  },
+  deleteimage: {
+    api: 'deleteimage',
+    method: 'post',
+    baseURL: 'normal',
+  },
 }
 
 
@@ -148,6 +158,10 @@ export const reporting = {
     method: 'get',
     baseURL: 'normal',
   },
-  
+  getseasonalityreport:{
+    api: 'getseasonalityreport',
+    method: 'post',
+    baseURL: 'normal',
+  }
 }
 

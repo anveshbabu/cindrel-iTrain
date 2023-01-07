@@ -43,8 +43,8 @@ const classNameList=[
                 <div className='row'>
                     <div className='col-md-12 text-center'>
                         <div className="input-group mb-3 search-group" >
-                            <span className="input-group-text bg-transparent border-end-0" id="basic-addon1"><SearchRoundedIcon/></span>
-                            <input type="text" className="form-control border-start-0" placeholder="Search ClassName" aria-label="Username" aria-describedby="basic-addon1" />
+                            <span className="input-group-text bg-transparent  text-prog border-end-0" id="basic-addon1"><SearchRoundedIcon/></span>
+                            <input type="text" className="form-control bg-transparent border-start-0" placeholder="Search ClassName" aria-label="Username" aria-describedby="basic-addon1" />
                         </div>
                     </div>
                     <div className='col-md-12'>

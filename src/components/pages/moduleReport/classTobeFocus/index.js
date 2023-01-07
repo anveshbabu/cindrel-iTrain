@@ -65,8 +65,7 @@ export const ClassTobeFocus = ({ data = [] }) => {
                     show: true,
                     formatter: (ClassId) => {
                         let month = moment().set({ 'month': ClassId });
-                        console.log(moment(month).format('MMM'))
-                        return moment(month).format('MMM');
+                                    return moment(month).format('MMM');
 
                     },
                 },
