@@ -163,5 +163,25 @@ export const reporting = {
     method: 'post',
     baseURL: 'normal',
   }
+};
+
+
+export const countrystatecity = {
+  countries: {
+    api: 'countries',
+    method: 'get',
+    baseURL: 'countrystatecity',
+  },
+  states: {
+    api: 'states',
+    method: 'get',
+    baseURL: 'countrystatecity',
+  },
+  cities: {
+    api: 'cities',
+    method: 'get',
+    baseURL: 'countrystatecity',
+  },
 }
+
 

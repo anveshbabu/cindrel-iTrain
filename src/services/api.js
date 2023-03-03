@@ -61,7 +61,7 @@ export var api = async function ({ method = "get", api, isFormData = false, pref
 
 
 
-export const formDataApi = async ({ method = "get", api, isFormData = false, prefixUrl='', body, status = false, token = '', baseURL = "normal", email = "" }) => {
+export const formDataApi = async ({ method = "get", api, isFormData = false, prefixUrl = '', body, status = false, token = '', baseURL = "normal", email = "" }) => {
 	try {
 		return await new Promise((resolve, reject) => {
 
@@ -70,10 +70,10 @@ export const formDataApi = async ({ method = "get", api, isFormData = false, pre
 				body,
 				headers: {
 					'Authorization': `${localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN) === null ? '' : localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN)}`
-				  }
+				}
 			}).then(response => response.json()).then(async (response) => {
 				console.log('api call end')
-				resolve( response)
+				resolve(response)
 
 			}).catch((error) => {
 				reject(statusHelper(status, error))
@@ -114,8 +114,13 @@ let getMicroServiceURL = (baseURL) => {
 	switch (baseURL) {
 		case 'normal':
 			return CONFIG.API_URL;
+			break;
 		case 'test':
 			return 'https://jsonplaceholder.typicode.com';
+			break;
+		case 'countrystatecity':
+			return 'https://api.countrystatecity.in/v1/';
+			break;
 		default:
 			break;
 	}

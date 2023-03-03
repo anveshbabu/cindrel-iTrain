@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/iTrain/static/css/main.df7e3241.css",
-    "main.js": "/iTrain/static/js/main.f9f4e5ad.js",
+    "main.js": "/iTrain/static/js/main.9d8c744b.js",
     "static/js/787.ff6e20e1.chunk.js": "/iTrain/static/js/787.ff6e20e1.chunk.js",
     "static/media/fa-solid-900.ttf": "/iTrain/static/media/fa-solid-900.79da213423ac0def2058.ttf",
     "static/media/signin-bg.jpg": "/iTrain/static/media/signin-bg.60f51da55fe19935008a.jpg",
@@ -17,11 +17,11 @@
     "static/media/noData.svg": "/iTrain/static/media/noData.607a9fd8cd4ea236bd27c5a017447676.svg",
     "index.html": "/iTrain/index.html",
     "main.df7e3241.css.map": "/iTrain/static/css/main.df7e3241.css.map",
-    "main.f9f4e5ad.js.map": "/iTrain/static/js/main.f9f4e5ad.js.map",
+    "main.9d8c744b.js.map": "/iTrain/static/js/main.9d8c744b.js.map",
     "787.ff6e20e1.chunk.js.map": "/iTrain/static/js/787.ff6e20e1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.df7e3241.css",
-    "static/js/main.f9f4e5ad.js"
+    "static/js/main.9d8c744b.js"
   ]
 }

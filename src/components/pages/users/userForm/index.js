@@ -2,9 +2,10 @@
 
 import { useEffect, useState, useRef } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
-import { NormalInput, Normalselect, NormalButton } from '../../../common';
+import { NormalInput, Normalselect, NormalButton,NormalDatePicker } from '../../../common';
 import { USER_TYPE } from '../../../../services/constants';
 import { createUser } from '../../../../redux/actions/user';
+import { getAllCountry } from '../../../../redux/actions/countrystatecity';
 import './userForm.scss'
 
 export const UsersFrom = ({ toggle }) => {
@@ -19,12 +20,27 @@ export const UsersFrom = ({ toggle }) => {
         emailid: "",
         mobile: "",
         user_type: null,
-    })
+        dob: new Date(),
+        second_mobile: "975349508",
+        address: "22, Chrompet",
+        country: "India",
+        state: "Tamil Nadu",
+        city: "Chennai"
+    });
+
+
+    useEffect(() => {
+        handleGetAllCountry()
+    },[])
+
+
+
 
     const handleInputChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
+        console.log('value----------->',name)
 
         setUserFormOb({
             ...userFormObj,
@@ -72,6 +88,17 @@ export const UsersFrom = ({ toggle }) => {
             mobile: "",
             user_type: null,
         })
+    };
+
+
+
+    const handleGetAllCountry = () => {
+        getAllCountry().then((data) => {
+            console.log('country------>', data)
+
+        }).catch((error) => {
+
+        });
     }
 
     return (
@@ -90,9 +117,9 @@ export const UsersFrom = ({ toggle }) => {
                         </div> */}
                         <div class="profile-container">
                             <img class="profile-pic" src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" />
-                       
+
                             <div class="bottom-right"> <i class="fa fa-camera upload-button"></i>
-                            <input class="file-upload" type="file" accept="image/*" /></div>
+                                <input class="file-upload" type="file" accept="image/*" /></div>
                         </div>
 
                     </div>
@@ -111,7 +138,7 @@ export const UsersFrom = ({ toggle }) => {
                 />
             </div>
             <div className='col-md-6'>
-                <NormalInput label='DOB' value={userFormObj?.dob} name='dob' onChange={handleInputChange}
+                <NormalDatePicker label='DOB' value={userFormObj?.dob} name='dob' onChange={handleInputChange}
                     errorMessage={simpleValidator.current.message("dob", userFormObj?.dob, "required")}
                 />
             </div>
@@ -127,8 +154,8 @@ export const UsersFrom = ({ toggle }) => {
                 />
             </div>
             <div className='col-md-6'>
-                <NormalInput label='Second Phone' value={userFormObj?.smobile} name='mobile' onChange={handleInputChange}
-                    errorMessage={simpleValidator.current.message("SecondPhone", userFormObj?.smobile, "required|phone")}
+                <NormalInput label='Second Phone' value={userFormObj?.second_mobile} name='second_mobile' onChange={handleInputChange}
+                    // errorMessage={simpleValidator.current.message("SecondPhone", userFormObj?.second_mobile, "required|phone")}
                 />
             </div>
             <div className='col-md-12'>
@@ -137,18 +164,18 @@ export const UsersFrom = ({ toggle }) => {
                 />
             </div>
             <div className='col-md-6'>
-                <Normalselect label='Country' value={userFormObj?.country} name='country' onChange={handleInputChange}
-                    errorMessage={simpleValidator.current.message("Country", userFormObj?.country, "required")}
+                <NormalInput label='Country' value={userFormObj?.country} name='country' onChange={handleInputChange}
+                    // errorMessage={simpleValidator.current.message("Country", userFormObj?.country, "required")}
                 />
             </div>
             <div className='col-md-6'>
-                <Normalselect label='State' value={userFormObj?.state} name='state' onChange={handleInputChange}
-                    errorMessage={simpleValidator.current.message("state", userFormObj?.state, "required")}
+                <NormalInput label='State' value={userFormObj?.state} name='state' onChange={handleInputChange}
+                    // errorMessage={simpleValidator.current.message("state", userFormObj?.state, "required")}
                 />
             </div>
             <div className='col-md-6'>
-                <Normalselect label='City' value={userFormObj?.city} name='city' onChange={handleInputChange}
-                    errorMessage={simpleValidator.current.message("city", userFormObj?.city, "required")}
+                <NormalInput label='City' value={userFormObj?.city} name='city' onChange={handleInputChange}
+                    // errorMessage={simpleValidator.current.message("city", userFormObj?.city, "required")}
                 />
             </div>
             <div className='col-md-6'>
